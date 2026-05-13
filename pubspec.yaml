@@ -5,22 +5,129 @@ version: 1.0.0+1
 
 environment:
   sdk: ^3.10.4
-
+ 
 dependencies:
   flutter:
     sdk: flutter
-  get: ^4.6.6
-  equatable: ^2.0.5
-  intl: ^0.19.0
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
+  get: ^4.7.3
+  google_fonts: ^8.0.0
+  flutter_svg: ^2.2.3
+  shared_preferences: ^2.2.2
+  lottie: ^3.1.0
+  http: ^1.2.1
+  camera: ^0.10.5+10
+  photo_manager: ^3.8.3
+  permission_handler: ^11.3.1
+  flex_color_picker: ^3.8.0
+  webview_flutter: ^4.13.1
+  intl: ^0.19.0
+  shimmer: ^3.0.0
+  
+  # face liveness 
+  google_mlkit_face_detection: ^0.10.0
+  path_provider: ^2.1.1
+  image: ^4.0.17
+  device_info_plus: ^9.1.1
+  onnxruntime: ^1.4.1
+  http_parser: ^4.1.2
+  flutter_image_compress: ^2.4.0
+  marquee: ^2.3.0
+  local_auth: ^3.0.1
+  flutter_secure_storage: ^8.0.0
+  crypto: ^3.0.3
+  pointycastle: ^3.9.1
+  flutter_timezone: ^5.0.2
+  image_picker: ^1.1.2
+  image_cropper: ^12.2.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^6.0.0
 
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
+  flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/LOGIMIND.png"
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter packages.
 flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
   uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/
+    - assets/fonts/
+    - assets/svgs/
+    - assets/lottie/
+    - assets/
     - assets/icons/
+    - .env
+
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+        - asset: assets/fonts/Poppins-Italic.ttf
+          style: italic
+        - asset: assets/fonts/Poppins-Thin.ttf
+          weight: 100
+        - asset: assets/fonts/Poppins-ThinItalic.ttf
+          weight: 100
+          style: italic
+        - asset: assets/fonts/Poppins-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/Poppins-ExtraLightItalic.ttf
+          weight: 200
+          style: italic
+        - asset: assets/fonts/Poppins-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Poppins-LightItalic.ttf
+          weight: 300
+          style: italic
+        - asset: assets/fonts/Poppins-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Poppins-MediumItalic.ttf
+          weight: 500
+          style: italic
+        - asset: assets/fonts/Poppins-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Poppins-SemiBoldItalic.ttf
+          weight: 600
+          style: italic
+        - asset: assets/fonts/Poppins-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Poppins-BoldItalic.ttf
+          weight: 700
+          style: italic
+        - asset: assets/fonts/Poppins-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/Poppins-ExtraBoldItalic.ttf
+          weight: 800
+          style: italic
+        - asset: assets/fonts/Poppins-Black.ttf
+          weight: 900
+        - asset: assets/fonts/Poppins-BlackItalic.ttf
+          weight: 900
+          style: italic
+
+
+ 
+

@@ -1,0 +1,159 @@
+{
+    "status": "success",
+    "message": "Role switched successfully",
+    "data": {
+        "roleId": "5adff50c-48ae-4181-ad17-2b1ad0fbece6",
+        "roleName": "Client Admin",
+        "roleComponent": [
+            {
+                "id": "948565a6-d2a4-4145-a489-e76a743e861c",
+                "componentName": "DashBoard",
+                "moduleName": "DashBoard",
+                "componentType": "Module",
+                "description": "Menu Configuration",
+                "routeLink": "/dashboards/analytics",
+                "icon": "pi pi-cog",
+                "orderNo": 1,
+                "permission": [
+                    "read",
+                    "write",
+                    "download"
+                ],
+                "hasAccess": true,
+                "children": []
+            },
+            {
+                "id": "a798736a-4aeb-4c23-935e-ba2e927a5465",
+                "componentName": "MyActionable",
+                "moduleName": "MyActionable",
+                "componentType": "Module",
+                "description": "Menu Configuration",
+                "routeLink": null,
+                "icon": "pi pi-bolt",
+                "orderNo": 2,
+                "permission": [],
+                "hasAccess": false,
+                "children": [
+                    {
+                        "id": "2fa0918b-c8af-4231-8cc6-b5ecbac5ac3b",
+                        "componentName": "Tickets Assigned",
+                        "moduleName": "MyActionable",
+                        "componentType": "Sub-Module",
+                        "description": "Menu Configuration",
+                        "routeLink": "/master/process/tickets-assigned",
+                        "icon": "pi pi-ticket",
+                        "orderNo": 3,
+                        "permission": [
+                            "delete",
+                            "read",
+                            "download",
+                            "write"
+                        ],
+                        "hasAccess": true,
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "id": "17f44681-53ea-4ce9-a237-8b8d1ca06aca",
+                "componentName": "Master Data",
+                "moduleName": "Master Data",
+                "componentType": "Module",
+                "description": "Menu Configuration",
+                "routeLink": null,
+                "icon": "pi pi-user",
+                "orderNo": 4,
+                "permission": [],
+                "hasAccess": false,
+                "children": [
+                    {
+                        "id": "e3644d1a-e934-42de-86a7-a55101c65847",
+                        "componentName": "Global",
+                        "moduleName": "Master Data",
+                        "componentType": "Sub-Module",
+                        "description": "Menu Configuration",
+                        "routeLink": "/master",
+                        "icon": "pi pi-key",
+                        "orderNo": 1,
+                        "permission": [],
+                        "hasAccess": false,
+                        "children": [
+                            {
+                                "id": "e29c435d-c5e3-4d51-9c35-dde64983b688",
+                                "componentName": "User Master",
+                                "moduleName": "Global",
+                                "componentType": "Component",
+                                "description": "Menu Configuration",
+                                "routeLink": "/master/org/user",
+                                "icon": "pi pi-id-card",
+                                "orderNo": 4,
+                                "permission": [
+                                    "read",
+                                    "write",
+                                    "download"
+                                ],
+                                "hasAccess": true,
+                                "children": []
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "b30ae05c-e7e9-44c9-af8f-245f910785a3",
+                "componentName": "Support",
+                "moduleName": "Support",
+                "componentType": "Module",
+                "description": "Menu Configuration",
+                "routeLink": null,
+                "icon": "pi pi-list",
+                "orderNo": 16,
+                "permission": [
+                    "delete",
+                    "download",
+                    "read",
+                    "write"
+                ],
+                "hasAccess": true,
+                "children": [
+                    {
+                        "id": "818245d1-3738-4568-83ba-2b9a7e614068",
+                        "componentName": "Support Ticket",
+                        "moduleName": "Support",
+                        "componentType": "Sub-Module",
+                        "description": "Menu Configuration",
+                        "routeLink": "/master/process/support-ticket",
+                        "icon": "pi pi-list",
+                        "orderNo": 1,
+                        "permission": [
+                            "delete",
+                            "download",
+                            "read",
+                            "write"
+                        ],
+                        "hasAccess": true,
+                        "children": []
+                    },
+                    {
+                        "id": "975703e0-0843-4949-973d-ff11445665f5",
+                        "componentName": "Problem Type",
+                        "moduleName": "Support",
+                        "componentType": "Sub-Module",
+                        "description": "Menu Configuration",
+                        "routeLink": "/master/process/problem-type",
+                        "icon": "pi pi-list",
+                        "orderNo": 5,
+                        "permission": [
+                            "delete",
+                            "download",
+                            "read",
+                            "write"
+                        ],
+                        "hasAccess": true,
+                        "children": []
+                    }
+                ]
+            }
+        ]
+    }
+}

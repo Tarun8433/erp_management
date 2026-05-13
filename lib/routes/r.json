@@ -1,0 +1,92 @@
+{
+    "status": true,
+    "message": "Success",
+    "data": [
+        {
+            "menuID": 1,
+            "menuName": "DashBoard",
+            "route": "/Dashboard",
+            "icon": null,
+            "subMenu": []
+        },
+        {
+            "menuID": 2,
+            "menuName": "Student",
+            "route": null,
+            "icon": null,
+            "subMenu": [
+                {
+                    "menuID": 3,
+                    "menuName": "New Admission",
+                    "route": "/Student/NewAdmission",
+                    "icon": null,
+                    "subMenu": []
+                },
+                {
+                    "menuID": 4,
+                    "menuName": "New Admission List",
+                    "route": "/Student/NewAdmissionList",
+                    "icon": null,
+                    "subMenu": []
+                },
+                {
+                    "menuID": 5,
+                    "menuName": "Add Student",
+                    "route": "/Student/AddStudent",
+                    "icon": null,
+                    "subMenu": []
+                },
+                {
+                    "menuID": 6,
+                    "menuName": "StudentList",
+                    "route": "/Student/StudentList",
+                    "icon": null,
+                    "subMenu": []
+                },
+                {
+                    "menuID": 9,
+                    "menuName": "Promote",
+                    "route": "/Student/Promote",
+                    "icon": null,
+                    "subMenu": []
+                },
+                {
+                    "menuID": 10,
+                    "menuName": "Manage Student Image",
+                    "route": "/Student/ManageStudentImage",
+                    "icon": null,
+                    "subMenu": []
+                },
+                {
+                    "menuID": 12,
+                    "menuName": "Section Update",
+                    "route": "/Student/SectionUpdate",
+                    "icon": null,
+                    "subMenu": []
+                },
+                {
+                    "menuID": 13,
+                    "menuName": "My Task",
+                    "route": null,
+                    "icon": null,
+                    "subMenu": [
+                        {
+                            "menuID": 14,
+                            "menuName": "Class Work",
+                            "route": "/Student/ClassWork",
+                            "icon": null,
+                            "subMenu": []
+                        },
+                        {
+                            "menuID": 15,
+                            "menuName": "Home Work",
+                            "route": "/Student/HomeWork",
+                            "icon": null,
+                            "subMenu": []
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
