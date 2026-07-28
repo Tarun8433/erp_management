@@ -5,8 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/models/user_data.dart';
 import '../../../../core/models/user_details.dart';
 import '../../../../core/models/financial_year.dart';
-import '../../../features/auth/data/models/login_response.dart';
-import '../../../features/menu/models/menu_response.dart';
+import '../../../features/common/auth/data/models/login_response.dart';
+import '../../../features/common/menu/models/menu_response.dart';
 
 class StorageHelper {
   static const String _languageKey = 'selected_language';
@@ -31,6 +31,8 @@ class StorageHelper {
   static const String dashboardCachePrefix = 'dashboard_cache_';
   static const String tokenKey = 'token';
   static const String tokenExpiryKey = 'token_exp';
+  static const String loginNameKey = 'loginName';
+  static const String schoolNameKey = 'schoolName';
   static const String _primaryColorKey = 'primary_color';
   static const String _fontSizeKey = 'font_size_multiplier';
   static const String _drawerStyleKey = 'drawer_style';
@@ -60,7 +62,9 @@ class StorageHelper {
   // Save available languages
   static Future<void> saveLanguages(List<LanguageData> languages) async {
     final prefs = await SharedPreferences.getInstance();
-    final String encodedData = jsonEncode(languages.map((e) => e.toJson()).toList());
+    final String encodedData = jsonEncode(
+      languages.map((e) => e.toJson()).toList(),
+    );
     await prefs.setString(_languagesKey, encodedData);
   }
 
@@ -112,7 +116,9 @@ class StorageHelper {
   // Save financial years
   static Future<void> saveFinancialYears(List<FinancialYear> years) async {
     final prefs = await SharedPreferences.getInstance();
-    final String encodedData = jsonEncode(years.map((e) => e.toJson()).toList());
+    final String encodedData = jsonEncode(
+      years.map((e) => e.toJson()).toList(),
+    );
     await prefs.setString(financialYearKey, encodedData);
   }
 
@@ -154,7 +160,7 @@ class StorageHelper {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString(selectedCompanyKey);
   }
-  
+
   static Future<void> saveSelectedCompanyId(String companyId) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(selectedCompanyIdKey, companyId);
@@ -176,7 +182,29 @@ class StorageHelper {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString(selectedBranchKey);
   }
-  
+
+  // Save & get logged-in user's display name (loginName from API)
+  static Future<void> saveLoginName(String name) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(loginNameKey, name);
+  }
+
+  static Future<String?> getLoginName() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(loginNameKey);
+  }
+
+  // Save & get school/branch name (name field from login API)
+  static Future<void> saveSchoolName(String name) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(schoolNameKey, name);
+  }
+
+  static Future<String?> getSchoolName() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(schoolNameKey);
+  }
+
   static Future<void> saveSelectedBranchId(String branchId) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(selectedBranchIdKey, branchId);
@@ -198,7 +226,7 @@ class StorageHelper {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString(selectedRoleKey);
   }
-  
+
   static Future<void> saveSelectedRoleId(String roleId) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(selectedRoleIdKey, roleId);
@@ -220,7 +248,7 @@ class StorageHelper {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getBool(isLoggedInKey) ?? false;
   }
-  
+
   // Save token
   static Future<void> saveToken(String token) async {
     final prefs = await SharedPreferences.getInstance();
@@ -347,12 +375,17 @@ class StorageHelper {
     return digest == saved;
   }
 
-  static Future<void> saveDashboardCache(String lang, List<Map<String, dynamic>> list) async {
+  static Future<void> saveDashboardCache(
+    String lang,
+    List<Map<String, dynamic>> list,
+  ) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('$dashboardCachePrefix$lang', jsonEncode(list));
   }
 
-  static Future<List<Map<String, dynamic>>> getDashboardCache(String lang) async {
+  static Future<List<Map<String, dynamic>>> getDashboardCache(
+    String lang,
+  ) async {
     final prefs = await SharedPreferences.getInstance();
     final s = prefs.getString('$dashboardCachePrefix$lang');
     if (s == null || s.isEmpty) return [];
@@ -368,7 +401,7 @@ class StorageHelper {
 
   static Future<double> getFontSize() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getDouble(_fontSizeKey) ?? 1.0;
+    return prefs.getDouble(_fontSizeKey) ?? 1.1;
   }
 
   // Drawer style methods
@@ -408,7 +441,9 @@ class StorageHelper {
   // Save role component (Menu Items)
   static Future<void> saveRoleComponent(List<MenuComponent> menuItems) async {
     final prefs = await SharedPreferences.getInstance();
-    final String encodedData = jsonEncode(menuItems.map((e) => e.toJson()).toList());
+    final String encodedData = jsonEncode(
+      menuItems.map((e) => e.toJson()).toList(),
+    );
     await prefs.setString(roleComponentKey, encodedData);
   }
 

@@ -19,8 +19,7 @@ class UploadDocumentsScreen extends StatelessWidget {
     final scheme = theme.colorScheme;
 
     // Static constants from controller
-    const requiredDocs = UploadDocumentsController.requiredDocuments;
-    const optionalDocs = UploadDocumentsController.optionalDocuments;
+    const docs = UploadDocumentsController.documents;
     const docNames = UploadDocumentsController.documentNames;
     const docIcons = UploadDocumentsController.documentIcons;
 
@@ -38,8 +37,7 @@ class UploadDocumentsScreen extends StatelessWidget {
         elevation: 0,
       ),
       body: Obx(() {
-        final allRequiredUploaded = c.areAllRequiredUploaded;
-        final isSubmitting = c.isSubmitting.value;
+        final uploadedCount = c.uploadedCount;
 
         return Column(
           children: [
@@ -77,7 +75,7 @@ class UploadDocumentsScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          'Upload all required documents to proceed',
+                          'All documents are optional — attach any you have',
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: scheme.onSurfaceVariant,
                           ),
@@ -91,18 +89,14 @@ class UploadDocumentsScreen extends StatelessWidget {
                       vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: allRequiredUploaded
-                          ? Colors.green.withValues(alpha: 0.1)
-                          : Colors.orange.withValues(alpha: 0.1),
+                      color: scheme.primaryContainer.withValues(alpha: 0.4),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
-                      '${requiredDocs.where((doc) => c.uploadedFiles[doc] != null).length}/${requiredDocs.length}',
+                      '$uploadedCount/${docs.length}',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: allRequiredUploaded
-                            ? Colors.green
-                            : Colors.orange,
+                        color: scheme.primary,
                       ),
                     ),
                   ),
@@ -117,56 +111,27 @@ class UploadDocumentsScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Required Documents Section
-                    Row(
-                      children: [
-                        Icon(Icons.verified, size: 20, color: Colors.red),
-                        const SizedBox(width: 8),
-                        Text(
-                          'Required Documents (${requiredDocs.length})',
-                          style: theme.textTheme.titleSmall?.copyWith(
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: 0.3,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    ...requiredDocs.map(
-                      (docKey) => DocumentUploadTile(
-                        docKey: docKey,
-                        label: docNames[docKey]!,
-                        icon: docIcons[docKey]!,
-                        uploadedFile: c.uploadedFiles[docKey],
-                        isRequired: true,
-                        isUploading: c.uploadProgress[docKey] ?? false,
-                        uploadProgress: c.uploadPercent[docKey] ?? 0,
-                        onUpload: () => _showImagePicker(context, docKey),
-                        onRemove: () => c.removeUploadedFile(docKey),
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-                    // Optional Documents Section
+                    // All documents — none are mandatory.
                     Row(
                       children: [
                         Icon(
                           Icons.add_circle_outline,
                           size: 20,
-                          color: Colors.grey,
+                          color: scheme.onSurfaceVariant,
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          'Optional Documents',
+                          'Documents (Optional)',
                           style: theme.textTheme.titleSmall?.copyWith(
                             fontWeight: FontWeight.w700,
                             letterSpacing: 0.3,
-                            color: Colors.grey[700],
+                            color: scheme.onSurfaceVariant,
                           ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 8),
-                    ...optionalDocs.map(
+                    ...docs.map(
                       (docKey) => DocumentUploadTile(
                         docKey: docKey,
                         label: docNames[docKey]!,
@@ -188,7 +153,6 @@ class UploadDocumentsScreen extends StatelessWidget {
         );
       }),
       bottomNavigationBar: Obx(() {
-        final allRequiredUploaded = c.areAllRequiredUploaded;
         final isSubmitting = c.isSubmitting.value;
 
         return Container(
@@ -204,9 +168,7 @@ class UploadDocumentsScreen extends StatelessWidget {
               height: 52,
               width: double.infinity,
               child: FilledButton(
-                onPressed: (allRequiredUploaded && !isSubmitting)
-                    ? c.submitDocuments
-                    : null,
+                onPressed: isSubmitting ? null : c.submitDocuments,
                 style: FilledButton.styleFrom(
                   backgroundColor: scheme.primary,
                   foregroundColor: scheme.onPrimary,

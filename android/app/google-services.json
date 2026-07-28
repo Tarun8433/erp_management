@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "540331729311",
+    "project_id": "schoolcluberp-3e7e5",
+    "storage_bucket": "schoolcluberp-3e7e5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:540331729311:android:a347e8e9535a66698addaa",
+        "android_client_info": {
+          "package_name": "com.app.schoolclub"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqB0cI-t8aw5DTwAhGGF-RVqcni1vJg-o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:540331729311:android:e665fedfba3b483a8addaa",
+        "android_client_info": {
+          "package_name": "com.example.erp_management"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqB0cI-t8aw5DTwAhGGF-RVqcni1vJg-o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

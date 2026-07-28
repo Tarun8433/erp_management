@@ -1,8 +1,8 @@
-import 'dart:io';
 import 'package:erp_management/core/widgets/searchable_dropdown.dart';
 import 'package:erp_management/features/role_based_ui/principal/admission/controllers/admission_controller.dart';
 import 'package:erp_management/features/role_based_ui/principal/admission/service/document_upload_tile.dart';
 import 'package:erp_management/features/role_based_ui/principal/admission/service/image_picker_service.dart';
+import 'package:erp_management/core/utils/drawer_main/src/flutter_zoom_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -37,8 +37,18 @@ class _NewAdmissionScreenState extends State<NewAdmissionScreen>
           foregroundColor: scheme.onPrimary,
           elevation: 0,
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back_rounded),
-            onPressed: () => Get.back(),
+            icon: Icon(
+              Navigator.of(context).canPop()
+                  ? Icons.arrow_back_rounded
+                  : Icons.menu_rounded,
+            ),
+            onPressed: () {
+              if (Navigator.of(context).canPop()) {
+                Get.back();
+              } else {
+                ZoomDrawer.of(context)?.toggle();
+              }
+            },
           ),
         ),
         body: Obx(() {
@@ -57,16 +67,14 @@ class _NewAdmissionScreenState extends State<NewAdmissionScreen>
   Widget _buildStepContent(int step, bool isMobile) {
     switch (step) {
       case 0:
-        return _BasicInformationStep(controller: c, isMobile: isMobile);
+        return BasicInformationStep(controller: c, isMobile: isMobile);
       case 1:
         return _GuardianDetailsStep(controller: c, isMobile: isMobile);
       case 2:
-        return _ClassAndGroupStep(controller: c, isMobile: isMobile);
-      case 3:
         return _PreviousSchoolStep(controller: c, isMobile: isMobile);
-      case 4:
+      case 3:
         return _SRNoAndTransportStep(controller: c, isMobile: isMobile);
-      case 5:
+      case 4:
         return _UploadDocumentsTab(
           controller: c,
           imagePickerService: imagePickerService,
@@ -89,50 +97,94 @@ class _HorizontalStepIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
-    final totalSteps = controller.totalSteps;
-
     final List<Map<String, dynamic>> steps = [
       {'title': 'Basic Info', 'icon': Icons.person_outline},
       {'title': 'Guardian', 'icon': Icons.supervisor_account_outlined},
-      {'title': 'Class/Group', 'icon': Icons.school_outlined},
       {'title': 'Prev School', 'icon': Icons.history_edu_outlined},
-      {'title': 'Transport', 'icon': Icons.directions_bus_outlined},
+      {'title': 'Sr & Transport', 'icon': Icons.directions_bus_outlined},
       {'title': 'Documents', 'icon': Icons.cloud_upload_outlined},
     ];
 
     if (isMobile) {
       return Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
         color: scheme.surface,
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Step ${controller.currentStep.value + 1} of $totalSteps',
-                  style: theme.textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: scheme.primary,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: List.generate(steps.length, (index) {
+              final isActive = controller.currentStep.value == index;
+              final isCompleted = controller.currentStep.value > index;
+              return Row(
+                children: [
+                  GestureDetector(
+                    onTap: () => controller.goToStep(index),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          width: 34,
+                          height: 34,
+                          decoration: BoxDecoration(
+                            color: isCompleted
+                                ? Colors.green
+                                : (isActive
+                                      ? scheme.primary
+                                      : scheme.surfaceContainer),
+                            shape: BoxShape.circle,
+                            boxShadow: isActive
+                                ? [
+                                    BoxShadow(
+                                      color: scheme.primary.withValues(
+                                        alpha: 0.3,
+                                      ),
+                                      blurRadius: 6,
+                                      offset: const Offset(0, 3),
+                                    ),
+                                  ]
+                                : null,
+                          ),
+                          child: Icon(
+                            isCompleted ? Icons.check : steps[index]['icon'],
+                            color: (isActive || isCompleted)
+                                ? Colors.white
+                                : scheme.onSurfaceVariant,
+                            size: 16,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          steps[index]['title'],
+                          style: theme.textTheme.labelSmall?.copyWith(
+                            fontWeight: isActive
+                                ? FontWeight.bold
+                                : FontWeight.normal,
+                            color: isActive
+                                ? scheme.primary
+                                : scheme.onSurfaceVariant,
+                            fontSize: 10,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Text(
-                  steps[controller.currentStep.value]['title'],
-                  style: theme.textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            LinearProgressIndicator(
-              value: (controller.currentStep.value + 1) / totalSteps,
-              minHeight: 6,
-              borderRadius: BorderRadius.circular(10),
-              backgroundColor: scheme.primaryContainer.withValues(alpha: 0.3),
-              valueColor: AlwaysStoppedAnimation<Color>(scheme.primary),
-            ),
-          ],
+                  if (index < steps.length - 1)
+                    Container(
+                      width: 24,
+                      height: 2,
+                      margin: const EdgeInsets.only(
+                        bottom: 18,
+                        left: 4,
+                        right: 4,
+                      ),
+                      color: isCompleted
+                          ? Colors.green
+                          : scheme.surfaceContainerHighest,
+                    ),
+                ],
+              );
+            }),
+          ),
         ),
       );
     }
@@ -220,10 +272,11 @@ class _HorizontalStepIndicator extends StatelessWidget {
   }
 }
 
-class _BasicInformationStep extends StatelessWidget {
+class BasicInformationStep extends StatelessWidget {
   final AdmissionController controller;
   final bool isMobile;
-  const _BasicInformationStep({
+  const BasicInformationStep({
+    super.key,
     required this.controller,
     required this.isMobile,
   });
@@ -263,14 +316,56 @@ class _BasicInformationStep extends StatelessWidget {
                           controller.selectedAcademicYear.value = v ?? '',
                     ),
                   ),
+                  Obx(
+                    () => SearchableDropdown<String>(
+                      label: 'GROUP *',
+                      hint: 'Select Group',
+                      isLoading: controller.isGroupLoading.value,
+                      value: controller.selectedGroup.value.isEmpty
+                          ? null
+                          : controller.selectedGroup.value,
+                      items: controller.groupList
+                          .map(
+                            (e) => SearchableDropdownItem(value: e, label: e),
+                          )
+                          .toList(),
+                      onChanged: (v) =>
+                          controller.selectedGroup.value = v ?? '',
+                    ),
+                  ),
+                ],
+              ),
+              _ResponsiveRow(
+                isMobile: isMobile,
+                children: [
+                  Obx(
+                    () => SearchableDropdown<String>(
+                      label: 'CLASS *',
+                      hint: 'Select Class',
+                      isLoading: controller.isClassLoading.value,
+                      value: controller.selectedClass.value.isEmpty
+                          ? null
+                          : controller.selectedClass.value,
+                      items: controller.classList
+                          .map(
+                            (e) => SearchableDropdownItem(value: e, label: e),
+                          )
+                          .toList(),
+                      onChanged: (v) =>
+                          controller.selectedClass.value = v ?? '',
+                    ),
+                  ),
                   _buildTextField(
                     context,
                     'STUDENT NAME *',
                     controller.fullNameCtrl,
                     Icons.person_outline,
+                    focusNode: controller.fullNameFocus,
+                    nextFocusNode: controller.aadhaarFocus,
                   ),
                 ],
               ),
+
               _ResponsiveRow(
                 isMobile: isMobile,
                 children: [
@@ -321,8 +416,9 @@ class _BasicInformationStep extends StatelessWidget {
                   ),
                   Obx(
                     () => SearchableDropdown<String>(
-                      label: 'CASTE',
-                      hint: 'Select Caste',
+                      label: 'CATEGORY',
+                      hint: 'Select Category',
+                      isLoading: controller.isCategoryLoading.value,
                       value: controller.selectedCategory.value.isEmpty
                           ? null
                           : controller.selectedCategory.value,
@@ -335,6 +431,29 @@ class _BasicInformationStep extends StatelessWidget {
                           controller.selectedCategory.value = v ?? '',
                     ),
                   ),
+                ],
+              ),
+              _ResponsiveRow(
+                isMobile: isMobile,
+                children: [
+                  Obx(
+                    () => SearchableDropdown<String>(
+                      label: 'CASTE',
+                      hint: 'Select Caste',
+                      isLoading: controller.isCasteLoading.value,
+                      value: controller.selectedCaste.value.isEmpty
+                          ? null
+                          : controller.selectedCaste.value,
+                      items: controller.casteList
+                          .map(
+                            (e) => SearchableDropdownItem(value: e, label: e),
+                          )
+                          .toList(),
+                      onChanged: (v) =>
+                          controller.selectedCaste.value = v ?? '',
+                    ),
+                  ),
+                  const SizedBox.shrink(),
                 ],
               ),
             ],
@@ -354,6 +473,8 @@ class _BasicInformationStep extends StatelessWidget {
                     'AADHAAR NUMBER',
                     controller.aadhaarCtrl,
                     Icons.credit_card,
+                    focusNode: controller.aadhaarFocus,
+                    nextFocusNode: controller.penNoFocus,
                     keyboardType: TextInputType.number,
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,
@@ -363,12 +484,16 @@ class _BasicInformationStep extends StatelessWidget {
                   ),
                   _buildTextField(
                     context,
-                    'PEN / PAN NO',
+                    'PEN NO',
                     controller.penNoCtrl,
                     Icons.assignment_ind_outlined,
+                    focusNode: controller.penNoFocus,
+                    nextFocusNode: controller.apaarIdFocus,
+                    keyboardType: TextInputType.number,
                     inputFormatters: [
-                      LengthLimitingTextInputFormatter(10),
-                      _PanCardFormatter(),
+                      FilteringTextInputFormatter.digitsOnly,
+                      LengthLimitingTextInputFormatter(12),
+                      _AadhaarFormatter(),
                     ],
                   ),
                 ],
@@ -380,7 +505,15 @@ class _BasicInformationStep extends StatelessWidget {
                     context,
                     'APAAR ID',
                     controller.apaarIdCtrl,
+                    keyboardType: TextInputType.number,
                     Icons.fingerprint,
+                    focusNode: controller.apaarIdFocus,
+                    nextFocusNode: controller.fatherNameFocus,
+                    // APAAR ID is a 12-digit number, same cap as Aadhaar/PEN.
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      LengthLimitingTextInputFormatter(12),
+                    ],
                   ),
                   const SizedBox.shrink(),
                 ],
@@ -399,15 +532,19 @@ class _BasicInformationStep extends StatelessWidget {
                 children: [
                   _buildTextField(
                     context,
-                    'FATHER NAME',
+                    'FATHER NAME *',
                     controller.fatherNameCtrl,
                     Icons.person_outline,
+                    focusNode: controller.fatherNameFocus,
+                    nextFocusNode: controller.fatherMobileFocus,
                   ),
                   _buildTextField(
                     context,
                     'FATHER MOBILE *',
                     controller.fatherMobileCtrl,
                     Icons.phone_android,
+                    focusNode: controller.fatherMobileFocus,
+                    nextFocusNode: controller.fatherOccupationFocus,
                     keyboardType: TextInputType.phone,
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,
@@ -424,6 +561,8 @@ class _BasicInformationStep extends StatelessWidget {
                     'FATHER OCCUPATION',
                     controller.fatherOccupationCtrl,
                     Icons.work_outline,
+                    focusNode: controller.fatherOccupationFocus,
+                    nextFocusNode: controller.motherNameFocus,
                   ),
                   const SizedBox.shrink(),
                 ],
@@ -434,15 +573,19 @@ class _BasicInformationStep extends StatelessWidget {
                 children: [
                   _buildTextField(
                     context,
-                    'MOTHER NAME',
+                    'MOTHER NAME *',
                     controller.motherNameCtrl,
                     Icons.person_outline,
+                    focusNode: controller.motherNameFocus,
+                    nextFocusNode: controller.motherMobileFocus,
                   ),
                   _buildTextField(
                     context,
                     'MOTHER MOBILE',
                     controller.motherMobileCtrl,
                     Icons.phone_android,
+                    focusNode: controller.motherMobileFocus,
+                    nextFocusNode: controller.motherOccupationFocus,
                     keyboardType: TextInputType.phone,
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,
@@ -459,6 +602,8 @@ class _BasicInformationStep extends StatelessWidget {
                     'MOTHER OCCUPATION',
                     controller.motherOccupationCtrl,
                     Icons.work_outline,
+                    focusNode: controller.motherOccupationFocus,
+                    nextFocusNode: controller.villageFocus,
                   ),
                   const SizedBox.shrink(),
                 ],
@@ -477,15 +622,19 @@ class _BasicInformationStep extends StatelessWidget {
                 children: [
                   _buildTextField(
                     context,
-                    'VILLAGE / MOHALLA',
+                    'VILLAGE / MOHALLA *',
                     controller.villageCtrl,
                     Icons.home_outlined,
+                    focusNode: controller.villageFocus,
+                    nextFocusNode: controller.tehsilFocus,
                   ),
                   _buildTextField(
                     context,
-                    'TEHSIL',
+                    'TEHSIL *',
                     controller.tehsilCtrl,
                     Icons.location_city_outlined,
+                    focusNode: controller.tehsilFocus,
+                    nextFocusNode: controller.districtFocus,
                   ),
                 ],
               ),
@@ -494,53 +643,60 @@ class _BasicInformationStep extends StatelessWidget {
                 children: [
                   _buildTextField(
                     context,
-                    'DISTRICT',
+                    'DISTRICT *',
                     controller.districtCtrl,
                     Icons.map_outlined,
+                    focusNode: controller.districtFocus,
+                    nextFocusNode: controller.stateFocus,
                   ),
                   _buildTextField(
                     context,
                     'STATE',
                     controller.stateCtrl,
                     Icons.public,
+                    focusNode: controller.stateFocus,
+                    nextFocusNode: controller.pinCodeFocus,
                   ),
                 ],
               ),
-              _ResponsiveRow(
-                isMobile: isMobile,
-                children: [
-                  _buildTextField(
-                    context,
-                    'PIN CODE',
-                    controller.pinCodeCtrl,
-                    Icons.pin_drop_outlined,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                      LengthLimitingTextInputFormatter(6),
-                    ],
-                  ),
-                  const SizedBox.shrink(),
-                ],
-              ),
+              // _ResponsiveRow(
+              //   isMobile: isMobile,
+              //   children: [
+              //     _buildTextField(
+              //       context,
+              //       'PIN CODE',
+              //       controller.pinCodeCtrl,
+              //       Icons.pin_drop_outlined,
+              //       focusNode: controller.pinCodeFocus,
+              //       nextFocusNode: controller.remarkFocus,
+              //       keyboardType: TextInputType.number,
+              //       inputFormatters: [
+              //         FilteringTextInputFormatter.digitsOnly,
+              //         LengthLimitingTextInputFormatter(6),
+              //       ],
+              //     ),
+              //     const SizedBox.shrink(),
+              //   ],
+              // ),
             ],
           ),
           const SizedBox(height: 24),
-          _buildFormSection(
-            theme,
-            scheme,
-            'ADDITIONAL NOTES',
-            Icons.note_alt_outlined,
-            [
-              _buildTextField(
-                context,
-                'REMARK / NOTES',
-                controller.remarkCtrl,
-                Icons.note_alt_outlined,
-                maxLines: 3,
-              ),
-            ],
-          ),
+          // _buildFormSection(
+          //   theme,
+          //   scheme,
+          //   'ADDITIONAL NOTES',
+          //   Icons.note_alt_outlined,
+          //   [
+          //     _buildTextField(
+          //       context,
+          //       'REMARK / NOTES',
+          //       controller.remarkCtrl,
+          //       Icons.note_alt_outlined,
+          //       focusNode: controller.remarkFocus,
+          //       maxLines: 3,
+          //     ),
+          //   ],
+          // ),
           const SizedBox(height: 40),
         ],
       ),
@@ -580,24 +736,19 @@ class _GuardianDetailsStep extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Obx(
-                () => Row(
-                  children: [
-                    Radio<bool>(
-                      value: true,
-                      groupValue: controller.isGuardianSameAsFather.value,
-                      onChanged: (v) =>
-                          controller.isGuardianSameAsFather.value = v ?? true,
-                    ),
-                    const Text('YES'),
-                    const SizedBox(width: 24),
-                    Radio<bool>(
-                      value: false,
-                      groupValue: controller.isGuardianSameAsFather.value,
-                      onChanged: (v) =>
-                          controller.isGuardianSameAsFather.value = v ?? false,
-                    ),
-                    const Text('NO'),
-                  ],
+                () => RadioGroup<bool>(
+                  groupValue: controller.isGuardianSameAsFather.value,
+                  onChanged: (v) =>
+                      controller.isGuardianSameAsFather.value = v ?? true,
+                  child: Row(
+                    children: [
+                      Radio<bool>(value: true),
+                      const Text('YES'),
+                      const SizedBox(width: 24),
+                      Radio<bool>(value: false),
+                      const Text('NO'),
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(height: 24),
@@ -614,12 +765,16 @@ class _GuardianDetailsStep extends StatelessWidget {
                             'GUARDIAN NAME',
                             controller.guardianNameCtrl,
                             Icons.person_outline,
+                            focusNode: controller.guardianNameFocus,
+                            nextFocusNode: controller.guardianMobileFocus,
                           ),
                           _buildTextField(
                             context,
                             'GUARDIAN MOBILE',
                             controller.guardianMobileCtrl,
                             Icons.phone_android,
+                            focusNode: controller.guardianMobileFocus,
+                            nextFocusNode: controller.guardianOccupationFocus,
                             keyboardType: TextInputType.phone,
                             inputFormatters: [
                               FilteringTextInputFormatter.digitsOnly,
@@ -636,12 +791,16 @@ class _GuardianDetailsStep extends StatelessWidget {
                             'OCCUPATION',
                             controller.guardianOccupationCtrl,
                             Icons.work_outline,
+                            focusNode: controller.guardianOccupationFocus,
+                            nextFocusNode: controller.guardianVillageFocus,
                           ),
                           _buildTextField(
                             context,
                             'VILLAGE / MOHALLA',
                             controller.guardianVillageCtrl,
                             Icons.home_outlined,
+                            focusNode: controller.guardianVillageFocus,
+                            nextFocusNode: controller.guardianTehsilFocus,
                           ),
                         ],
                       ),
@@ -653,12 +812,16 @@ class _GuardianDetailsStep extends StatelessWidget {
                             'TEHSIL',
                             controller.guardianTehsilCtrl,
                             Icons.location_city_outlined,
+                            focusNode: controller.guardianTehsilFocus,
+                            nextFocusNode: controller.guardianDistrictFocus,
                           ),
                           _buildTextField(
                             context,
                             'DISTRICT',
                             controller.guardianDistrictCtrl,
                             Icons.map_outlined,
+                            focusNode: controller.guardianDistrictFocus,
+                            nextFocusNode: controller.guardianStateFocus,
                           ),
                         ],
                       ),
@@ -670,12 +833,15 @@ class _GuardianDetailsStep extends StatelessWidget {
                             'STATE',
                             controller.guardianStateCtrl,
                             Icons.public,
+                            focusNode: controller.guardianStateFocus,
+                            nextFocusNode: controller.guardianPinCodeFocus,
                           ),
                           _buildTextField(
                             context,
                             'PIN CODE',
                             controller.guardianPinCodeCtrl,
                             Icons.pin_drop_outlined,
+                            focusNode: controller.guardianPinCodeFocus,
                             keyboardType: TextInputType.number,
                             inputFormatters: [
                               FilteringTextInputFormatter.digitsOnly,
@@ -719,71 +885,6 @@ class _GuardianDetailsStep extends StatelessWidget {
   }
 }
 
-class _ClassAndGroupStep extends StatelessWidget {
-  final AdmissionController controller;
-  final bool isMobile;
-  const _ClassAndGroupStep({required this.controller, required this.isMobile});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final scheme = theme.colorScheme;
-
-    return SingleChildScrollView(
-      padding: EdgeInsets.all(isMobile ? 16 : 32),
-      child: Column(
-        children: [
-          _buildFormSection(
-            theme,
-            scheme,
-            'SELECT ACADEMIC GROUP & CLASS',
-            Icons.school_outlined,
-            [
-              _ResponsiveRow(
-                isMobile: isMobile,
-                children: [
-                  Obx(
-                    () => SearchableDropdown<String>(
-                      label: 'GROUP *',
-                      hint: 'Select Group',
-                      value: controller.selectedGroup.value.isEmpty
-                          ? null
-                          : controller.selectedGroup.value,
-                      items: controller.groupList
-                          .map(
-                            (e) => SearchableDropdownItem(value: e, label: e),
-                          )
-                          .toList(),
-                      onChanged: (v) =>
-                          controller.selectedGroup.value = v ?? '',
-                    ),
-                  ),
-                  Obx(
-                    () => SearchableDropdown<String>(
-                      label: 'CLASS *',
-                      hint: 'Select Class',
-                      value: controller.selectedClass.value.isEmpty
-                          ? null
-                          : controller.selectedClass.value,
-                      items: controller.classList
-                          .map(
-                            (e) => SearchableDropdownItem(value: e, label: e),
-                          )
-                          .toList(),
-                      onChanged: (v) =>
-                          controller.selectedClass.value = v ?? '',
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class _PreviousSchoolStep extends StatelessWidget {
   final AdmissionController controller;
   final bool isMobile;
@@ -812,12 +913,15 @@ class _PreviousSchoolStep extends StatelessWidget {
                     'PREVIOUS SCHOOL / COLLEGE',
                     controller.prevSchoolNameCtrl,
                     Icons.school_outlined,
+                    focusNode: controller.prevSchoolNameFocus,
+                    nextFocusNode: controller.prevClassFocus,
                   ),
                   _buildTextField(
                     context,
                     'PREVIOUS CLASS',
                     controller.prevClassCtrl,
                     Icons.class_outlined,
+                    focusNode: controller.prevClassFocus,
                   ),
                 ],
               ),
@@ -911,7 +1015,24 @@ class _SRNoAndTransportStep extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 16),
+              Obx(
+                () => Visibility(
+                  visible: !controller.generateSrNo.value,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: _buildTextField(
+                      context,
+                      'MANUAL SR NO',
+                      controller.srNoCtrl,
+                      Icons.tag,
+                      keyboardType: TextInputType.number,
+                      focusNode: controller.srNoFocus,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 8),
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
@@ -981,6 +1102,87 @@ class _SRNoAndTransportStep extends StatelessWidget {
                       onTap: () => controller.availTransport.value = false,
                     ),
                   ],
+                ),
+              ),
+              Obx(
+                () => Visibility(
+                  visible: controller.availTransport.value,
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 16),
+                      _ResponsiveRow(
+                        isMobile: isMobile,
+                        children: [
+                          Obx(
+                            () => SearchableDropdown<String>(
+                              label: 'SELECT VEHICLE',
+                              hint: 'Select Vehicle',
+                              isLoading: controller.isVehicleLoading.value,
+                              value: controller.selectedVehicle.value.isEmpty
+                                  ? null
+                                  : controller.selectedVehicle.value,
+                              items: controller.vehicleList
+                                  .map(
+                                    (e) => SearchableDropdownItem(
+                                      value: e,
+                                      label: e,
+                                    ),
+                                  )
+                                  .toList(),
+                              onChanged: (v) =>
+                                  controller.selectedVehicle.value = v ?? '',
+                            ),
+                          ),
+                          Obx(
+                            () => SearchableDropdown<String>(
+                              label: 'SELECT ROUTE',
+                              hint: 'Select Route',
+                              isLoading: controller.isRouteLoading.value,
+                              value: controller.selectedRoute.value.isEmpty
+                                  ? null
+                                  : controller.selectedRoute.value,
+                              items: controller.routeList
+                                  .map(
+                                    (e) => SearchableDropdownItem(
+                                      value: e,
+                                      label: e,
+                                    ),
+                                  )
+                                  .toList(),
+                              onChanged: (v) =>
+                                  controller.selectedRoute.value = v ?? '',
+                            ),
+                          ),
+                        ],
+                      ),
+                      _ResponsiveRow(
+                        isMobile: isMobile,
+                        children: [
+                          Obx(
+                            () => SearchableDropdown<String>(
+                              label: 'SELECT PICKUP POINT',
+                              hint: 'Select Pickup Point',
+                              isLoading: controller.isPickupLoading.value,
+                              value: controller.selectedPickupPoint.value.isEmpty
+                                  ? null
+                                  : controller.selectedPickupPoint.value,
+                              items: controller.pickupPointList
+                                  .map(
+                                    (e) => SearchableDropdownItem(
+                                      value: e,
+                                      label: e,
+                                    ),
+                                  )
+                                  .toList(),
+                              onChanged: (v) =>
+                                  controller.selectedPickupPoint.value = v ?? '',
+                            ),
+                          ),
+                          const SizedBox.shrink(),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -1057,8 +1259,7 @@ class _UploadDocumentsTab extends StatelessWidget {
     final isMobile = MediaQuery.of(context).size.width < 900;
 
     return Obx(() {
-      final allRequiredUploaded = c.areAllRequiredUploaded;
-      final requiredDocs = AdmissionController.requiredDocuments;
+      final requiredDocs = AdmissionController.documents;
       final docNames = AdmissionController.documentNames;
       final docIcons = AdmissionController.documentIcons;
 
@@ -1084,7 +1285,7 @@ class _UploadDocumentsTab extends StatelessWidget {
                           label: docNames[docKey]!,
                           icon: docIcons[docKey]!,
                           uploadedFile: c.uploadedFiles[docKey],
-                          isRequired: true,
+                          isRequired: false,
                           isUploading: c.uploadProgress[docKey] ?? false,
                           uploadProgress: c.uploadPercent[docKey] ?? 0,
                           onUpload: () => _showImagePicker(context, docKey),
@@ -1223,6 +1424,7 @@ class _BottomActionButton extends StatelessWidget {
               final isLast =
                   controller.currentStep.value == controller.totalSteps - 1;
               return Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   if (isLast) ...[
                     if (isMobile)
@@ -1308,41 +1510,8 @@ class _AadhaarFormatter extends TextInputFormatter {
     StringBuffer buffer = StringBuffer();
     for (int i = 0; i < text.length; i++) {
       buffer.write(text[i]);
-      if ((i + 1) % 4 == 0 && (i + 1) != 12) {
+      if ((i + 1) % 4 == 0 && (i + 1) != 12 && (i + 1) < text.length) {
         buffer.write(' ');
-      }
-    }
-
-    String formatted = buffer.toString();
-    return newValue.copyWith(
-      text: formatted,
-      selection: TextSelection.collapsed(offset: formatted.length),
-      composing: TextRange.empty,
-    );
-  }
-}
-
-class _PanCardFormatter extends TextInputFormatter {
-  @override
-  TextEditingValue formatEditUpdate(
-    TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
-    String text = newValue.text.toUpperCase();
-    if (text.length > 10) text = text.substring(0, 10);
-
-    StringBuffer buffer = StringBuffer();
-    for (int i = 0; i < text.length; i++) {
-      if (i < 5 || i == 9) {
-        // Must be letter
-        if (RegExp(r'[A-Z]').hasMatch(text[i])) {
-          buffer.write(text[i]);
-        }
-      } else {
-        // Must be digit
-        if (RegExp(r'[0-9]').hasMatch(text[i])) {
-          buffer.write(text[i]);
-        }
       }
     }
 
@@ -1429,19 +1598,34 @@ Widget _buildTextField(
   String label,
   TextEditingController controller,
   IconData icon, {
+  FocusNode? focusNode,
+  FocusNode? nextFocusNode,
   TextInputType? keyboardType,
   int maxLines = 1,
   bool readOnly = false,
   VoidCallback? onTap,
   List<TextInputFormatter>? inputFormatters,
 }) {
+  // Add UpperCaseTextFormatter to all text fields
+  final formatters = <TextInputFormatter>[
+    UpperCaseTextFormatter(),
+    ...?inputFormatters,
+  ];
+  
   return TextFormField(
     controller: controller,
+    focusNode: focusNode,
     keyboardType: keyboardType,
     maxLines: maxLines,
     readOnly: readOnly,
     onTap: onTap,
-    inputFormatters: inputFormatters,
+    inputFormatters: formatters,
+    textInputAction: nextFocusNode != null
+        ? TextInputAction.next
+        : TextInputAction.done,
+    onFieldSubmitted: nextFocusNode != null
+        ? (_) => nextFocusNode.requestFocus()
+        : null,
     decoration: _getInputDecoration(context, label, icon),
   );
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import '../../../../features/auth/views/auth_screen.dart';
+import '../../../../features/common/auth/views/auth_screen.dart';
 
 // --- Function to Display the Modal ---
 void showLoginRequiredDialog(

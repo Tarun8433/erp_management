@@ -6,8 +6,8 @@ import '../../constants/app_colors.dart';
 import '../../utils/bottom_nav_bar/bottom_bar.dart';
 import '../../utils/drawer_main/src/drawer_controller.dart';
 import '../../utils/drawer_main/src/flutter_zoom_drawer.dart';
-import '../../../features/menu/menu_screen.dart';
-import '../../../features/settings/setting_controller.dart';
+import '../../../features/common/menu/menu_screen.dart';
+import '../../../features/common/settings/setting_controller.dart';
 
 class RoleNavItem {
   final IconData icon;
@@ -132,7 +132,7 @@ class _RoleScaffoldState extends State<RoleScaffold>
                       backgroundColor: Get.isDarkMode
                           ? Colors.black
                           : AppColors.background,
-                      body: SafeArea(child: e.body),
+                      body: e.body,
                     ),
                   )
                   .toList(),

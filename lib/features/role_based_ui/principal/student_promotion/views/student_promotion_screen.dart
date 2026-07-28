@@ -18,6 +18,16 @@ class StudentPromotionScreen extends StatelessWidget {
         backgroundColor: scheme.primary,
         foregroundColor: scheme.onPrimary,
         actions: [
+          IconButton(
+            icon: const Icon(Icons.text_decrease),
+            onPressed: () => c.updateFontSize(-1),
+            tooltip: 'Decrease Font Size',
+          ),
+          IconButton(
+            icon: const Icon(Icons.text_increase),
+            onPressed: () => c.updateFontSize(1),
+            tooltip: 'Increase Font Size',
+          ),
           Obx(
             () => IconButton(
               icon: Icon(
@@ -29,11 +39,6 @@ class StudentPromotionScreen extends StatelessWidget {
               tooltip: 'Toggle View Mode',
             ),
           ),
-          // IconButton(
-          //   icon: const Icon(Icons.settings_outlined),
-          //   onPressed: () => _showSettingsDialog(context, c),
-          //   tooltip: 'Promotion Settings',
-          // ),
         ],
       ),
       body: Column(
@@ -73,7 +78,7 @@ class StudentPromotionScreen extends StatelessWidget {
                   context,
                   'Session *',
                   c.selectedSession,
-                  c.sessions,
+                  c.sessionYearList,
                 ),
               ),
               const SizedBox(width: 12),
@@ -82,7 +87,7 @@ class StudentPromotionScreen extends StatelessWidget {
                   context,
                   'Group *',
                   c.selectedGroup,
-                  c.groups,
+                  c.groupList,
                 ),
               ),
             ],
@@ -95,7 +100,7 @@ class StudentPromotionScreen extends StatelessWidget {
                   context,
                   'Class *',
                   c.selectedClass,
-                  c.classes,
+                  c.classList,
                 ),
               ),
               const SizedBox(width: 12),
@@ -197,18 +202,20 @@ class StudentPromotionScreen extends StatelessWidget {
             height: 46,
             padding: const EdgeInsets.symmetric(horizontal: 12),
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey.shade300),
+              border: Border.all(color: Theme.of(context).dividerColor),
               borderRadius: BorderRadius.circular(8),
             ),
             child: DropdownButtonHideUnderline(
               child: DropdownButton<String>(
+                
                 isExpanded: true,
-                value: value.value,
+                value: value.value.isEmpty ? null : value.value,
+                hint: Text('Select', style: Theme.of(context).textTheme.bodySmall),
                 items: items
                     .map(
                       (e) => DropdownMenuItem(
                         value: e,
-                        child: Text(e, style: const TextStyle(fontSize: 13)),
+                        child: Text(e, style: Theme.of(context).textTheme.bodySmall),
                       ),
                     )
                     .toList(),
@@ -268,14 +275,15 @@ class _PromotionTableView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
 
     return Obx(() {
       final fontSize = controller.baseFontSize.value;
       final headerStyle = TextStyle(
         fontSize: fontSize,
         fontWeight: FontWeight.bold,
-        color: Colors.white,
+        color: scheme.onPrimary,
       );
       final cellStyle = TextStyle(fontSize: fontSize);
 
@@ -288,7 +296,7 @@ class _PromotionTableView extends StatelessWidget {
             ),
             dataRowMaxHeight: 60,
             columnSpacing: 24,
-            border: TableBorder.all(color: Colors.grey.shade200, width: 0.5),
+            border: TableBorder.all(color: theme.dividerColor, width: 0.5),
             columns: [
               DataColumn(
                 label: Row(
@@ -384,18 +392,34 @@ class _PromotionTableView extends StatelessWidget {
                       DataCell(Text(item.motherName, style: cellStyle)),
                       DataCell(Text(item.mobileNo, style: cellStyle)),
                       DataCell(
-                        Obx(
-                          () => item.status.value == 'Promoted'
-                              ? IconButton(
-                                  icon: const Icon(
-                                    Icons.history,
-                                    color: Colors.blue,
-                                  ),
-                                  onPressed: () =>
-                                      controller.undoPromotion(item),
-                                  tooltip: 'Undo Promotion',
-                                )
-                              : const SizedBox.shrink(),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: const Icon(
+                                Icons.person,
+                                color: Colors.blueGrey,
+                                size: 20,
+                              ),
+                              onPressed: () =>
+                                  controller.showProfileDetails(item),
+                              tooltip: 'View Profile',
+                            ),
+                            Obx(
+                              () => item.status.value == 'Promoted'
+                                  ? IconButton(
+                                      icon: const Icon(
+                                        Icons.history,
+                                        color: Colors.blue,
+                                        size: 20,
+                                      ),
+                                      onPressed: () =>
+                                          controller.undoPromotion(item),
+                                      tooltip: 'Undo Promotion',
+                                    )
+                                  : const SizedBox.shrink(),
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -415,7 +439,8 @@ class _PromotionCardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
 
     return Obx(() {
       final fontSize = controller.baseFontSize.value;
@@ -430,7 +455,7 @@ class _PromotionCardView extends StatelessWidget {
             margin: const EdgeInsets.only(bottom: 12),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
-              side: BorderSide(color: Colors.grey.shade200),
+              side: BorderSide(color: theme.dividerColor),
             ),
             child: Padding(
               padding: const EdgeInsets.all(16),
@@ -499,6 +524,7 @@ class _PromotionCardView extends StatelessWidget {
                     'Current',
                     '${item.currentSession} | Class ${item.currentClass}',
                     fontSize,
+                    scheme,
                   ),
                   Obx(
                     () => item.status.value == 'Promoted'
@@ -506,6 +532,7 @@ class _PromotionCardView extends StatelessWidget {
                             'Promoted To',
                             'Class ${item.promotedToClass.value} on ${item.promotionDate.value}',
                             fontSize,
+                            scheme,
                           )
                         : const SizedBox.shrink(),
                   ),
@@ -513,8 +540,9 @@ class _PromotionCardView extends StatelessWidget {
                     'Parents',
                     '${item.fatherName} / ${item.motherName}',
                     fontSize,
+                    scheme,
                   ),
-                  _buildCardRow('Mobile', item.mobileNo, fontSize),
+                  _buildCardRow('Mobile', item.mobileNo, fontSize, scheme),
                   const SizedBox(height: 12),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -530,7 +558,7 @@ class _PromotionCardView extends StatelessWidget {
                       ),
                       const SizedBox(width: 8),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () => controller.showProfileDetails(item),
                         child: const Text('View Profile'),
                       ),
                     ],
@@ -544,7 +572,7 @@ class _PromotionCardView extends StatelessWidget {
     });
   }
 
-  Widget _buildCardRow(String label, String value, double fontSize) {
+  Widget _buildCardRow(String label, String value, double fontSize, ColorScheme scheme) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Row(
@@ -555,7 +583,7 @@ class _PromotionCardView extends StatelessWidget {
               label,
               style: TextStyle(
                 fontSize: fontSize - 1,
-                color: Colors.grey.shade600,
+                color: scheme.onSurfaceVariant,
               ),
             ),
           ),

@@ -32,30 +32,46 @@ class StudentDetailsScreen extends StatelessWidget {
               child: Column(
                 children: [
                   _buildInfoSection(context, 'Academic Information', Icons.school_rounded, [
-                    _buildDetailRow('Roll Number', student.rollNo),
-                    _buildDetailRow('Academic Group', student.group),
-                    _buildDetailRow('Current Class', student.className),
+                    _buildDetailRow(context, 'Student ID', student.sid),
+                    _buildDetailRow(context, 'SR Number', student.srNo),
+                    _buildDetailRow(context, 'Roll Number', student.rollNo),
+                    _buildDetailRow(context, 'Session', student.session),
+                    _buildDetailRow(context, 'Academic Group', student.group),
+                    _buildDetailRow(context, 'Current Class', student.className),
+                    _buildDetailRow(context, 'Status', student.status),
+                    _buildDetailRow(context, 'Admitted On', student.entryAt),
                   ]),
                   const SizedBox(height: 16),
                   _buildInfoSection(context, 'Personal Details', Icons.person_rounded, [
-                    _buildDetailRow('Father\'s Name', student.fatherName),
-                    _buildDetailRow('Mother\'s Name', student.motherName),
-                    _buildDetailRow('Gender', student.gender),
-                    _buildDetailRow('Date of Birth', student.dob),
-                    _buildDetailRow('Religion', student.religion),
+                    _buildDetailRow(context, 'Gender', student.gender),
+                    _buildDetailRow(context, 'Date of Birth', student.dob),
+                    _buildDetailRow(context, 'Religion', student.religion),
+                    _buildDetailRow(context, 'Category', student.category),
+                    _buildDetailRow(context, 'Sub Category', student.subCategory),
+                  ]),
+                  const SizedBox(height: 16),
+                  _buildInfoSection(context, 'Parent Details', Icons.family_restroom_rounded, [
+                    _buildDetailRow(context, 'Father\'s Name', student.fatherName),
+                    _buildDetailRow(context, 'Father\'s Occupation', student.fatherOccupation),
+                    _buildDetailRow(context, 'Father\'s Mobile', student.phone),
+                    _buildDetailRow(context, 'Mother\'s Name', student.motherName),
+                    _buildDetailRow(context, 'Mother\'s Occupation', student.motherOccupation),
+                    _buildDetailRow(context, 'Mother\'s Mobile', student.motherMobile),
                   ]),
                   const SizedBox(height: 16),
                   _buildInfoSection(context, 'Identity & Contact', Icons.badge_rounded, [
-                    _buildDetailRow('Phone Number', student.phone),
-                    _buildDetailRow('Email Address', student.email),
-                    _buildDetailRow('Aadhaar Card', student.aadhaar),
-                    _buildDetailRow('PAN Number', student.pan),
+                    _buildDetailRow(context, 'Email Address', student.email),
+                    _buildDetailRow(context, 'Aadhaar Card', student.aadhaar),
+                    _buildDetailRow(context, 'PEN Number', student.penNo),
+                    _buildDetailRow(context, 'APAAR ID', student.apaarId),
                   ]),
                   const SizedBox(height: 16),
                   _buildInfoSection(context, 'Residential Address', Icons.location_on_rounded, [
-                    _buildDetailRow('Village/Mohalla', student.village),
-                    _buildDetailRow('Tehsil', student.tehsil),
-                    _buildDetailRow('District', student.district),
+                    _buildDetailRow(context, 'Village/Mohalla', student.village),
+                    _buildDetailRow(context, 'Tehsil', student.tehsil),
+                    _buildDetailRow(context, 'District', student.district),
+                    _buildDetailRow(context, 'State', student.state),
+                    _buildDetailRow(context, 'Pin Code', student.pinCode),
                   ]),
                   const SizedBox(height: 40),
                 ],
@@ -68,7 +84,8 @@ class StudentDetailsScreen extends StatelessWidget {
   }
 
   Widget _buildHeader(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.only(bottom: 32, top: 16),
@@ -80,22 +97,30 @@ class StudentDetailsScreen extends StatelessWidget {
         children: [
           Container(
             padding: const EdgeInsets.all(4),
-            decoration: const BoxDecoration(
-              color: Colors.white,
+            decoration: BoxDecoration(
+              color: scheme.surface,
               shape: BoxShape.circle,
             ),
             child: CircleAvatar(
               radius: 54,
               backgroundColor: scheme.primaryContainer,
-              backgroundImage: NetworkImage(student.photoUrl),
+              backgroundImage: student.photoUrl.startsWith('http')
+                  ? NetworkImage(student.photoUrl)
+                  : null,
+              child: student.photoUrl.startsWith('http')
+                  ? null
+                  : Icon(
+                      Icons.person_rounded,
+                      size: 54,
+                      color: scheme.onPrimaryContainer,
+                    ),
             ),
           ),
           const SizedBox(height: 16),
           Text(
             student.name,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 26,
+            style: theme.textTheme.headlineSmall?.copyWith(
+              color: scheme.onPrimary,
               fontWeight: FontWeight.w900,
               letterSpacing: 0.5,
             ),
@@ -104,14 +129,13 @@ class StudentDetailsScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.2),
+              color: scheme.onPrimary.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
               'STUDENT ID: ${student.id}',
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 12,
+              style: theme.textTheme.labelSmall?.copyWith(
+                color: scheme.onPrimary,
                 fontWeight: FontWeight.w700,
                 letterSpacing: 1,
               ),
@@ -129,7 +153,7 @@ class StudentDetailsScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: scheme.surface,
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
@@ -167,7 +191,12 @@ class StudentDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildDetailRow(String label, String value) {
+  /// Renders a label/value row. Shows an em dash when the server sent no
+  /// value, so an empty field reads as "not recorded" rather than as data.
+  Widget _buildDetailRow(BuildContext context, String label, String value) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final hasValue = value.trim().isNotEmpty;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
@@ -175,20 +204,18 @@ class StudentDetailsScreen extends StatelessWidget {
         children: [
           Text(
             label,
-            style: TextStyle(
-              color: Colors.grey[600],
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: scheme.onSurfaceVariant,
               fontWeight: FontWeight.w600,
-              fontSize: 13,
             ),
           ),
           Flexible(
             child: Text(
-              value,
+              hasValue ? value : '—',
               textAlign: TextAlign.end,
-              style: const TextStyle(
-                fontWeight: FontWeight.w800,
-                fontSize: 14,
-                color: Colors.black87,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                fontWeight: hasValue ? FontWeight.w800 : FontWeight.w500,
+                color: hasValue ? scheme.onSurface : scheme.onSurfaceVariant,
               ),
             ),
           ),

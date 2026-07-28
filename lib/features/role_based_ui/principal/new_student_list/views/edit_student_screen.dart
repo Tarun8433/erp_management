@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:erp_management/core/widgets/searchable_dropdown.dart';
 import 'package:erp_management/features/role_based_ui/principal/admission/service/document_upload_tile.dart';
 import 'package:erp_management/features/role_based_ui/principal/admission/service/image_picker_service.dart';
@@ -60,12 +59,10 @@ class _EditStudentScreenState extends State<EditStudentScreen> {
       case 1:
         return _GuardianDetailsStep(controller: c, isMobile: isMobile);
       case 2:
-        return _ClassAndGroupStep(controller: c, isMobile: isMobile);
-      case 3:
         return _PreviousSchoolStep(controller: c, isMobile: isMobile);
-      case 4:
+      case 3:
         return _SRNoAndTransportStep(controller: c, isMobile: isMobile);
-      case 5:
+      case 4:
         return _UploadDocumentsTab(
           controller: c,
           imagePickerService: imagePickerService,
@@ -93,7 +90,6 @@ class _HorizontalStepIndicator extends StatelessWidget {
     final List<Map<String, dynamic>> steps = [
       {'title': 'Basic Info', 'icon': Icons.person_outline},
       {'title': 'Guardian', 'icon': Icons.supervisor_account_outlined},
-      {'title': 'Class/Group', 'icon': Icons.school_outlined},
       {'title': 'Prev School', 'icon': Icons.history_edu_outlined},
       {'title': 'Transport', 'icon': Icons.directions_bus_outlined},
       {'title': 'Documents', 'icon': Icons.cloud_upload_outlined},
@@ -250,6 +246,7 @@ class _BasicInformationStep extends StatelessWidget {
                     () => SearchableDropdown<String>(
                       label: 'ACADEMIC YEAR',
                       hint: 'Select Year',
+                      enabled: false,
                       value: controller.editAcademicYear.value.isEmpty
                           ? null
                           : controller.editAcademicYear.value,
@@ -260,6 +257,43 @@ class _BasicInformationStep extends StatelessWidget {
                           .toList(),
                       onChanged: (v) =>
                           controller.editAcademicYear.value = v ?? '',
+                    ),
+                  ),
+                  Obx(
+                    () => SearchableDropdown<String>(
+                      label: 'GROUP *',
+                      hint: 'Select Group',
+                      enabled: false,
+                      value: controller.editGroup.value.isEmpty
+                          ? null
+                          : controller.editGroup.value,
+                      items: controller.groupList
+                          .map(
+                            (e) => SearchableDropdownItem(value: e, label: e),
+                          )
+                          .toList(),
+                      onChanged: (v) => controller.editGroup.value = v ?? '',
+                    ),
+                  ),
+                ],
+              ),
+              _ResponsiveRow(
+                isMobile: isMobile,
+                children: [
+                  Obx(
+                    () => SearchableDropdown<String>(
+                      label: 'CLASS *',
+                      hint: 'Select Class',
+                      enabled: false,
+                      value: controller.editClass.value.isEmpty
+                          ? null
+                          : controller.editClass.value,
+                      items: controller.classList
+                          .map(
+                            (e) => SearchableDropdownItem(value: e, label: e),
+                          )
+                          .toList(),
+                      onChanged: (v) => controller.editClass.value = v ?? '',
                     ),
                   ),
                   _buildTextField(
@@ -318,8 +352,8 @@ class _BasicInformationStep extends StatelessWidget {
                   ),
                   Obx(
                     () => SearchableDropdown<String>(
-                      label: 'CASTE',
-                      hint: 'Select Caste',
+                      label: 'CATEGORY',
+                      hint: 'Select Category',
                       value: controller.editCategory.value.isEmpty
                           ? null
                           : controller.editCategory.value,
@@ -331,6 +365,27 @@ class _BasicInformationStep extends StatelessWidget {
                       onChanged: (v) => controller.editCategory.value = v ?? '',
                     ),
                   ),
+                ],
+              ),
+              _ResponsiveRow(
+                isMobile: isMobile,
+                children: [
+                  Obx(
+                    () => SearchableDropdown<String>(
+                      label: 'CASTE',
+                      hint: 'Select Caste',
+                      value: controller.editCaste.value.isEmpty
+                          ? null
+                          : controller.editCaste.value,
+                      items: controller.casteList
+                          .map(
+                            (e) => SearchableDropdownItem(value: e, label: e),
+                          )
+                          .toList(),
+                      onChanged: (v) => controller.editCaste.value = v ?? '',
+                    ),
+                  ),
+                  const SizedBox.shrink(),
                 ],
               ),
             ],
@@ -359,12 +414,14 @@ class _BasicInformationStep extends StatelessWidget {
                   ),
                   _buildTextField(
                     context,
-                    'PEN / PAN NO',
+                    'PEN NO',
                     controller.penNoCtrl,
                     Icons.assignment_ind_outlined,
+                    keyboardType: TextInputType.number,
                     inputFormatters: [
-                      LengthLimitingTextInputFormatter(10),
-                      _PanCardFormatter(),
+                      FilteringTextInputFormatter.digitsOnly,
+                      LengthLimitingTextInputFormatter(12),
+                      _AadhaarFormatter(),
                     ],
                   ),
                 ],
@@ -376,7 +433,14 @@ class _BasicInformationStep extends StatelessWidget {
                     context,
                     'APAAR ID',
                     controller.apaarIdCtrl,
+                    keyboardType: TextInputType.number,
                     Icons.fingerprint,
+                    focusNode: controller.apaarIdFocus,
+                    // APAAR ID is a 12-digit number, same cap as Aadhaar/PEN.
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      LengthLimitingTextInputFormatter(12),
+                    ],
                   ),
                   const SizedBox.shrink(),
                 ],
@@ -395,7 +459,7 @@ class _BasicInformationStep extends StatelessWidget {
                 children: [
                   _buildTextField(
                     context,
-                    'FATHER NAME',
+                    'FATHER NAME *',
                     controller.fatherNameCtrl,
                     Icons.person_outline,
                   ),
@@ -430,7 +494,7 @@ class _BasicInformationStep extends StatelessWidget {
                 children: [
                   _buildTextField(
                     context,
-                    'MOTHER NAME',
+                    'MOTHER NAME *',
                     controller.motherNameCtrl,
                     Icons.person_outline,
                   ),
@@ -473,13 +537,13 @@ class _BasicInformationStep extends StatelessWidget {
                 children: [
                   _buildTextField(
                     context,
-                    'VILLAGE / MOHALLA',
+                    'VILLAGE / MOHALLA *',
                     controller.villageCtrl,
                     Icons.home_outlined,
                   ),
                   _buildTextField(
                     context,
-                    'TEHSIL',
+                    'TEHSIL *',
                     controller.tehsilCtrl,
                     Icons.location_city_outlined,
                   ),
@@ -490,7 +554,7 @@ class _BasicInformationStep extends StatelessWidget {
                 children: [
                   _buildTextField(
                     context,
-                    'DISTRICT',
+                    'DISTRICT *',
                     controller.districtCtrl,
                     Icons.map_outlined,
                   ),
@@ -522,21 +586,21 @@ class _BasicInformationStep extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 24),
-          _buildFormSection(
-            theme,
-            scheme,
-            'ADDITIONAL NOTES',
-            Icons.note_alt_outlined,
-            [
-              _buildTextField(
-                context,
-                'REMARK / NOTES',
-                controller.remarkCtrl,
-                Icons.note_alt_outlined,
-                maxLines: 3,
-              ),
-            ],
-          ),
+          // _buildFormSection(
+          //   theme,
+          //   scheme,
+          //   'ADDITIONAL NOTES',
+          //   Icons.note_alt_outlined,
+          //   [
+          //     _buildTextField(
+          //       context,
+          //       'REMARK / NOTES',
+          //       controller.remarkCtrl,
+          //       Icons.note_alt_outlined,
+          //       maxLines: 3,
+          //     ),
+          //   ],
+          // ),
           const SizedBox(height: 40),
         ],
       ),
@@ -706,69 +770,6 @@ class _GuardianDetailsStep extends StatelessWidget {
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _ClassAndGroupStep extends StatelessWidget {
-  final StudentListController controller;
-  final bool isMobile;
-  const _ClassAndGroupStep({required this.controller, required this.isMobile});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final scheme = theme.colorScheme;
-
-    return SingleChildScrollView(
-      padding: EdgeInsets.all(isMobile ? 16 : 32),
-      child: Column(
-        children: [
-          _buildFormSection(
-            theme,
-            scheme,
-            'SELECT ACADEMIC GROUP & CLASS',
-            Icons.school_outlined,
-            [
-              _ResponsiveRow(
-                isMobile: isMobile,
-                children: [
-                  Obx(
-                    () => SearchableDropdown<String>(
-                      label: 'GROUP *',
-                      hint: 'Select Group',
-                      value: controller.editGroup.value.isEmpty
-                          ? null
-                          : controller.editGroup.value,
-                      items: controller.groupList
-                          .map(
-                            (e) => SearchableDropdownItem(value: e, label: e),
-                          )
-                          .toList(),
-                      onChanged: (v) => controller.editGroup.value = v ?? '',
-                    ),
-                  ),
-                  Obx(
-                    () => SearchableDropdown<String>(
-                      label: 'CLASS *',
-                      hint: 'Select Class',
-                      value: controller.editClass.value.isEmpty
-                          ? null
-                          : controller.editClass.value,
-                      items: controller.classList
-                          .map(
-                            (e) => SearchableDropdownItem(value: e, label: e),
-                          )
-                          .toList(),
-                      onChanged: (v) => controller.editClass.value = v ?? '',
-                    ),
-                  ),
-                ],
               ),
             ],
           ),
@@ -977,6 +978,89 @@ class _SRNoAndTransportStep extends StatelessWidget {
                   ],
                 ),
               ),
+              Obx(
+                () => Visibility(
+                  visible: controller.availTransport.value,
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 16),
+                      _ResponsiveRow(
+                        isMobile: isMobile,
+                        children: [
+                          Obx(
+                            () => SearchableDropdown<String>(
+                              label: 'SELECT VEHICLE',
+                              hint: 'Select Vehicle',
+                              isLoading: controller.isVehicleLoading.value,
+                              value: controller.selectedVehicle.value.isEmpty
+                                  ? null
+                                  : controller.selectedVehicle.value,
+                              items: controller.vehicleList
+                                  .map(
+                                    (e) => SearchableDropdownItem(
+                                      value: e,
+                                      label: e,
+                                    ),
+                                  )
+                                  .toList(),
+                              onChanged: (v) =>
+                                  controller.selectedVehicle.value = v ?? '',
+                            ),
+                          ),
+                          Obx(
+                            () => SearchableDropdown<String>(
+                              label: 'SELECT ROUTE',
+                              hint: 'Select Route',
+                              isLoading: controller.isRouteLoading.value,
+                              value: controller.selectedRoute.value.isEmpty
+                                  ? null
+                                  : controller.selectedRoute.value,
+                              items: controller.routeList
+                                  .map(
+                                    (e) => SearchableDropdownItem(
+                                      value: e,
+                                      label: e,
+                                    ),
+                                  )
+                                  .toList(),
+                              onChanged: (v) =>
+                                  controller.selectedRoute.value = v ?? '',
+                            ),
+                          ),
+                        ],
+                      ),
+                      _ResponsiveRow(
+                        isMobile: isMobile,
+                        children: [
+                          Obx(
+                            () => SearchableDropdown<String>(
+                              label: 'SELECT PICKUP POINT',
+                              hint: 'Select Pickup Point',
+                              isLoading: controller.isPickupLoading.value,
+                              value:
+                                  controller.selectedPickupPoint.value.isEmpty
+                                  ? null
+                                  : controller.selectedPickupPoint.value,
+                              items: controller.pickupPointList
+                                  .map(
+                                    (e) => SearchableDropdownItem(
+                                      value: e,
+                                      label: e,
+                                    ),
+                                  )
+                                  .toList(),
+                              onChanged: (v) => controller
+                                  .selectedPickupPoint
+                                  .value = v ?? '',
+                            ),
+                          ),
+                          const SizedBox.shrink(),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ],
@@ -1002,6 +1086,7 @@ class _CustomRadioButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
@@ -1010,14 +1095,14 @@ class _CustomRadioButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: isSelected ? color.withValues(alpha: 0.1) : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: isSelected ? color : Colors.grey.shade300),
+          border: Border.all(color: isSelected ? color : scheme.outline),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
               icon,
-              color: isSelected ? color : Colors.grey.shade400,
+              color: isSelected ? color : scheme.outline,
               size: 20,
             ),
             const SizedBox(width: 8),
@@ -1025,7 +1110,7 @@ class _CustomRadioButton extends StatelessWidget {
               label,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: isSelected ? color : Colors.grey.shade600,
+                color: isSelected ? color : scheme.onSurfaceVariant,
               ),
             ),
           ],
@@ -1051,7 +1136,7 @@ class _UploadDocumentsTab extends StatelessWidget {
     final isMobile = MediaQuery.of(context).size.width < 900;
 
     return Obx(() {
-      final requiredDocs = StudentListController.requiredDocuments;
+      final docs = StudentListController.documents;
       final docNames = StudentListController.documentNames;
       final docIcons = StudentListController.documentIcons;
 
@@ -1071,13 +1156,13 @@ class _UploadDocumentsTab extends StatelessWidget {
                     'UPLOAD DOCUMENTS',
                     Icons.cloud_upload_outlined,
                     [
-                      ...requiredDocs.map(
+                      ...docs.map(
                         (docKey) => DocumentUploadTile(
                           docKey: docKey,
                           label: docNames[docKey]!,
                           icon: docIcons[docKey]!,
                           uploadedFile: c.uploadedFiles[docKey],
-                          isRequired: true,
+                          isRequired: false,
                           isUploading: c.uploadProgress[docKey] ?? false,
                           uploadProgress: c.uploadPercent[docKey] ?? 0,
                           onUpload: () => _showImagePicker(context, docKey),
@@ -1133,7 +1218,7 @@ class _UploadDocumentsTab extends StatelessWidget {
                                   ),
                                   title: Text(
                                     docNames[e.key]!,
-                                    style: const TextStyle(fontSize: 12),
+                                    style: theme.textTheme.bodySmall,
                                   ),
                                   trailing: IconButton(
                                     icon: const Icon(
@@ -1262,9 +1347,8 @@ class _BottomActionButton extends StatelessWidget {
                       isLast
                           ? (isMobile ? 'Update' : 'Update Student')
                           : 'SAVE & NEXT',
-                      style: TextStyle(
+                      style: theme.textTheme.labelLarge?.copyWith(
                         fontWeight: FontWeight.bold,
-                        fontSize: isMobile ? 14 : 16,
                         color: Colors.white,
                       ),
                     ),
@@ -1301,41 +1385,8 @@ class _AadhaarFormatter extends TextInputFormatter {
     StringBuffer buffer = StringBuffer();
     for (int i = 0; i < text.length; i++) {
       buffer.write(text[i]);
-      if ((i + 1) % 4 == 0 && (i + 1) != 12) {
+      if ((i + 1) % 4 == 0 && (i + 1) != 12 && (i + 1) < text.length) {
         buffer.write(' ');
-      }
-    }
-
-    String formatted = buffer.toString();
-    return newValue.copyWith(
-      text: formatted,
-      selection: TextSelection.collapsed(offset: formatted.length),
-      composing: TextRange.empty,
-    );
-  }
-}
-
-class _PanCardFormatter extends TextInputFormatter {
-  @override
-  TextEditingValue formatEditUpdate(
-    TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
-    String text = newValue.text.toUpperCase();
-    if (text.length > 10) text = text.substring(0, 10);
-
-    StringBuffer buffer = StringBuffer();
-    for (int i = 0; i < text.length; i++) {
-      if (i < 5 || i == 9) {
-        // Must be letter
-        if (RegExp(r'[A-Z]').hasMatch(text[i])) {
-          buffer.write(text[i]);
-        }
-      } else {
-        // Must be digit
-        if (RegExp(r'[0-9]').hasMatch(text[i])) {
-          buffer.write(text[i]);
-        }
       }
     }
 
@@ -1422,19 +1473,34 @@ Widget _buildTextField(
   String label,
   TextEditingController controller,
   IconData icon, {
+  FocusNode? focusNode,
+  FocusNode? nextFocusNode,
   TextInputType? keyboardType,
   int maxLines = 1,
   bool readOnly = false,
   VoidCallback? onTap,
   List<TextInputFormatter>? inputFormatters,
 }) {
+  // Add UpperCaseTextFormatter to all text fields
+  final formatters = <TextInputFormatter>[
+    UpperCaseTextFormatter(),
+    ...?inputFormatters,
+  ];
+  
   return TextFormField(
     controller: controller,
+    focusNode: focusNode,
     keyboardType: keyboardType,
     maxLines: maxLines,
     readOnly: readOnly,
     onTap: onTap,
-    inputFormatters: inputFormatters,
+    inputFormatters: formatters,
+    textInputAction: nextFocusNode != null
+        ? TextInputAction.next
+        : TextInputAction.done,
+    onFieldSubmitted: nextFocusNode != null
+        ? (_) => nextFocusNode.requestFocus()
+        : null,
     decoration: _getInputDecoration(context, label, icon),
   );
 }
@@ -1473,3 +1539,18 @@ class _ResponsiveRow extends StatelessWidget {
     );
   }
 }
+
+/// Text input formatter that converts all input to uppercase
+class UpperCaseTextFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    return TextEditingValue(
+      text: newValue.text.toUpperCase(),
+      selection: newValue.selection,
+    );
+  }
+}
+

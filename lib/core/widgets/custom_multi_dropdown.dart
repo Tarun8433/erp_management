@@ -120,127 +120,158 @@ class CustomMultiDropdown<T> extends StatelessWidget {
   }
 
   void _showMultiSelectBottomSheet(BuildContext context) {
-    final theme = Theme.of(context);
-    final selectedSet = Set<T>.from(selectedValues);
-    final searchCtrl = TextEditingController();
-    final allItems = items;
-    var filtered = allItems;
-
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (context) {
-        return StatefulBuilder(
-          builder: (context, setState) {
-            return DraggableScrollableSheet(
-              initialChildSize: 0.5,
-              minChildSize: 0.3,
-              maxChildSize: 0.9,
-              expand: false,
-              builder: (context, scrollController) {
-                return Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Select $label',
-                            style: theme.textTheme.titleLarge,
-                          ),
-                          TextButton(
+      builder: (context) => _MultiSelectSheet<T>(
+        label: label,
+        items: items,
+        initialSelected: selectedValues,
+        enableSearch: enableSearch,
+        searchHint: searchHint,
+        onDone: onChanged,
+      ),
+    );
+  }
+}
+
+/// Stateful body for the multi-select bottom sheet. Owning the search
+/// controller here (and disposing it in [dispose]) avoids the
+/// "used after being disposed" crash that arises when a controller created
+/// alongside `showModalBottomSheet` is disposed while the sheet is still
+/// animating out.
+class _MultiSelectSheet<T> extends StatefulWidget {
+  final String label;
+  final List<DropdownMenuItem<T>> items;
+  final List<T> initialSelected;
+  final bool enableSearch;
+  final String searchHint;
+  final ValueChanged<List<T>> onDone;
+
+  const _MultiSelectSheet({
+    super.key,
+    required this.label,
+    required this.items,
+    required this.initialSelected,
+    required this.enableSearch,
+    required this.searchHint,
+    required this.onDone,
+  });
+
+  @override
+  State<_MultiSelectSheet<T>> createState() => _MultiSelectSheetState<T>();
+}
+
+class _MultiSelectSheetState<T> extends State<_MultiSelectSheet<T>> {
+  late final Set<T> _selected = Set<T>.from(widget.initialSelected);
+  final TextEditingController _searchCtrl = TextEditingController();
+  late List<DropdownMenuItem<T>> _filtered = widget.items;
+
+  @override
+  void dispose() {
+    _searchCtrl.dispose();
+    super.dispose();
+  }
+
+  void _onSearch(String q) {
+    final query = q.trim().toLowerCase();
+    setState(() {
+      _filtered = query.isEmpty
+          ? widget.items
+          : widget.items.where((it) {
+              final child = it.child;
+              final labelText =
+                  child is Text ? (child.data ?? '') : child.toString();
+              return labelText.toLowerCase().contains(query);
+            }).toList();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return DraggableScrollableSheet(
+      initialChildSize: 0.5,
+      minChildSize: 0.3,
+      maxChildSize: 0.9,
+      expand: false,
+      builder: (context, scrollController) {
+        return Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Select ${widget.label}',
+                      style: theme.textTheme.titleLarge),
+                  TextButton(
+                    onPressed: () {
+                      widget.onDone(_selected.toList());
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Done'),
+                  ),
+                ],
+              ),
+            ),
+            if (widget.enableSearch)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                child: TextField(
+                  controller: _searchCtrl,
+                  decoration: InputDecoration(
+                    hintText: widget.searchHint,
+                    prefixIcon: const Icon(Icons.search, size: 20),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    isDense: true,
+                    suffixIcon: _searchCtrl.text.isNotEmpty
+                        ? IconButton(
+                            icon: const Icon(Icons.clear, size: 18),
                             onPressed: () {
-                              onChanged(selectedSet.toList());
-                              Navigator.pop(context);
+                              _searchCtrl.clear();
+                              _onSearch('');
                             },
-                            child: const Text('Done'),
-                          ),
-                        ],
-                      ),
-                    ),
-                    if (enableSearch)
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-                        child: TextField(
-                          controller: searchCtrl,
-                          decoration: InputDecoration(
-                            hintText: searchHint,
-                            prefixIcon: const Icon(Icons.search, size: 20),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            isDense: true,
-                            suffixIcon: searchCtrl.text.isNotEmpty
-                                ? IconButton(
-                                    icon: const Icon(Icons.clear, size: 18),
-                                    onPressed: () {
-                                      searchCtrl.clear();
-                                      setState(() => filtered = allItems);
-                                    },
-                                  )
-                                : null,
-                          ),
-                          onChanged: (q) {
-                            final query = q.trim().toLowerCase();
-                            setState(() {
-                              filtered = query.isEmpty
-                                  ? allItems
-                                  : allItems.where((it) {
-                                      final child = it.child;
-                                      final labelText =
-                                          child is Text
-                                              ? (child.data ?? '')
-                                              : child.toString();
-                                      return labelText
-                                          .toLowerCase()
-                                          .contains(query);
-                                    }).toList();
-                            });
-                          },
-                        ),
-                      ),
-                    const Divider(height: 1),
-                    Expanded(
-                      child: ListView.builder(
-                        controller: scrollController,
-                        itemCount: filtered.length,
-                        itemBuilder: (context, index) {
-                          final item = filtered[index];
-                          final isSelected = selectedSet.contains(item.value);
-                          
-                          return CheckboxListTile(
-                            value: isSelected,
-                            title: item.child,
-                            onChanged: (bool? value) {
-                              setState(() {
-                                if (value == true) {
-                                  final v = item.value;
-                                  if (v != null) selectedSet.add(v);
-                                } else {
-                                  selectedSet.remove(item.value);
-                                }
-                              });
-                            },
-                            activeColor: theme.colorScheme.primary,
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                );
-              },
-            );
-          },
+                          )
+                        : null,
+                  ),
+                  onChanged: _onSearch,
+                ),
+              ),
+            const Divider(height: 1),
+            Expanded(
+              child: ListView.builder(
+                controller: scrollController,
+                itemCount: _filtered.length,
+                itemBuilder: (context, index) {
+                  final item = _filtered[index];
+                  final isSelected = _selected.contains(item.value);
+                  return CheckboxListTile(
+                    value: isSelected,
+                    title: item.child,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        final v = item.value;
+                        if (value == true) {
+                          if (v != null) _selected.add(v);
+                        } else {
+                          _selected.remove(item.value);
+                        }
+                      });
+                    },
+                    activeColor: theme.colorScheme.primary,
+                  );
+                },
+              ),
+            ),
+          ],
         );
       },
-    ).then((_) {
-      searchCtrl.dispose();
-      // Ensure the change is propagated if dismissed without clicking Done (optional)
-      // onChanged(selectedSet.toList());
-    });
+    );
   }
 }

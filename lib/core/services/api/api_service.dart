@@ -34,8 +34,8 @@ class ApiService {
           (e.osError?.errorCode == 8) ||
           e.message.toLowerCase().contains('failed host lookup');
       if (isDns) {
-        return Exception(
-          'Network error: cannot resolve ${uri.host}. Check internet/VPN/DNS.',
+        return Exception("No Internet"
+          //'Network error: cannot resolve ${uri.host}. Check internet/VPN/DNS.',
         );
       }
       return Exception('Network error: ${e.message}');
@@ -115,11 +115,7 @@ class ApiService {
       headers['Year'] = financialYear.code!;
       headers['year'] = financialYear.code!;
     }
-    final logHeaders = Map<String, String>.from(headers);
-    if (logHeaders.containsKey('Authorization')) {
-      logHeaders['Authorization'] = '***';
-    }
-    log('ApiService: _getCommonHeaders - ${jsonEncode(logHeaders)}');
+    log('TOKEN: $token');
     return headers;
   }
 
@@ -246,7 +242,7 @@ class ApiService {
     final res = await _client
         .post(uri, headers: finalHeaders, body: jsonEncode({}))
         .timeout(const Duration(seconds: 15));
-    debugPrint("postJson: ${res.statusCode} - ${res.body}");
+    debugPrint("postJsonWithoutBody: uri: $uri:=>: ${res.statusCode} - ${res.body}");
     if ((res.statusCode >= 200 && res.statusCode < 300) ||
         (res.statusCode >= 400 && res.statusCode < 500) ||
         res.statusCode == 500) {
@@ -460,50 +456,82 @@ class ApiService {
     throw Exception('HTTP ${res.statusCode}');
   }
 
-  Future<dynamic> postMultipartnew(
-  Uri endpoint,
-  Map<String, dynamic> fields,
-) async {
-  try {
-    final uri =  endpoint;
-    final request = http.MultipartRequest('POST', uri);
-    
-    // Add headers
-    final token = await StorageHelper.getToken();
-    request.headers.addAll({
-      'Authorization': 'Bearer $token',
-      'Accept': 'application/json',
-    });
-    
-    // Add fields
-    for (final entry in fields.entries) {
-      final key = entry.key;
-      final value = entry.value;
-      
-      if (value is File) {
-        final multipartFile = await http.MultipartFile.fromPath(
-          key,
-          value.path,
-        );
-        request.files.add(multipartFile);
-      } else {
-        request.fields[key] = value.toString();
+  Future<dynamic> postJsonList(
+    Uri uri,
+    List<dynamic> body, {
+    Map<String, String>? headers,
+  }) async {
+    log("postJsonList: $uri, ${jsonEncode(body)}");
+
+    final finalHeaders = await _getCommonHeaders();
+    if (headers != null) {
+      finalHeaders.addAll(headers);
+    }
+
+    http.Response res;
+    try {
+      res = await _client
+          .post(uri, headers: finalHeaders, body: jsonEncode(body))
+          .timeout(const Duration(seconds: 30));
+    } catch (e) {
+      throw _mapNetworkException(e, uri);
+    }
+    log("postJsonList: uri: $uri:=> ${res.statusCode} - ${res.body}");
+
+    if ((res.statusCode >= 200 && res.statusCode < 300) ||
+        (res.statusCode >= 400 && res.statusCode < 500) ||
+        res.statusCode == 500) {
+      try {
+        final decoded = jsonDecode(res.body);
+        await _checkTokenExpiration(decoded);
+        return decoded;
+      } catch (e) {
+        if (res.statusCode >= 200 && res.statusCode < 300) {
+          rethrow;
+        }
       }
     }
-    
-    final streamedResponse = await request.send();
-    final response = await http.Response.fromStream(streamedResponse);
-    
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      return jsonDecode(response.body);
-    } else {
-      return {
-        'status': 'error',
-        'message': 'Upload failed with status: ${response.statusCode}'
-      };
+
+    throw Exception('HTTP ${res.statusCode}');
+  }
+
+  Future<dynamic> postMultipartnew(
+    Uri endpoint,
+    Map<String, dynamic> fields,
+  ) async {
+    final request = http.MultipartRequest('POST', endpoint);
+
+    final commonHeaders = await _getCommonHeaders();
+    commonHeaders.removeWhere((k, v) => k.toLowerCase() == 'content-type');
+    request.headers.addAll(commonHeaders);
+
+    for (final entry in fields.entries) {
+      if (entry.value is File) {
+        request.files.add(
+          await http.MultipartFile.fromPath(entry.key, entry.value.path),
+        );
+      } else {
+        request.fields[entry.key] = entry.value.toString();
+      }
     }
-  } catch (e) {
-    return {'status': 'error', 'message': e.toString()};
+
+    log('postMultipartnew: $endpoint fields=${request.fields.keys.toList()} files=${request.files.map((f) => f.field).toList()}');
+    final streamedResponse = await request.send().timeout(const Duration(seconds: 60));
+    final response = await http.Response.fromStream(streamedResponse);
+    log('postMultipartnew response: ${response.statusCode} - ${response.body}');
+
+    if ((response.statusCode >= 200 && response.statusCode < 300) ||
+        (response.statusCode >= 400 && response.statusCode < 500) ||
+        response.statusCode == 500) {
+      try {
+        final decoded = jsonDecode(response.body);
+        await _checkTokenExpiration(decoded);
+        return decoded;
+      } catch (e) {
+        if (response.statusCode >= 200 && response.statusCode < 300) rethrow;
+      }
+    }
+    throw Exception('HTTP ${response.statusCode}: ${response.body}');
   }
 }
-}
+

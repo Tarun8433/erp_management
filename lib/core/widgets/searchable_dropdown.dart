@@ -13,6 +13,7 @@ class SearchableDropdown<T> extends StatelessWidget {
   final bool isLoading;
   final List<SearchableDropdownItem<T>> items;
   final ValueChanged<T?> onChanged;
+  final bool enabled;
 
   const SearchableDropdown({
     super.key,
@@ -22,6 +23,7 @@ class SearchableDropdown<T> extends StatelessWidget {
     required this.items,
     required this.onChanged,
     this.isLoading = false,
+    this.enabled = true,
   });
 
   String get _selectedLabel {
@@ -34,6 +36,7 @@ class SearchableDropdown<T> extends StatelessWidget {
   }
 
   Future<void> _open(BuildContext context) async {
+    FocusManager.instance.primaryFocus?.unfocus();
     final selected = await showModalBottomSheet<T>(
       context: context,
       isScrollControlled: true,
@@ -50,11 +53,12 @@ class SearchableDropdown<T> extends StatelessWidget {
     final selected = _selectedLabel;
 
     return InkWell(
-      onTap: isLoading ? null : () => _open(context),
+      onTap: (!enabled || isLoading) ? null : () => _open(context),
       borderRadius: BorderRadius.circular(8),
       child: InputDecorator(
         decoration: InputDecoration(
           labelText: label,
+          enabled: enabled,
           border: InputBorder.none,
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -67,15 +71,20 @@ class SearchableDropdown<T> extends StatelessWidget {
                     child: CircularProgressIndicator(strokeWidth: 2),
                   ),
                 )
-              : const Icon(Icons.arrow_drop_down),
+              : Icon(
+                  enabled ? Icons.arrow_drop_down : Icons.lock_outline,
+                  size: enabled ? 24 : 18,
+                ),
         ),
         child: Text(
           selected.isEmpty ? hint : selected,
           overflow: TextOverflow.ellipsis,
           style: theme.textTheme.bodyMedium?.copyWith(
-            color: selected.isEmpty
-                ? scheme.onSurfaceVariant
-                : scheme.onSurface,
+            color: !enabled
+                ? scheme.onSurfaceVariant.withValues(alpha: 0.5)
+                : (selected.isEmpty
+                    ? scheme.onSurfaceVariant
+                    : scheme.onSurface),
           ),
         ),
       ),
@@ -136,9 +145,14 @@ class _SearchSheetState<T> extends State<_SearchSheet<T>> {
           color: scheme.surface,
           borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
         ),
-        child: Column(
-          children: [
-            const SizedBox(height: 8),
+        // Give the ListTiles a Material ancestor *inside* the coloured
+        // container so their ink splashes/background paint above it (otherwise
+        // the DecoratedBox hides them and Flutter throws an assertion).
+        child: Material(
+          type: MaterialType.transparency,
+          child: Column(
+            children: [
+              const SizedBox(height: 8),
             Container(
               width: 36,
               height: 4,
@@ -201,6 +215,7 @@ class _SearchSheetState<T> extends State<_SearchSheet<T>> {
                 ),
               ),
           ],
+          ),
         ),
       ),
     );

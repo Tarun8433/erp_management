@@ -10,6 +10,7 @@ extension UserRoleX on UserRole {
       case 'branchadmin':
         return UserRole.principal;
       case 'teacher':
+      case 'employee':
         return UserRole.teacher;
       case 'driver':
         return UserRole.driver;

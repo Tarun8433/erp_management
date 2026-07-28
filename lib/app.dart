@@ -4,6 +4,7 @@ import 'core/theme/app_theme.dart';
 import 'routes/app_pages.dart';
 import 'core/localization/app_translations.dart';
 import 'core/bindings/initial_binding.dart';
+import 'core/widgets/app_updater.dart';
 
 class MyApp extends StatelessWidget {
   final Locale? initialLocale;
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
           bottom: true,
           right: false,
           left: false,
-          child: child ?? const SizedBox.shrink(),
+          child: AppUpdater(child: child ?? const SizedBox.shrink()),
         );
       },
     );

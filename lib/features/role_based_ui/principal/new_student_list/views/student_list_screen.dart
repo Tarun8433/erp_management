@@ -1,4 +1,4 @@
-import 'package:erp_management/core/widgets/searchable_dropdown.dart';
+import 'package:erp_management/core/constants/app_colors.dart';
 import 'package:erp_management/features/role_based_ui/principal/new_student_list/controllers/student_list_controller.dart';
 import 'package:erp_management/features/role_based_ui/principal/new_student_list/views/edit_student_screen.dart';
 import 'package:erp_management/features/role_based_ui/principal/new_student_list/views/student_details_screen.dart';
@@ -29,6 +29,16 @@ class StudentListScreen extends StatelessWidget {
             onPressed: () => Get.back(),
           ),
           actions: [
+            IconButton(
+              icon: const Icon(Icons.text_decrease),
+              onPressed: () => c.updateFontSize(-1),
+              tooltip: 'Decrease Font Size',
+            ),
+            IconButton(
+              icon: const Icon(Icons.text_increase),
+              onPressed: () => c.updateFontSize(1),
+              tooltip: 'Increase Font Size',
+            ),
             Obx(
               () => IconButton(
                 icon: Icon(
@@ -67,8 +77,6 @@ class StudentListScreen extends StatelessWidget {
   }
 
   Widget _buildFilterBar(BuildContext context, StudentListController c) {
-    final size = MediaQuery.of(context).size;
-    final isMobile = size.width < 900;
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
 
@@ -144,30 +152,30 @@ class StudentListScreen extends StatelessWidget {
                     () => c.searchStudents(),
                     tooltip: 'Search',
                   ),
-                  const SizedBox(width: 8),
-                  _buildActionBarButton(
-                    context,
-                    Icons.grid_on_rounded,
-                    Colors.orange.shade700,
-                    () {},
-                    tooltip: 'Export Excel',
-                  ),
-                  const SizedBox(width: 8),
-                  _buildActionBarButton(
-                    context,
-                    Icons.copy_rounded,
-                    Colors.teal.shade700,
-                    () {},
-                    tooltip: 'Copy',
-                  ),
-                  const SizedBox(width: 8),
-                  _buildActionBarButton(
-                    context,
-                    Icons.delete_sweep_rounded,
-                    Colors.red.shade700,
-                    () {},
-                    tooltip: 'Clear',
-                  ),
+                  // const SizedBox(width: 8),
+                  // _buildActionBarButton(
+                  //   context,
+                  //   Icons.grid_on_rounded,
+                  //   Colors.orange.shade700,
+                  //   () {},
+                  //   tooltip: 'Export Excel',
+                  // ),
+                  // const SizedBox(width: 8),
+                  // _buildActionBarButton(
+                  //   context,
+                  //   Icons.copy_rounded,
+                  //   Colors.teal.shade700,
+                  //   () {},
+                  //   tooltip: 'Copy',
+                  // ),
+                  // const SizedBox(width: 8),
+                  // _buildActionBarButton(
+                  //   context,
+                  //   Icons.delete_sweep_rounded,
+                  //   Colors.red.shade700,
+                  //   () {},
+                  //   tooltip: 'Clear',
+                  // ),
                 ],
               ),
             ],
@@ -231,22 +239,30 @@ class StudentListScreen extends StatelessWidget {
         const SizedBox(height: 4),
         Obx(
           () => Container(
+            width: double.infinity,
             height: 46,
             padding: const EdgeInsets.symmetric(horizontal: 12),
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey.shade300),
+              border: Border.all(color: Theme.of(context).dividerColor),
               borderRadius: BorderRadius.circular(8),
             ),
             child: DropdownButtonHideUnderline(
               child: DropdownButton<String>(
-                value: value.value.isEmpty
-                    ? (items.isNotEmpty ? items[0] : null)
-                    : value.value,
+                isExpanded: true,
+                value: value.value.isEmpty ? null : value.value,
+                hint: Text(
+                  'Select',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
                 items: items
                     .map(
                       (e) => DropdownMenuItem(
                         value: e,
-                        child: Text(e, style: const TextStyle(fontSize: 13)),
+                        child: Text(
+                          e,
+                          style: Theme.of(context).textTheme.bodySmall,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                     )
                     .toList(),
@@ -271,12 +287,17 @@ class StudentListScreen extends StatelessWidget {
             color: scheme.primary.withValues(alpha: 0.1),
           ),
           const SizedBox(height: 16),
-          const Text(
+          Text(
             'No records found',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 4),
-          const Text('Select filters and click search to load students'),
+          Text(
+            'Select filters and click search to load students',
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
         ],
       ),
     );
@@ -289,14 +310,15 @@ class _StudentTableView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
 
     return Obx(() {
       final fontSize = controller.baseFontSize.value;
       final headerStyle = TextStyle(
         fontSize: fontSize,
         fontWeight: FontWeight.bold,
-        color: Colors.white,
+        color: scheme.onPrimary,
       );
       final cellStyle = TextStyle(fontSize: fontSize);
 
@@ -309,7 +331,7 @@ class _StudentTableView extends StatelessWidget {
             ),
             dataRowMaxHeight: 60,
             columnSpacing: 24,
-            border: TableBorder.all(color: Colors.grey.shade200, width: 0.5),
+            border: TableBorder.all(color: theme.dividerColor, width: 0.5),
             columns: [
               DataColumn(label: Text('S.No.', style: headerStyle)),
               DataColumn(label: Text('Action', style: headerStyle)),
@@ -409,7 +431,17 @@ class _StudentTableView extends StatelessWidget {
                   DataCell(
                     CircleAvatar(
                       radius: 18,
-                      backgroundImage: NetworkImage(student.photoUrl),
+                      backgroundColor: scheme.surfaceContainerHighest,
+                      backgroundImage: student.photoUrl.startsWith('http')
+                          ? NetworkImage(student.photoUrl)
+                          : null,
+                      child: student.photoUrl.startsWith('http')
+                          ? null
+                          : Icon(
+                              Icons.person_rounded,
+                              size: 18,
+                              color: scheme.onSurfaceVariant,
+                            ),
                     ),
                   ),
                   DataCell(
@@ -447,156 +479,316 @@ class _StudentCardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-
     return Obx(() {
       final fontSize = controller.baseFontSize.value;
 
-      return ListView.builder(
+      return ListView.separated(
         padding: const EdgeInsets.all(16),
         itemCount: controller.filteredStudents.length,
+        separatorBuilder: (_, __) => const SizedBox(height: 16),
         itemBuilder: (context, index) {
           final student = controller.filteredStudents[index];
-          return Card(
-            elevation: 0,
-            margin: const EdgeInsets.only(bottom: 12),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-              side: BorderSide(color: Colors.grey.shade200),
-            ),
-            child: InkWell(
-              onTap: () => Get.to(() => StudentDetailsScreen(student: student)),
-              borderRadius: BorderRadius.circular(16),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 26,
-                          backgroundImage: NetworkImage(student.photoUrl),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                student.name,
-                                style: TextStyle(
-                                  fontSize: fontSize + 2,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Text(
-                                'SID: ${student.sid} | SR No: ${student.srNo}',
-                                style: TextStyle(
-                                  fontSize: fontSize - 2,
-                                  color: scheme.onSurfaceVariant,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 4,
-                          ),
-                          decoration: BoxDecoration(
-                            color: student.status == 'Active'
-                                ? Colors.green.shade50
-                                : Colors.red.shade50,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Text(
-                            student.status,
-                            style: TextStyle(
-                              fontSize: fontSize - 2,
-                              color: student.status == 'Active'
-                                  ? Colors.green
-                                  : Colors.red,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const Divider(height: 24),
-                    _buildCardRow(
-                      'Parents',
-                      '${student.fatherName} / ${student.motherName}',
-                      fontSize,
-                    ),
-                    _buildCardRow(
-                      'Class/Group',
-                      '${student.className} - ${student.group}',
-                      fontSize,
-                    ),
-                    _buildCardRow('Mobile', student.phone, fontSize),
-                    _buildCardRow('Aadhaar', student.aadhaar, fontSize),
-                    _buildCardRow('Religion', student.religion, fontSize),
-                    _buildCardRow('Category', student.category, fontSize),
-                    const SizedBox(height: 12),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        IconButton(
-                          icon: const Icon(
-                            Icons.edit,
-                            size: 20,
-                            color: Colors.blue,
-                          ),
-                          onPressed: () {
-                            controller.prepareEdit(student);
-                            Get.to(() => const EditStudentScreen());
-                          },
-                        ),
-                        const SizedBox(width: 8),
-                        ElevatedButton(
-                          onPressed: () => Get.to(
-                            () => StudentDetailsScreen(student: student),
-                          ),
-                          child: const Text('View Details'),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
+          return _StudentProfileCard(
+            student: student,
+            controller: controller,
+            fontSize: fontSize,
           );
         },
       );
     });
   }
+}
 
-  Widget _buildCardRow(String label, String value, double fontSize) {
+class _StudentProfileCard extends StatelessWidget {
+  final Student student;
+  final StudentListController controller;
+  final double fontSize;
+
+  const _StudentProfileCard({
+    required this.student,
+    required this.controller,
+    required this.fontSize,
+  });
+
+  bool get _isActive => student.status == 'Active';
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: scheme.surface,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: theme.dividerColor),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 16,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+        child: Column(
+          children: [
+            _buildHeader(context, scheme),
+            const SizedBox(height: 12),
+            Text(
+              student.name.isEmpty ? 'Unknown' : student.name.toUpperCase(),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: fontSize + 6,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 0.3,
+                color: scheme.onSurface,
+              ),
+            ),
+            Divider(height: 24, color: theme.dividerColor),
+            _buildDetails(context, scheme),
+            const SizedBox(height: 16),
+            _buildViewDetailsButton(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHeader(BuildContext context, ColorScheme scheme) {
+    return SizedBox(
+      height: 96,
+      child: Stack(
+        children: [
+          // SID + Gender (top-left)
+          Align(
+            alignment: Alignment.topLeft,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'SID: ${student.sid.isEmpty ? '—' : student.sid}',
+                  style: TextStyle(
+                    fontSize: fontSize,
+                    fontWeight: FontWeight.bold,
+                    color: scheme.onSurface,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  student.gender.isEmpty ? '—' : student.gender,
+                  style: TextStyle(
+                    fontSize: fontSize - 1,
+                    color: scheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // Status badge (top-right)
+          Align(
+            alignment: Alignment.topRight,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+              decoration: BoxDecoration(
+                color: _isActive ? Colors.green.shade50 : Colors.red.shade50,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: _isActive
+                      ? Colors.green.shade200
+                      : Colors.red.shade200,
+                ),
+              ),
+              child: Text(
+                student.status,
+                style: TextStyle(
+                  fontSize: fontSize - 1,
+                  color: _isActive ? Colors.green.shade700 : Colors.red.shade700,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+          // Avatar + update-photo button (centered)
+          Align(
+            alignment: Alignment.topCenter,
+            child: _buildAvatar(context, scheme),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAvatar(BuildContext context, ColorScheme scheme) {
+    return Obx(() {
+      final localPhoto = controller.updatedPhotos[student.id];
+      final hasNetwork = student.photoUrl.startsWith('http');
+      final ImageProvider? image = localPhoto != null
+          ? FileImage(localPhoto)
+          : (hasNetwork ? NetworkImage(student.photoUrl) : null);
+
+      return SizedBox(
+        width: 92,
+        height: 92,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Container(
+              width: 88,
+              height: 88,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: scheme.primary, width: 2),
+              ),
+              child: CircleAvatar(
+                radius: 42,
+                backgroundColor: scheme.surfaceContainerHighest,
+                backgroundImage: image,
+                onBackgroundImageError: image != null ? (_, __) {} : null,
+                child: image == null
+                    ? Icon(
+                        Icons.person_rounded,
+                        size: 40,
+                        color: scheme.onSurfaceVariant,
+                      )
+                    : null,
+              ),
+            ),
+            // Update photo button
+            Positioned(
+              right: -2,
+              top: -2,
+              child: GestureDetector(
+                onTap: () => controller.updatePhoto(context, student),
+                child: Tooltip(
+                  message: 'Update Photo',
+                  child: Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      color: scheme.primary,
+                      shape: BoxShape.circle,
+                      border: Border.all(color: scheme.surface, width: 2),
+                    ),
+                    child: Icon(
+                      Icons.camera_alt_rounded,
+                      size: 15,
+                      color: scheme.onPrimary,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    });
+  }
+
+  Widget _buildDetails(BuildContext context, ColorScheme scheme) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Parent row with an inline edit pencil for quick editing.
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: _row(
+                'PARENT',
+                'Mr. ${student.fatherName.isEmpty ? '—' : student.fatherName}'
+                    '   Mrs. ${student.motherName.isEmpty ? '—' : student.motherName}',
+                scheme,
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                controller.prepareEdit(student);
+                Get.to(() => const EditStudentScreen());
+              },
+              borderRadius: BorderRadius.circular(8),
+              child: Container(
+                padding: const EdgeInsets.all(6),
+                decoration: BoxDecoration(
+                  color: scheme.primary.withValues(alpha: 0.08),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(
+                  Icons.edit_outlined,
+                  size: fontSize + 4,
+                  color: scheme.primary,
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        _row('CLASS', '${student.className} - ${student.group}', scheme),
+        _row('MOBILE', student.phone, scheme),
+        _row('VILLAGE', student.village, scheme),
+        _row('TEHSIL', student.tehsil, scheme),
+        _row('DISTRICT', student.district, scheme),
+        _row('STATE', student.state, scheme),
+        _row('PIN CODE', student.pinCode, scheme),
+      ],
+    );
+  }
+
+  Widget _row(String label, String value, ColorScheme scheme) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            width: 100,
+            width: 96,
             child: Text(
               label,
               style: TextStyle(
                 fontSize: fontSize - 1,
-                color: Colors.grey.shade600,
+                fontWeight: FontWeight.w600,
+                color: scheme.onSurfaceVariant,
               ),
             ),
           ),
+          const SizedBox(width: 8),
           Expanded(
             child: Text(
-              value,
+              value.trim().isEmpty ? '—' : value,
               style: TextStyle(
-                fontSize: fontSize - 1,
+                fontSize: fontSize,
                 fontWeight: FontWeight.w500,
+                color: scheme.onSurface,
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildViewDetailsButton() {
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton.icon(
+        onPressed: () => Get.to(() => StudentDetailsScreen(student: student)),
+        icon: Icon(Icons.visibility_outlined, size: fontSize + 4),
+        label: Text(
+          'View Details',
+          style: TextStyle(
+            fontSize: fontSize + 2,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.primary,
+          foregroundColor: Colors.white,
+          elevation: 0,
+          padding: const EdgeInsets.symmetric(vertical: 14),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
       ),
     );
   }

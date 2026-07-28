@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 class SubjectGrade {
   final String subject;
   final int percent;
-
   const SubjectGrade(this.subject, this.percent);
 }
 
@@ -12,7 +11,6 @@ class TeacherRemark {
   final String subjectLabel;
   final String remark;
   final String date;
-
   const TeacherRemark({
     required this.teacher,
     required this.subjectLabel,
@@ -25,21 +23,40 @@ class ParentDashboardController extends GetxController {
   final RxBool isLoading = false.obs;
   final RxString errorMessage = ''.obs;
 
-  final RxString childName = "Aiden's Progress".obs;
-  final RxString childGrade = 'Grade 4 - Section B'.obs;
+  // Parent / Child identity
+  final RxString parentName = 'Parent'.obs;
+  final RxString childName = 'Aiden Smith'.obs;
+  final RxString childGrade = 'Grade 4 — Section B'.obs;
+  final RxString childAvatarText = 'A'.obs;
+
+  // Attendance
   final RxString attendanceStatus = 'Present'.obs;
   final RxString attendancePercent = '98%'.obs;
   final RxString attendanceCheckIn = 'Checked in at 08:15 AM'.obs;
-  final RxString feeAmount = r'$450.00'.obs;
+  final RxInt totalDays = 120.obs;
+  final RxInt presentDays = 117.obs;
+
+  // Fees
+  final RxString pendingFeeAmount = '₹4,500'.obs;
   final RxString feeDueLabel = 'Due in 3 days'.obs;
-  final RxString nextExamSubject = 'Mathematics'.obs;
-  final RxString nextExamMeta = 'Oct 24 - Period 2 - 5 Topics covered'.obs;
-  final RxString midTermGrade = 'A-'.obs;
+  final RxBool hasPendingFee = true.obs;
+
+  // Homework
+  final RxString nextHomeworkSubject = 'Mathematics'.obs;
+  final RxString nextHomeworkDue = 'Due Tomorrow'.obs;
+
+  // Exam
+  final RxString nextExamSubject = 'Science'.obs;
+  final RxString nextExamMeta = 'Oct 24 · Period 2'.obs;
+
+  // Result
+  final RxString midTermGrade = 'A−'.obs;
 
   final RxList<SubjectGrade> subjects = <SubjectGrade>[
     const SubjectGrade('Science', 92),
     const SubjectGrade('Literature', 85),
     const SubjectGrade('History', 78),
+    const SubjectGrade('Maths', 88),
   ].obs;
 
   final RxList<TeacherRemark> remarks = <TeacherRemark>[
@@ -47,7 +64,7 @@ class ParentDashboardController extends GetxController {
       teacher: 'Ms. Sarah Jenkins',
       subjectLabel: 'SCIENCE TEACHER',
       remark:
-          'Aiden showed exceptional curiosity during today\'s lab session. His understanding of photosynthesis is impressive. Keep up the great work!',
+          'Aiden showed exceptional curiosity during the lab session. Keep up the great work!',
       date: 'Oct 18',
     ),
   ].obs;

@@ -88,25 +88,25 @@ class DocumentUploadTile extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          if (!isRequired)
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 3,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.grey.withValues(alpha: 0.15),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Text(
-                                'Optional',
-                                style: theme.textTheme.bodySmall?.copyWith(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.grey[600],
-                                ),
-                              ),
-                            ),
+                          // if (!isRequired)
+                          //   Container(
+                          //     padding: const EdgeInsets.symmetric(
+                          //       horizontal: 8,
+                          //       vertical: 3,
+                          //     ),
+                          //     decoration: BoxDecoration(
+                          //       color: Colors.grey.withValues(alpha: 0.15),
+                          //       borderRadius: BorderRadius.circular(12),
+                          //     ),
+                          //     child: Text(
+                          //       'Optional',
+                          //       style: theme.textTheme.bodySmall?.copyWith(
+                          //         fontSize: 10,
+                          //         fontWeight: FontWeight.w600,
+                          //         color: Colors.grey[600],
+                          //       ),
+                          //     ),
+                          //   ),
                         ],
                       ),
                       const SizedBox(height: 6),

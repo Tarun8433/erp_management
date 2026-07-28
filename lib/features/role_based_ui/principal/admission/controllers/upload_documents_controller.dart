@@ -14,8 +14,9 @@ class UploadDocumentsController extends GetxController {
   final RxMap<String, double> uploadPercent = <String, double>{}.obs;
   final RxBool isSubmitting = false.obs;
 
-  // Document keys
-  static const List<String> requiredDocuments = [
+  // Document keys. Every document is optional — submission is never blocked
+  // on a missing upload.
+  static const List<String> documents = [
     'student_photo',
     'student_aadhar_front',
     'student_aadhar_back',
@@ -23,9 +24,6 @@ class UploadDocumentsController extends GetxController {
     'father_aadhar_back',
     'mother_aadhar_front',
     'mother_aadhar_back',
-  ];
-
-  static const List<String> optionalDocuments = [
     'transfer_certificate',
     'marksheet',
   ];
@@ -66,25 +64,16 @@ class UploadDocumentsController extends GetxController {
   }
 
   void _initializeUploadStates() {
-    for (final doc in requiredDocuments) {
-      uploadedFiles[doc] = null;
-      uploadProgress[doc] = false;
-      uploadPercent[doc] = 0.0;
-    }
-    for (final doc in optionalDocuments) {
+    for (final doc in documents) {
       uploadedFiles[doc] = null;
       uploadProgress[doc] = false;
       uploadPercent[doc] = 0.0;
     }
   }
 
-  bool isRequiredDocumentUploaded(String docKey) {
-    return uploadedFiles[docKey] != null;
-  }
-
-  bool get areAllRequiredUploaded {
-    return requiredDocuments.every((doc) => uploadedFiles[doc] != null);
-  }
+  /// How many documents the user has attached so far.
+  int get uploadedCount =>
+      documents.where((doc) => uploadedFiles[doc] != null).length;
 
   void setUploadedFile(String docKey, File file) {
     uploadedFiles[docKey] = file;
@@ -101,17 +90,7 @@ class UploadDocumentsController extends GetxController {
   }
 
  Future<void> submitDocuments() async {
-  if (!areAllRequiredUploaded) {
-    Get.snackbar(
-      'Error',
-      'Please upload all required documents',
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colors.red,
-      colorText: Colors.white,
-    );
-    return;
-  }
-
+  // Every document is optional, so submission proceeds even with none attached.
   isSubmitting.value = true;
 
   try {

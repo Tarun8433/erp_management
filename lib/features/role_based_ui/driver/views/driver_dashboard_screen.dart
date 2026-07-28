@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 
 import '../../../../core/utils/drawer_main/src/flutter_zoom_drawer.dart';
 import '../../../../core/utils/role_router.dart';
-import '../../../../core/widgets/dashboard/dashboard_header.dart';
 import '../../../../core/widgets/dashboard/dashboard_section.dart';
+import '../../../../core/widgets/dashboard/role_dashboard_header.dart';
 import '../../../../core/widgets/dashboard/role_scaffold.dart';
 import '../../../../core/widgets/dashboard/stat_card.dart';
 import '../controllers/driver_dashboard_controller.dart';
@@ -55,11 +55,11 @@ class _DriverHomeBody extends GetView<DriverDashboardController> {
       child: ListView(
         children: [
           Obx(
-            () => DashboardHeader(
-              avatarText: 'DM',
-              title: 'EduManage',
-              subtitle: 'Live Dashboard - ${controller.routeLabel.value}',
-              onAvatarTap: () => ZoomDrawer.of(context)?.toggle(),
+            () => RoleDashboardHeader(
+              schoolName: '',
+              name: controller.driverName.value,
+              role: 'Driver',
+              onMenu: () => ZoomDrawer.of(context)?.toggle(),
             ),
           ),
           Padding(

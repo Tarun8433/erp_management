@@ -2,12 +2,15 @@ class UserData {
   final String? id;
   final String? name;
   final String? email;
+  final String? token;
+  final String? refreshToken;
   final String? clientName;
   final String? userId;
   final String? mobile;
   final int? clientId;
   final String? lastLogin;
   final String? role;
+  final int? roleId;
   final String? vendorId;
   final List<UserCompany>? userCompany;
   final bool? hasMpin;
@@ -17,12 +20,15 @@ class UserData {
     this.id,
     this.name,
     this.email,
+    this.token,
+    this.refreshToken,
     this.clientName,
     this.userId,
     this.mobile,
     this.clientId,
     this.lastLogin,
     this.role,
+    this.roleId,
     this.vendorId,
     this.userCompany,
     this.hasMpin,
@@ -54,12 +60,17 @@ class UserData {
       id: json['id'],
       name: json['name'],
       email: json['email'],
+      token: json['token']?.toString(),
+      refreshToken: json['refreshToken']?.toString(),
       clientName: json['clientName'],
       userId: json['userId'],
       mobile: json['mobile'],
       clientId: json['clientId'],
       lastLogin: json['lastLogin'],
       role: json['role'],
+      roleId: json['roleId'] is int
+          ? json['roleId']
+          : int.tryParse(json['roleId']?.toString() ?? ''),
       vendorId: (rootVendorId != null && rootVendorId.trim().isNotEmpty)
           ? rootVendorId.trim()
           : derivedVendorId?.trim(),
@@ -78,12 +89,15 @@ class UserData {
       'id': id,
       'name': name,
       'email': email,
+      'token': token,
+      'refreshToken': refreshToken,
       'clientName': clientName,
       'userId': userId,
       'mobile': mobile,
       'clientId': clientId,
       'lastLogin': lastLogin,
       'role': role,
+      'roleId': roleId,
       'vendorId': vendorId,
       'defaultRoleName': defaultRoleName,
       'hasMpin': hasMpin,

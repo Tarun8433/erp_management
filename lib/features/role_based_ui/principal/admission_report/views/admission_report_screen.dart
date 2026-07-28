@@ -1,6 +1,18 @@
 import 'package:erp_management/features/role_based_ui/principal/admission_report/controllers/admission_report_controller.dart';
+import 'package:erp_management/features/role_based_ui/principal/admission_report/views/admission_report_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+/// Opens the read-only detail view for [item]; its edit action reuses the
+/// same pre-filled admission form as the list's edit icon.
+void _openDetails(AdmissionReportController c, AdmissionReportItem item) {
+  Get.to(
+    () => AdmissionReportDetailsScreen(
+      item: item,
+      onEdit: () => c.openForEdit(item.id),
+    ),
+  );
+}
 
 class AdmissionReportScreen extends StatelessWidget {
   const AdmissionReportScreen({super.key});
@@ -67,49 +79,59 @@ class AdmissionReportScreen extends StatelessWidget {
       child: Column(
         spacing: 12,
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: _buildFilterItem(
-                  context,
-                  'Session',
-                  c.selectedSession,
-                  c.sessions,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _buildFilterItem(
-                  context,
-                  'Group',
-                  c.selectedGroup,
-                  c.groups,
-                ),
-              ),
-            ],
-          ),
-
-          Row(
-            children: [
-              Expanded(
-                child: _buildFilterItem(
-                  context,
-                  'Class',
-                  c.selectedClass,
-                  c.classes,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _buildFilterItem(
-                  context,
-                  'Status',
-                  c.selectedStatus,
-                  c.statuses,
-                ),
-              ),
-            ],
-          ),
+          // Row 1: Session | From Date | To Date
+          Obx(() => Row(
+                children: [
+                  Expanded(
+                    child: _buildFilterItem(
+                      context,
+                      'Session',
+                      c.selectedSession,
+                      c.sessions.toList(),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _buildDateField(
+                      context,
+                      'From Date',
+                      c.fromDateText,
+                      () => c.pickFromDate(context),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _buildDateField(
+                      context,
+                      'To Date',
+                      c.toDateText,
+                      () => c.pickToDate(context),
+                    ),
+                  ),
+                ],
+              )),
+          // Row 2: Group | Class (default ALL GROUP / ALL CLASS)
+          Obx(() => Row(
+                children: [
+                  Expanded(
+                    child: _buildFilterItem(
+                      context,
+                      'Group',
+                      c.selectedGroup,
+                      c.groups.toList(),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _buildFilterItem(
+                      context,
+                      'Class',
+                      c.selectedClass,
+                      c.classes.toList(),
+                    ),
+                  ),
+                ],
+              )),
           Row(
             children: [
               Expanded(
@@ -181,7 +203,9 @@ class AdmissionReportScreen extends StatelessWidget {
             ),
             child: DropdownButtonHideUnderline(
               child: DropdownButton<String>(
-                value: value.value,
+                isExpanded: true,
+                value: value.value.isEmpty ? null : value.value,
+                hint: const Text('Select', style: TextStyle(fontSize: 13)),
                 items: items
                     .map(
                       (e) => DropdownMenuItem(
@@ -199,43 +223,53 @@ class AdmissionReportScreen extends StatelessWidget {
     );
   }
 
-  void _showSettingsDialog(BuildContext context, AdmissionReportController c) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Display Settings'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text('Adjust Font Size'),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+  Widget _buildDateField(
+    BuildContext context,
+    String label,
+    String value,
+    VoidCallback onTap,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          label,
+          style: Theme.of(
+            context,
+          ).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 4),
+        InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(8),
+          child: Container(
+            height: 46,
+            width: Get.width,
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey.shade300),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Row(
               children: [
-                IconButton(
-                  icon: const Icon(Icons.remove_circle_outline),
-                  onPressed: () => c.updateFontSize(-1),
-                ),
-                Obx(
-                  () => Text(
-                    c.baseFontSize.value.toStringAsFixed(0),
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                    ),
+                Expanded(
+                  child: Text(
+                    value,
+                    style: const TextStyle(fontSize: 13),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.add_circle_outline),
-                  onPressed: () => c.updateFontSize(1),
+                Icon(
+                  Icons.calendar_today_outlined,
+                  size: 16,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
               ],
             ),
-          ],
+          ),
         ),
-        actions: [
-          TextButton(onPressed: () => Get.back(), child: const Text('Close')),
-        ],
-      ),
+      ],
     );
   }
 }
@@ -300,8 +334,13 @@ class _ReportTableView extends StatelessWidget {
                       DataCell(Text(item.sNo.toString(), style: cellStyle)),
                       DataCell(
                         IconButton(
-                          icon: const Icon(Icons.more_horiz),
-                          onPressed: () {},
+                          icon: const Icon(
+                            Icons.edit_outlined,
+                            size: 18,
+                            color: Colors.blue,
+                          ),
+                          tooltip: 'Edit',
+                          onPressed: () => controller.openForEdit(item.id),
                         ),
                       ),
                       DataCell(Text(item.sid, style: cellStyle)),
@@ -353,7 +392,17 @@ class _ReportTableView extends StatelessWidget {
                       DataCell(
                         CircleAvatar(
                           radius: 18,
-                          backgroundImage: NetworkImage(item.studentImage),
+                          backgroundColor: Colors.grey.shade200,
+                          backgroundImage: item.studentImage.startsWith('http')
+                              ? NetworkImage(item.studentImage)
+                              : null,
+                          child: item.studentImage.startsWith('http')
+                              ? null
+                              : const Icon(
+                                  Icons.person_rounded,
+                                  size: 18,
+                                  color: Colors.grey,
+                                ),
                         ),
                       ),
                       DataCell(
@@ -414,7 +463,16 @@ class _ReportCardView extends StatelessWidget {
                     children: [
                       CircleAvatar(
                         radius: 24,
-                        backgroundImage: NetworkImage(item.studentImage),
+                        backgroundColor: Colors.grey.shade200,
+                        backgroundImage: item.studentImage.startsWith('http')
+                            ? NetworkImage(item.studentImage)
+                            : null,
+                        child: item.studentImage.startsWith('http')
+                            ? null
+                            : const Icon(
+                                Icons.person_rounded,
+                                color: Colors.grey,
+                              ),
                       ),
                       const SizedBox(width: 16),
                       Expanded(
@@ -479,17 +537,29 @@ class _ReportCardView extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      TextButton.icon(
-                        onPressed: () {},
-                        icon: const Icon(Icons.download, size: 18),
-                        label: const Text('Form'),
+                      // TextButton.icon(
+                      //   onPressed: () {},
+                      //   icon: const Icon(Icons.download, size: 18),
+                      //   label: const Text('Form'),
+                      // ),
+                      // const SizedBox(width: 8),
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () => _openDetails(controller, item),
+                          child: const Text('View Details'),
+                        ),
                       ),
                       const SizedBox(width: 8),
-                      ElevatedButton(
-                        onPressed: () {},
-                        child: const Text('View Details'),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.edit_outlined,
+                          size: 20,
+                          color: Colors.blue,
+                        ),
+                        tooltip: 'Edit',
+                        onPressed: () => controller.openForEdit(item.id),
                       ),
                     ],
                   ),
