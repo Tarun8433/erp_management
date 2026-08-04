@@ -450,7 +450,7 @@ import '../models/shift_model.dart';
 class AttendanceMarkingController extends GetxController {
   final SessionController _session = Get.put(SessionController());
   final ApiService _api = ApiService();
-
+  final isAttendanceSubmitted = false.obs;
   // ── Filters ────────────────────────────────────────────────────────────────
   final sessionList = <String>[].obs;
   final selectedSession = ''.obs;
@@ -737,10 +737,15 @@ class AttendanceMarkingController extends GetxController {
 
       // Pre-fill marking map — keep any existing attendance, otherwise default
       // each student to Present so the sheet loads ready to save.
+
       for (final s in loaded) {
         markingMap[s.id] =
             s.attendenceTypeId ?? AttendanceTypeOption.present.id;
       }
+      // for (final s in loaded) {
+      //   markingMap[s.id] =
+      //       s.attendenceTypeId ?? AttendanceTypeOption.present.id;
+      // }
       hasLoaded.value = true;
     } catch (e) {
       log('[Attendance] loadStudents: $e');
@@ -795,10 +800,12 @@ class AttendanceMarkingController extends GetxController {
   }
 
   // ── Mark individual ────────────────────────────────────────────────────────
-
   void setMark(int studentId, int typeId) {
-    markingMap[studentId] = typeId;
-    // Clear bulk selection when individual entries differ.
+    if (markingMap[studentId] == typeId) {
+      markingMap[studentId] = null;
+    } else {
+      markingMap[studentId] = typeId;
+    }
     bulkType.value = null;
   }
 
@@ -806,7 +813,20 @@ class AttendanceMarkingController extends GetxController {
 
   void applyBulk(AttendanceTypeOption? option) {
     if (option == null) return;
+
+    // If the same bulk option is clicked again, clear all attendance.
+    if (bulkType.value?.id == option.id) {
+      bulkType.value = null;
+
+      for (final s in students) {
+        markingMap[s.id] = null; // Unmarked
+      }
+      return;
+    }
+
+    // Otherwise, apply the selected attendance to all students.
     bulkType.value = option;
+
     for (final s in students) {
       markingMap[s.id] = option.id;
     }

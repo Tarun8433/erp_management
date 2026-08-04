@@ -77,15 +77,15 @@ class SettingScreen extends GetView<SettingController> {
                 color: Colors.deepPurple,
               ),
             ),
-            _buildDivider(context),
-            _buildSettingItem(
-              context: context,
-              icon: Icons.color_lens_outlined,
-              label: 'theme_color'.tr,
-              value: 'change'.tr,
-              onTap: () => _showColorPickerDialog(context),
-              color: Colors.deepPurple,
-            ),
+            // _buildDivider(context),
+            // _buildSettingItem(
+            //   context: context,
+            //   icon: Icons.color_lens_outlined,
+            //   label: 'theme_color'.tr,
+            //   value: 'change'.tr,
+            //   onTap: () => _showColorPickerDialog(context),
+            //   color: Colors.deepPurple,
+            // ),
             _buildDivider(context),
             Obx(
               () => _buildSettingItem(

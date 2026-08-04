@@ -1171,7 +1171,8 @@ class _StudentMarkCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Obx(() {
-      final selectedId = c.markingMap[student.id];
+      final selectedId =
+          c.markingMap[student.id] ?? AttendanceTypeOption.present.id;
       final selected = AttendanceTypeOption.fromId(selectedId);
 
       return Card(
@@ -1255,7 +1256,7 @@ class _StudentMarkCard extends StatelessWidget {
                     [
                           AttendanceTypeOption.present,
                           AttendanceTypeOption.absent,
-                          AttendanceTypeOption.halfDay,
+                          // AttendanceTypeOption.halfDay,
                         ]
                         .map(
                           (opt) => Expanded(
@@ -1572,7 +1573,13 @@ class _DatePicker extends StatelessWidget {
                   c.formattedDate.isEmpty ? 'Pick date' : c.formattedDate,
                   style: TextStyle(
                     fontSize: 13,
-                    color: c.formattedDate.isEmpty ? Colors.grey : Colors.white,
+                    color: c.formattedDate.isEmpty
+                        ? (Get.isDarkMode
+                              ? AppColors.white
+                              : context.theme.primaryColor)
+                        : (Get.isDarkMode
+                              ? AppColors.white
+                              : context.theme.primaryColor),
                   ),
                 ),
               ],
@@ -1652,12 +1659,12 @@ class _SummaryBar extends StatelessWidget {
               c.absentCount,
               color: AttendanceTypeOption.absent.color,
             ),
-            _SummaryCell(
-              'HALF DAY',
-              c.halfDayCount,
-              color: AttendanceTypeOption.halfDay.color,
-              isLast: true,
-            ),
+            // _SummaryCell(
+            //   'HALF DAY',
+            //   c.halfDayCount,
+            //   color: AttendanceTypeOption.halfDay.color,
+            //   isLast: true,
+            // ),
           ],
         ),
       ),
@@ -1756,48 +1763,18 @@ class _SearchAndFilterRow extends StatelessWidget {
           ),
           Container(width: 1, height: 28, color: theme.dividerColor),
           Obx(() {
-            final isUnmarked = c.markedFilter.value == 'unmarked';
-            return InkWell(
-              onTap: () => c.setMarkedFilter(isUnmarked ? 'all' : 'unmarked'),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 14,
-                  vertical: 10,
-                ),
-                child: Text.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'MARKED',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w800,
-                          fontSize: 12.5,
-                          color: isUnmarked
-                              ? Colors.grey
-                              : const Color(0xFF1565C0),
-                        ),
-                      ),
-                      const TextSpan(
-                        text: '/',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w800,
-                          color: Colors.black54,
-                        ),
-                      ),
-                      TextSpan(
-                        text: 'UNMARKED',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w800,
-                          fontSize: 12.5,
-                          color: isUnmarked
-                              ? const Color(0xFFC62828)
-                              : Colors.grey,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+            final hasMarked = c.students.any(
+              (student) =>
+                  student.attendenceType != null &&
+                  student.attendenceType!.trim().isNotEmpty,
+            );
+
+            return FilterChip(
+              label: Text(hasMarked ? "Marked" : "Unmarked"),
+              selected:
+                  c.markedFilter.value == (hasMarked ? "marked" : "unmarked"),
+              onSelected: (_) => null,
+              // c.setMarkedFilter(hasMarked ? "marked" : "unmarked"),
             );
           }),
         ],
