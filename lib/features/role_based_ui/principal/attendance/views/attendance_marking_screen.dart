@@ -16,7 +16,7 @@ class AttendanceMarkingScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text('Mark Attendance'),
+        title: const Text('Mark Attendjkance'),
         backgroundColor: const Color(0xFF1565C0),
         foregroundColor: Colors.white,
         elevation: 0,
@@ -411,9 +411,7 @@ class _DatePicker extends StatelessWidget {
                   c.formattedDate.isEmpty ? 'Pick date' : c.formattedDate,
                   style: TextStyle(
                     fontSize: 13,
-                    color: c.formattedDate.isEmpty
-                        ? Colors.grey
-                        : Colors.black87,
+                    color: c.formattedDate.isEmpty ? Colors.grey : Colors.white,
                   ),
                 ),
               ],
@@ -480,7 +478,7 @@ class _SummaryBar extends StatelessWidget {
             _SummaryChip('P', c.presentCount, const Color(0xFF2E7D32)),
             _SummaryChip('A', c.absentCount, const Color(0xFFC62828)),
             _SummaryChip('H', c.halfDayCount, const Color(0xFFF57C00)),
-            _SummaryChip('Ho', c.holidayCount, const Color(0xFF1565C0)),
+            // _SummaryChip('Ho', c.holidayCount, const Color(0xFF1565C0)),
             _SummaryChip('--', c.unmarkedCount, Colors.grey),
           ],
         ),
@@ -587,28 +585,35 @@ class _BulkDropdown extends StatelessWidget {
           child: DropdownButton<AttendanceTypeOption>(
             value: c.bulkType.value,
             hint: const Text('Set All', style: TextStyle(fontSize: 13)),
-            items: AttendanceTypeOption.values
-                .map(
-                  (t) => DropdownMenuItem(
-                    value: t,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          width: 10,
-                          height: 10,
-                          decoration: BoxDecoration(
-                            color: t.color,
-                            shape: BoxShape.circle,
-                          ),
+            items:
+                [
+                      AttendanceTypeOption.present,
+                      AttendanceTypeOption.absent,
+                      // AttendanceTypeOption.late,
+                      AttendanceTypeOption.halfDay,
+                      // AttendanceTypeOption.holiday,
+                    ]
+                    .map(
+                      (t) => DropdownMenuItem(
+                        value: t,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              width: 10,
+                              height: 10,
+                              decoration: BoxDecoration(
+                                color: t.color,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            const SizedBox(width: 6),
+                            Text(t.label, style: const TextStyle(fontSize: 13)),
+                          ],
                         ),
-                        const SizedBox(width: 6),
-                        Text(t.label, style: const TextStyle(fontSize: 13)),
-                      ],
-                    ),
-                  ),
-                )
-                .toList(),
+                      ),
+                    )
+                    .toList(),
             onChanged: c.applyBulk,
           ),
         ),
@@ -708,20 +713,27 @@ class _StudentMarkCard extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Row(
-                children: AttendanceTypeOption.values
-                    .map(
-                      (opt) => Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 4),
-                          child: _RadioChip(
-                            option: opt,
-                            isSelected: selectedId == opt.id,
-                            onTap: () => c.setMark(student.id, opt.id),
+                children:
+                    [
+                          AttendanceTypeOption.present,
+                          AttendanceTypeOption.absent,
+                          // AttendanceTypeOption.late,
+                          AttendanceTypeOption.halfDay,
+                          // AttendanceTypeOption.holiday,
+                        ]
+                        .map(
+                          (opt) => Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 4),
+                              child: _RadioChip(
+                                option: opt,
+                                isSelected: selectedId == opt.id,
+                                onTap: () => c.setMark(student.id, opt.id),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    )
-                    .toList(),
+                        )
+                        .toList(),
               ),
             ],
           ),

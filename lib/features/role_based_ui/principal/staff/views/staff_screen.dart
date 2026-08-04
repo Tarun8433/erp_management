@@ -52,9 +52,7 @@ class StaffScreen extends StatelessWidget {
           hintText: 'Search by name, designation, mobile...',
           prefixIcon: const Icon(Icons.search_rounded),
           isDense: true,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 12,
             vertical: 14,
@@ -127,8 +125,9 @@ class StaffScreen extends StatelessWidget {
                 ),
                 const Spacer(),
                 ElevatedButton.icon(
-                  onPressed: () =>
-                      Get.toNamed(AppRoutes.staffEdit)?.then((_) => c.fetchStaff()),
+                  onPressed: () => Get.toNamed(
+                    AppRoutes.staffEdit,
+                  )?.then((_) => c.fetchStaff()),
                   icon: const Icon(Icons.person_add_alt_1, size: 18),
                   label: const Text('Add Staff'),
                   style: ElevatedButton.styleFrom(

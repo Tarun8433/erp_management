@@ -8,7 +8,17 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class NewAdmissionScreen extends StatefulWidget {
-  const NewAdmissionScreen({super.key});
+  /// Set to true ONLY when this screen is shown as a tab inside a
+  /// `RoleScaffold` (which renders a floating BottomBar on top of the tab
+  /// body). In that case, the fixed bottom action bar here needs extra
+  /// clearance so it isn't hidden underneath the floating bar.
+  ///
+  /// Leave this false (the default) when this screen is opened standalone
+  /// (e.g. via `Get.to`/a route/from Home), where there is no floating
+  /// bottom bar and no extra clearance is needed.
+  final bool insideBottomBarTab;
+
+  const NewAdmissionScreen({super.key, this.insideBottomBarTab = false});
 
   @override
   State<NewAdmissionScreen> createState() => _NewAdmissionScreenState();
@@ -51,15 +61,24 @@ class _NewAdmissionScreenState extends State<NewAdmissionScreen>
             },
           ),
         ),
-        body: Obx(() {
-          return Column(
-            children: [
-              _HorizontalStepIndicator(controller: c, isMobile: isMobile),
-              Expanded(child: _buildStepContent(c.currentStep.value, isMobile)),
-              _BottomActionButton(controller: c, isMobile: isMobile),
-            ],
-          );
-        }),
+        body: Padding(
+          padding: EdgeInsets.only(
+            bottom: widget.insideBottomBarTab
+                ? 65 + MediaQuery.of(context).padding.bottom
+                : 0,
+          ),
+          child: Obx(() {
+            return Column(
+              children: [
+                _HorizontalStepIndicator(controller: c, isMobile: isMobile),
+                Expanded(
+                  child: _buildStepContent(c.currentStep.value, isMobile),
+                ),
+                _BottomActionButton(controller: c, isMobile: isMobile),
+              ],
+            );
+          }),
+        ),
       ),
     );
   }
@@ -659,44 +678,9 @@ class BasicInformationStep extends StatelessWidget {
                   ),
                 ],
               ),
-              // _ResponsiveRow(
-              //   isMobile: isMobile,
-              //   children: [
-              //     _buildTextField(
-              //       context,
-              //       'PIN CODE',
-              //       controller.pinCodeCtrl,
-              //       Icons.pin_drop_outlined,
-              //       focusNode: controller.pinCodeFocus,
-              //       nextFocusNode: controller.remarkFocus,
-              //       keyboardType: TextInputType.number,
-              //       inputFormatters: [
-              //         FilteringTextInputFormatter.digitsOnly,
-              //         LengthLimitingTextInputFormatter(6),
-              //       ],
-              //     ),
-              //     const SizedBox.shrink(),
-              //   ],
-              // ),
             ],
           ),
           const SizedBox(height: 24),
-          // _buildFormSection(
-          //   theme,
-          //   scheme,
-          //   'ADDITIONAL NOTES',
-          //   Icons.note_alt_outlined,
-          //   [
-          //     _buildTextField(
-          //       context,
-          //       'REMARK / NOTES',
-          //       controller.remarkCtrl,
-          //       Icons.note_alt_outlined,
-          //       focusNode: controller.remarkFocus,
-          //       maxLines: 3,
-          //     ),
-          //   ],
-          // ),
           const SizedBox(height: 40),
         ],
       ),
@@ -1163,7 +1147,8 @@ class _SRNoAndTransportStep extends StatelessWidget {
                               label: 'SELECT PICKUP POINT',
                               hint: 'Select Pickup Point',
                               isLoading: controller.isPickupLoading.value,
-                              value: controller.selectedPickupPoint.value.isEmpty
+                              value:
+                                  controller.selectedPickupPoint.value.isEmpty
                                   ? null
                                   : controller.selectedPickupPoint.value,
                               items: controller.pickupPointList
@@ -1175,7 +1160,8 @@ class _SRNoAndTransportStep extends StatelessWidget {
                                   )
                                   .toList(),
                               onChanged: (v) =>
-                                  controller.selectedPickupPoint.value = v ?? '',
+                                  controller.selectedPickupPoint.value =
+                                      v ?? '',
                             ),
                           ),
                           const SizedBox.shrink(),
@@ -1419,7 +1405,7 @@ class _BottomActionButton extends StatelessWidget {
           ),
           const Spacer(),
           SizedBox(
-            height: 52,
+            height: 50,
             child: Obx(() {
               final isLast =
                   controller.currentStep.value == controller.totalSteps - 1;
@@ -1611,7 +1597,7 @@ Widget _buildTextField(
     UpperCaseTextFormatter(),
     ...?inputFormatters,
   ];
-  
+
   return TextFormField(
     controller: controller,
     focusNode: focusNode,

@@ -2,30 +2,49 @@ import java.util.Properties
 
 plugins {
     id("com.android.application")
+
     // START: FlutterFire Configuration
     id("com.google.gms.google-services")
     // END: FlutterFire Configuration
+
     id("kotlin-android")
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
+
+    // Flutter Gradle Plugin must be applied after Android and Kotlin plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
 
+// ================================
+// Keystore Configuration
+// ================================
+
 val keystoreProperties = Properties()
 val keystorePropertiesFile = rootProject.file("key.properties")
+
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(keystorePropertiesFile.inputStream())
 }
 
+val hasReleaseKeystore =
+    keystorePropertiesFile.exists() &&
+    !keystoreProperties.getProperty("keyAlias").isNullOrBlank() &&
+    !keystoreProperties.getProperty("keyPassword").isNullOrBlank() &&
+    !keystoreProperties.getProperty("storeFile").isNullOrBlank() &&
+    !keystoreProperties.getProperty("storePassword").isNullOrBlank()
+
 android {
     namespace = "com.example.erp_management"
+
     compileSdk = flutter.compileSdkVersion
-    // Pin to an NDK version that supports 16 KB memory page sizes (required for
-    // Google Play from Android 15). Use the highest plugin-required version to
-    // keep all native libraries aligned consistently.
-    ndkVersion = "28.2.13676358"
+
+    ndkVersion = flutter.ndkVersion
+
+    // ================================
+    // Java Configuration
+    // ================================
 
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
+
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
@@ -34,29 +53,60 @@ android {
         jvmTarget = JavaVersion.VERSION_17.toString()
     }
 
+    // ================================
+    // App Configuration
+    // ================================
+
     defaultConfig {
-        // Must match the existing Play Store listing so this ships as an update.
+        // Keep this same as your Play Store application ID
         applicationId = "com.app.schoolclub"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
+
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
+
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
 
+    // ================================
+    // Signing Configuration
+    // ================================
+
     signingConfigs {
-        create("release") {
-            keyAlias = keystoreProperties["keyAlias"] as String
-            keyPassword = keystoreProperties["keyPassword"] as String
-            storeFile = file("${rootProject.projectDir}/${keystoreProperties["storeFile"]}")
-            storePassword = keystoreProperties["storePassword"] as String
+        if (hasReleaseKeystore) {
+            create("release") {
+                keyAlias = keystoreProperties.getProperty("keyAlias")
+                keyPassword = keystoreProperties.getProperty("keyPassword")
+
+                storeFile = rootProject.file(
+                    keystoreProperties.getProperty("storeFile")
+                )
+
+                storePassword = keystoreProperties.getProperty("storePassword")
+            }
         }
     }
 
+    // ================================
+    // Build Types
+    // ================================
+
     buildTypes {
-        release {
-            signingConfig = signingConfigs.getByName("release")
+
+        getByName("debug") {
+            // Default Android debug signing
+        }
+
+        getByName("release") {
+
+            signingConfig = if (hasReleaseKeystore) {
+                signingConfigs.getByName("release")
+            } else {
+                // Only fallback for local testing.
+                // Don't upload a debug-signed build to Play Store.
+                signingConfigs.getByName("debug")
+            }
+
             isMinifyEnabled = false
             isShrinkResources = false
             isDebuggable = false
@@ -64,10 +114,22 @@ android {
     }
 }
 
+// ================================
+// Dependencies
+// ================================
+
 dependencies {
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
-    implementation("androidx.appcompat:appcompat:1.6.1")
+
+    coreLibraryDesugaring(
+        "com.android.tools:desugar_jdk_libs:2.1.4"
+    )
+
+    implementation(
+        "androidx.appcompat:appcompat:1.6.1"
+    )
 }
+
+
 
 flutter {
     source = "../.."

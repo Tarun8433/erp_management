@@ -87,7 +87,7 @@ class HomeScreen extends StatelessWidget {
               background: const _AppBarBackgroundSlider(),
             ),
           ),
-    
+
           SliverToBoxAdapter(
             child: Container(
               decoration: BoxDecoration(

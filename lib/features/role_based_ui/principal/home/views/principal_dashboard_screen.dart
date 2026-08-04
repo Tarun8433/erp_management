@@ -28,7 +28,7 @@ class PrincipalDashboardScreen extends GetView<PrincipalDashboardController> {
           icon: Icons.person_add_alt_1_outlined,
           selectedIcon: Icons.person_add_alt_1,
           label: 'Admission',
-          body: const NewAdmissionScreen(),
+          body: const NewAdmissionScreen(insideBottomBarTab: true),
         ),
         RoleNavItem(
           icon: Icons.broken_image_outlined,
@@ -71,7 +71,7 @@ class _PrincipalHomeBody extends GetView<PrincipalDashboardController> {
             ),
           ),
           const SliverToBoxAdapter(child: _NoticesSection()),
-         // const SliverToBoxAdapter(child: _TodayCard()),
+          // const SliverToBoxAdapter(child: _TodayCard()),
           const SliverToBoxAdapter(child: _StatsGrid()),
           const SliverToBoxAdapter(child: SizedBox(height: 110)),
         ],
@@ -82,9 +82,12 @@ class _PrincipalHomeBody extends GetView<PrincipalDashboardController> {
   SliverAppBar _buildSliverAppBar(BuildContext context) {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
-    final primaryLight = Color.lerp(scheme.primary, Colors.white, 0.38) ?? scheme.primary;
+    final primaryLight =
+        Color.lerp(scheme.primary, Colors.white, 0.38) ?? scheme.primary;
     final hour = DateTime.now().hour;
-    final greeting = hour < 12 ? 'Good Morning' : (hour < 17 ? 'Good Afternoon' : 'Good Evening');
+    final greeting = hour < 12
+        ? 'Good Morning'
+        : (hour < 17 ? 'Good Afternoon' : 'Good Evening');
     final dateStr = DateFormat('EEEE, d MMM yyyy').format(DateTime.now());
 
     return SliverAppBar(
@@ -112,30 +115,32 @@ class _PrincipalHomeBody extends GetView<PrincipalDashboardController> {
           onTap: () => ZoomDrawer.of(context)?.toggle(),
         ),
       ),
-      title: Obx(() => Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                controller.principalName.value,
-                style: theme.textTheme.titleSmall?.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  height: 1.2,
-                ),
-                overflow: TextOverflow.ellipsis,
+      title: Obx(
+        () => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              controller.principalName.value,
+              style: theme.textTheme.titleSmall?.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                height: 1.2,
               ),
-              Text(
-                controller.userRole.value,
-                style: theme.textTheme.labelSmall?.copyWith(
-                  color: Colors.white70,
-                  fontWeight: FontWeight.w400,
-                  height: 1.2,
-                ),
-                overflow: TextOverflow.ellipsis,
+              overflow: TextOverflow.ellipsis,
+            ),
+            Text(
+              controller.userRole.value,
+              style: theme.textTheme.labelSmall?.copyWith(
+                color: Colors.white70,
+                fontWeight: FontWeight.w400,
+                height: 1.2,
               ),
-            ],
-          )),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
+      ),
       actions: [
         Obx(
           () => _CircleButton(
@@ -154,9 +159,16 @@ class _PrincipalHomeBody extends GetView<PrincipalDashboardController> {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.white.withValues(alpha: 0.25),
-              border: Border.all(color: Colors.white.withValues(alpha: 0.6), width: 2),
+              border: Border.all(
+                color: Colors.white.withValues(alpha: 0.6),
+                width: 2,
+              ),
             ),
-            child: const Icon(Icons.person_rounded, color: Colors.white, size: 20),
+            child: const Icon(
+              Icons.person_rounded,
+              color: Colors.white,
+              size: 20,
+            ),
           ),
         ),
       ],
@@ -182,32 +194,44 @@ class _PrincipalHomeBody extends GetView<PrincipalDashboardController> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Obx(() => controller.schoolName.value.isEmpty
-                      ? const SizedBox.shrink()
-                      : Row(
-                          children: [
-                            const Icon(Icons.school_rounded, color: Colors.white70, size: 13),
-                            const SizedBox(width: 5),
-                            Flexible(
-                              child: Text(
-                                controller.schoolName.value,
-                                overflow: TextOverflow.ellipsis,
-                                style: theme.textTheme.bodySmall?.copyWith(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600,
+                  Obx(
+                    () => controller.schoolName.value.isEmpty
+                        ? const SizedBox.shrink()
+                        : Row(
+                            children: [
+                              const Icon(
+                                Icons.school_rounded,
+                                color: Colors.white70,
+                                size: 13,
+                              ),
+                              const SizedBox(width: 5),
+                              Flexible(
+                                child: Text(
+                                  controller.schoolName.value,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: theme.textTheme.bodySmall?.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        )),
+                            ],
+                          ),
+                  ),
                   const SizedBox(height: 5),
-                  Text(greeting,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                          color: Colors.white70)),
+                  Text(
+                    greeting,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: Colors.white70,
+                    ),
+                  ),
                   const SizedBox(height: 1),
-                  Text(dateStr,
-                      style: theme.textTheme.labelSmall?.copyWith(
-                          color: Colors.white54)),
+                  Text(
+                    dateStr,
+                    style: theme.textTheme.labelSmall?.copyWith(
+                      color: Colors.white54,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -249,13 +273,19 @@ class _CircleButton extends StatelessWidget {
               child: Container(
                 width: 16,
                 height: 16,
-                decoration: const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+                decoration: const BoxDecoration(
+                  color: Colors.red,
+                  shape: BoxShape.circle,
+                ),
                 child: Center(
-                  child: Text('$badge',
-                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: Colors.white,
-                          fontSize: 9,
-                          fontWeight: FontWeight.bold)),
+                  child: Text(
+                    '$badge',
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      color: Colors.white,
+                      fontSize: 9,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -282,26 +312,35 @@ class _NoticesSection extends GetView<PrincipalDashboardController> {
             padding: const EdgeInsets.only(right: 20),
             child: Row(
               children: [
-                Text('Notice Board',
-                    style: theme.textTheme.titleMedium
-                        ?.copyWith(fontWeight: FontWeight.bold)),
+                Text(
+                  'Notice Board',
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 const Spacer(),
-                Obx(() => controller.isNoticesLoading.value
-                    ? const SizedBox(
-                        width: 16,
-                        height: 16,
-                        child: CircularProgressIndicator(strokeWidth: 2))
-                    : const SizedBox.shrink()),
+                Obx(
+                  () => controller.isNoticesLoading.value
+                      ? const SizedBox(
+                          width: 16,
+                          height: 16,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const SizedBox.shrink(),
+                ),
               ],
             ),
           ),
           const SizedBox(height: 12),
           Obx(() {
-            if (controller.notices.isEmpty && !controller.isNoticesLoading.value) {
+            if (controller.notices.isEmpty &&
+                !controller.isNoticesLoading.value) {
               return const Padding(
                 padding: EdgeInsets.only(right: 20, bottom: 8),
-                child: Text('No notices at the moment.',
-                    style: TextStyle(color: Colors.grey, fontSize: 13)),
+                child: Text(
+                  'No notices at the moment.',
+                  style: TextStyle(color: Colors.grey, fontSize: 13),
+                ),
               );
             }
             return SizedBox(
@@ -332,8 +371,8 @@ class _NoticeCard extends StatelessWidget {
     final timeAgo = diff.inMinutes < 60
         ? '${diff.inMinutes}m ago'
         : diff.inHours < 24
-            ? '${diff.inHours}h ago'
-            : '${diff.inDays}d ago';
+        ? '${diff.inHours}h ago'
+        : '${diff.inDays}d ago';
 
     return Container(
       width: Get.width * .78,
@@ -363,31 +402,44 @@ class _NoticeCard extends StatelessWidget {
                   color: item.color.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Icon(Icons.campaign_rounded, color: item.color, size: 17),
+                child: Icon(
+                  Icons.campaign_rounded,
+                  color: item.color,
+                  size: 17,
+                ),
               ),
               const SizedBox(width: 10),
               Expanded(
-                child: Text(item.title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: theme.textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.bold)),
+                child: Text(
+                  item.title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
               const SizedBox(width: 8),
-              Text(timeAgo,
-                  style: theme.textTheme.labelSmall?.copyWith(
-                      color: Colors.grey.shade500,
-                      fontWeight: FontWeight.w500)),
+              Text(
+                timeAgo,
+                style: theme.textTheme.labelSmall?.copyWith(
+                  color: Colors.grey.shade500,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 8),
           Expanded(
-            child: Text(item.body,
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
-                style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.onSurface.withValues(alpha: 0.65),
-                    height: 1.45)),
+            child: Text(
+              item.body,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onSurface.withValues(alpha: 0.65),
+                height: 1.45,
+              ),
+            ),
           ),
         ],
       ),
@@ -473,9 +525,12 @@ class _TodayCard extends GetView<PrincipalDashboardController> {
                   ),
                   const SizedBox(height: 16),
                   Obx(() {
-                    final pct = double.tryParse(
-                          controller.attendancePercent.value
-                              .replaceAll('%', ''),
+                    final pct =
+                        double.tryParse(
+                          controller.attendancePercent.value.replaceAll(
+                            '%',
+                            '',
+                          ),
                         ) ??
                         0;
                     return Column(
@@ -486,8 +541,8 @@ class _TodayCard extends GetView<PrincipalDashboardController> {
                           child: LinearProgressIndicator(
                             value: pct / 100,
                             minHeight: 7,
-                            backgroundColor:
-                                scheme.onPrimaryContainer.withValues(alpha: 0.1),
+                            backgroundColor: scheme.onPrimaryContainer
+                                .withValues(alpha: 0.1),
                             valueColor: AlwaysStoppedAnimation(scheme.primary),
                           ),
                         ),
@@ -495,8 +550,9 @@ class _TodayCard extends GetView<PrincipalDashboardController> {
                         Text(
                           '${controller.attendancePercent.value} Attendance',
                           style: theme.textTheme.labelSmall?.copyWith(
-                            color: scheme.onPrimaryContainer
-                                .withValues(alpha: 0.65),
+                            color: scheme.onPrimaryContainer.withValues(
+                              alpha: 0.65,
+                            ),
                           ),
                         ),
                       ],
@@ -507,7 +563,9 @@ class _TodayCard extends GetView<PrincipalDashboardController> {
                     onTap: () => Get.toNamed(AppRoutes.newAdmissionReport),
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 14, vertical: 9),
+                        horizontal: 14,
+                        vertical: 9,
+                      ),
                       decoration: BoxDecoration(
                         color: scheme.primary,
                         borderRadius: BorderRadius.circular(20),
@@ -515,8 +573,11 @@ class _TodayCard extends GetView<PrincipalDashboardController> {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(Icons.bar_chart_rounded,
-                              color: scheme.onPrimary, size: 14),
+                          Icon(
+                            Icons.bar_chart_rounded,
+                            color: scheme.onPrimary,
+                            size: 14,
+                          ),
                           const SizedBox(width: 5),
                           Text(
                             'View Reports',
@@ -535,8 +596,7 @@ class _TodayCard extends GetView<PrincipalDashboardController> {
             const SizedBox(width: 16),
             Container(
               width: 90,
-              padding:
-                  const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
               decoration: BoxDecoration(
                 color: scheme.surface.withValues(alpha: 0.75),
                 borderRadius: BorderRadius.circular(20),
@@ -568,8 +628,11 @@ class _TodayCard extends GetView<PrincipalDashboardController> {
                       color: scheme.primary.withValues(alpha: 0.1),
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(Icons.check_circle_outline_rounded,
-                        size: 20, color: scheme.primary),
+                    child: Icon(
+                      Icons.check_circle_outline_rounded,
+                      size: 20,
+                      color: scheme.primary,
+                    ),
                   ),
                   const SizedBox(height: 4),
                   Text(
@@ -616,10 +679,16 @@ class _StatsGrid extends GetView<PrincipalDashboardController> {
                 accent: const Color(0xFF2E7D32),
                 rows: [
                   _SR('Total', controller.totalStudents.value),
-                  _SR('Present', controller.studentsPresent.value,
-                      valueColor: const Color(0xFF2E7D32)),
-                  _SR('Absent', controller.studentsAbsent.value,
-                      valueColor: const Color(0xFFC62828)),
+                  _SR(
+                    'Present',
+                    controller.studentsPresent.value,
+                    valueColor: const Color(0xFF2E7D32),
+                  ),
+                  _SR(
+                    'Absent',
+                    controller.studentsAbsent.value,
+                    valueColor: const Color(0xFFC62828),
+                  ),
                 ],
               ),
               right: _StatCard(
@@ -628,10 +697,16 @@ class _StatsGrid extends GetView<PrincipalDashboardController> {
                 accent: const Color(0xFF1565C0),
                 rows: [
                   _SR('Total', controller.totalStaff.value),
-                  _SR('Present', controller.staffPresent.value,
-                      valueColor: const Color(0xFF2E7D32)),
-                  _SR('Absent', controller.staffAbsent.value,
-                      valueColor: const Color(0xFFC62828)),
+                  _SR(
+                    'Present',
+                    controller.staffPresent.value,
+                    valueColor: const Color(0xFF2E7D32),
+                  ),
+                  _SR(
+                    'Absent',
+                    controller.staffAbsent.value,
+                    valueColor: const Color(0xFFC62828),
+                  ),
                 ],
               ),
             ),
@@ -645,11 +720,13 @@ class _StatsGrid extends GetView<PrincipalDashboardController> {
                 accent: const Color(0xFF00695C),
                 rows: [
                   _SR('Cash TRS', controller.feeCashTrs.value),
-                  _SR('Cash Amt', controller.feeCashAmount.value,
-                      prefix: '₹'),
+                  _SR('Cash Amt', controller.feeCashAmount.value, prefix: '₹'),
                   _SR('Online TRS', controller.feeOnlineTrs.value),
-                  _SR('Online Amt', controller.feeOnlineAmount.value,
-                      prefix: '₹'),
+                  _SR(
+                    'Online Amt',
+                    controller.feeOnlineAmount.value,
+                    prefix: '₹',
+                  ),
                 ],
               ),
               right: _StatCard(
@@ -658,8 +735,11 @@ class _StatsGrid extends GetView<PrincipalDashboardController> {
                 accent: const Color(0xFFE65100),
                 rows: [
                   _SR('TRS', controller.feeDiscountTrs.value),
-                  _SR('Amount', controller.feeDiscountAmount.value,
-                      prefix: '₹'),
+                  _SR(
+                    'Amount',
+                    controller.feeDiscountAmount.value,
+                    prefix: '₹',
+                  ),
                 ],
               ),
             ),
@@ -673,11 +753,17 @@ class _StatsGrid extends GetView<PrincipalDashboardController> {
                 accent: const Color(0xFFC62828),
                 rows: [
                   _SR('Cash TRS', controller.expenseCashTrs.value),
-                  _SR('Cash Amt', controller.expenseCashAmount.value,
-                      prefix: '₹'),
+                  _SR(
+                    'Cash Amt',
+                    controller.expenseCashAmount.value,
+                    prefix: '₹',
+                  ),
                   _SR('Online TRS', controller.expenseOnlineTrs.value),
-                  _SR('Online Amt', controller.expenseOnlineAmount.value,
-                      prefix: '₹'),
+                  _SR(
+                    'Online Amt',
+                    controller.expenseOnlineAmount.value,
+                    prefix: '₹',
+                  ),
                 ],
               ),
               right: _StatCard(
@@ -685,14 +771,15 @@ class _StatsGrid extends GetView<PrincipalDashboardController> {
                 icon: Icons.account_balance_wallet_rounded,
                 accent: const Color(0xFF6A1B9A),
                 rows: [
-                  _SR('Cash', controller.availableCash.value,
-                      prefix: '₹'),
-                  _SR('Online', controller.availableOnline.value,
-                      prefix: '₹'),
-                  _SR('Total', controller.availableTotal.value,
-                      prefix: '₹',
-                      valueColor: const Color(0xFF6A1B9A),
-                      bold: true),
+                  _SR('Cash', controller.availableCash.value, prefix: '₹'),
+                  _SR('Online', controller.availableOnline.value, prefix: '₹'),
+                  _SR(
+                    'Total',
+                    controller.availableTotal.value,
+                    prefix: '₹',
+                    valueColor: const Color(0xFF6A1B9A),
+                    bold: true,
+                  ),
                 ],
               ),
             ),
@@ -705,8 +792,11 @@ class _StatsGrid extends GetView<PrincipalDashboardController> {
                 icon: Icons.event_busy_rounded,
                 accent: const Color(0xFF546E7A),
                 rows: [
-                  _SR('Count', controller.emptyPeriods.value,
-                      emptyLabel: 'No empty periods'),
+                  _SR(
+                    'Count',
+                    controller.emptyPeriods.value,
+                    emptyLabel: 'No empty periods',
+                  ),
                 ],
               ),
               right: _StatCard(
@@ -714,8 +804,11 @@ class _StatsGrid extends GetView<PrincipalDashboardController> {
                 icon: Icons.report_problem_rounded,
                 accent: const Color(0xFFBF360C),
                 rows: [
-                  _SR('Count', controller.complaintsCount.value,
-                      emptyLabel: 'No complaints'),
+                  _SR(
+                    'Count',
+                    controller.complaintsCount.value,
+                    emptyLabel: 'No complaints',
+                  ),
                 ],
               ),
             ),
@@ -757,11 +850,14 @@ class _SR {
   final Color? valueColor;
   final bool bold;
   final String? emptyLabel;
-  const _SR(this.label, this.value,
-      {this.prefix = '',
-      this.valueColor,
-      this.bold = false,
-      this.emptyLabel});
+  const _SR(
+    this.label,
+    this.value, {
+    this.prefix = '',
+    this.valueColor,
+    this.bold = false,
+    this.emptyLabel,
+  });
 }
 
 // ── Stat card ─────────────────────────────────────────────────────────────────
@@ -811,10 +907,13 @@ class _StatCard extends StatelessWidget {
                 end: Alignment.bottomRight,
                 colors: [
                   accent,
-                  Color.lerp(accent, Colors.white, isDark ? 0.1 : 0.22) ?? accent,
+                  Color.lerp(accent, Colors.white, isDark ? 0.1 : 0.22) ??
+                      accent,
                 ],
               ),
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(20),
+              ),
             ),
             child: Row(
               children: [
@@ -859,8 +958,9 @@ class _StatCard extends StatelessWidget {
                             child: Text(
                               r.emptyLabel!,
                               style: theme.textTheme.bodySmall?.copyWith(
-                                color: scheme.onSurfaceVariant
-                                    .withValues(alpha: 0.55),
+                                color: scheme.onSurfaceVariant.withValues(
+                                  alpha: 0.55,
+                                ),
                                 fontStyle: FontStyle.italic,
                               ),
                             ),
@@ -896,5 +996,3 @@ class _StatCard extends StatelessWidget {
     );
   }
 }
-
-

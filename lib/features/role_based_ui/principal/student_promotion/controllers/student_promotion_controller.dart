@@ -486,7 +486,11 @@ class StudentPromotionController extends GetxController {
   void undoPromotion(StudentPromotionItem student) {
     student.status.value = 'Not Promoted';
     student.promotedToClass.value = '';
-    Get.snackbar('Action', 'Promotion undone for ${student.name}', backgroundColor: AppColors.background);
+    Get.snackbar(
+      'Action',
+      'Promotion undone for ${student.name}',
+      backgroundColor: AppColors.background,
+    );
   }
 
   void showProfileDetails(StudentPromotionItem student) {

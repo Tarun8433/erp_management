@@ -147,8 +147,11 @@ class _TeacherHomeBody extends GetView<TeacherDashboardController> {
                             width: 2,
                           ),
                         ),
-                        child: const Icon(Icons.person_rounded,
-                            color: Colors.white, size: 22),
+                        child: const Icon(
+                          Icons.person_rounded,
+                          color: Colors.white,
+                          size: 22,
+                        ),
                       ),
                     ],
                   ),
@@ -249,14 +252,17 @@ class _CircleButton extends StatelessWidget {
                 width: 16,
                 height: 16,
                 decoration: const BoxDecoration(
-                    color: Colors.red, shape: BoxShape.circle),
+                  color: Colors.red,
+                  shape: BoxShape.circle,
+                ),
                 child: Center(
                   child: Text(
                     '$badge',
                     style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: Colors.white,
-                        fontSize: 9,
-                        fontWeight: FontWeight.bold),
+                      color: Colors.white,
+                      fontSize: 9,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
@@ -284,17 +290,20 @@ class _NoticesSection extends GetView<TeacherDashboardController> {
             padding: const EdgeInsets.only(right: 20),
             child: Row(
               children: [
-                Text('Notice Board',
-                    style: theme.textTheme.titleMedium
-                        ?.copyWith(fontWeight: FontWeight.bold)),
+                Text(
+                  'Notice Bahsoard',
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 const Spacer(),
                 Obx(
                   () => controller.isNoticesLoading.value
                       ? const SizedBox(
                           width: 16,
                           height: 16,
-                          child:
-                              CircularProgressIndicator(strokeWidth: 2))
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
                       : const SizedBox.shrink(),
                 ),
               ],
@@ -306,8 +315,10 @@ class _NoticesSection extends GetView<TeacherDashboardController> {
                 !controller.isNoticesLoading.value) {
               return const Padding(
                 padding: EdgeInsets.only(right: 20, bottom: 8),
-                child: Text('No notices at the moment.',
-                    style: TextStyle(color: Colors.grey, fontSize: 13)),
+                child: Text(
+                  'No notices at the moment.',
+                  style: TextStyle(color: Colors.grey, fontSize: 13),
+                ),
               );
             }
             return SizedBox(
@@ -317,8 +328,7 @@ class _NoticesSection extends GetView<TeacherDashboardController> {
                 itemCount: controller.notices.length,
                 separatorBuilder: (_, i) => const SizedBox(width: 12),
                 padding: const EdgeInsets.only(right: 20),
-                itemBuilder: (_, i) =>
-                    _NoticeCard(item: controller.notices[i]),
+                itemBuilder: (_, i) => _NoticeCard(item: controller.notices[i]),
               ),
             );
           }),
@@ -339,8 +349,8 @@ class _NoticeCard extends StatelessWidget {
     final timeAgo = diff.inMinutes < 60
         ? '${diff.inMinutes}m ago'
         : diff.inHours < 24
-            ? '${diff.inHours}h ago'
-            : '${diff.inDays}d ago';
+        ? '${diff.inHours}h ago'
+        : '${diff.inDays}d ago';
 
     return Container(
       width: Get.width * .78,
@@ -370,22 +380,31 @@ class _NoticeCard extends StatelessWidget {
                   color: item.color.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Icon(Icons.campaign_rounded,
-                    color: item.color, size: 17),
+                child: Icon(
+                  Icons.campaign_rounded,
+                  color: item.color,
+                  size: 17,
+                ),
               ),
               const SizedBox(width: 10),
               Expanded(
-                child: Text(item.title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: theme.textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.bold)),
+                child: Text(
+                  item.title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
               const SizedBox(width: 8),
-              Text(timeAgo,
-                  style: theme.textTheme.labelSmall?.copyWith(
-                      color: Colors.grey.shade500,
-                      fontWeight: FontWeight.w500)),
+              Text(
+                timeAgo,
+                style: theme.textTheme.labelSmall?.copyWith(
+                  color: Colors.grey.shade500,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 8),
@@ -395,8 +414,9 @@ class _NoticeCard extends StatelessWidget {
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
               style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onSurface.withValues(alpha: 0.65),
-                  height: 1.45),
+                color: theme.colorScheme.onSurface.withValues(alpha: 0.65),
+                height: 1.45,
+              ),
             ),
           ),
         ],
@@ -467,7 +487,9 @@ class _TeacherTodayCard extends GetView<TeacherDashboardController> {
                       const SizedBox(width: 8),
                       Container(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 7, vertical: 2),
+                          horizontal: 7,
+                          vertical: 2,
+                        ),
                         decoration: BoxDecoration(
                           color: scheme.primary.withValues(alpha: 0.18),
                           borderRadius: BorderRadius.circular(8),
@@ -496,15 +518,17 @@ class _TeacherTodayCard extends GetView<TeacherDashboardController> {
                   Text(
                     'Total Students',
                     style: theme.textTheme.bodySmall?.copyWith(
-                      color:
-                          scheme.onPrimaryContainer.withValues(alpha: 0.7),
+                      color: scheme.onPrimaryContainer.withValues(alpha: 0.7),
                     ),
                   ),
                   const SizedBox(height: 16),
                   Obx(() {
-                    final pct = double.tryParse(
-                          controller.classAttendancePercent.value
-                              .replaceAll('%', ''),
+                    final pct =
+                        double.tryParse(
+                          controller.classAttendancePercent.value.replaceAll(
+                            '%',
+                            '',
+                          ),
                         ) ??
                         0;
                     return Column(
@@ -517,16 +541,16 @@ class _TeacherTodayCard extends GetView<TeacherDashboardController> {
                             minHeight: 7,
                             backgroundColor: scheme.onPrimaryContainer
                                 .withValues(alpha: 0.1),
-                            valueColor:
-                                AlwaysStoppedAnimation(scheme.primary),
+                            valueColor: AlwaysStoppedAnimation(scheme.primary),
                           ),
                         ),
                         const SizedBox(height: 5),
                         Text(
                           '${controller.classAttendancePercent.value} Attendance',
                           style: theme.textTheme.labelSmall?.copyWith(
-                            color: scheme.onPrimaryContainer
-                                .withValues(alpha: 0.65),
+                            color: scheme.onPrimaryContainer.withValues(
+                              alpha: 0.65,
+                            ),
                           ),
                         ),
                       ],
@@ -535,7 +559,9 @@ class _TeacherTodayCard extends GetView<TeacherDashboardController> {
                   const SizedBox(height: 16),
                   Container(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 14, vertical: 9),
+                      horizontal: 14,
+                      vertical: 9,
+                    ),
                     decoration: BoxDecoration(
                       color: scheme.primary,
                       borderRadius: BorderRadius.circular(20),
@@ -543,8 +569,11 @@ class _TeacherTodayCard extends GetView<TeacherDashboardController> {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.bar_chart_rounded,
-                            color: scheme.onPrimary, size: 14),
+                        Icon(
+                          Icons.bar_chart_rounded,
+                          color: scheme.onPrimary,
+                          size: 14,
+                        ),
                         const SizedBox(width: 5),
                         Text(
                           'View Reports',
@@ -563,8 +592,7 @@ class _TeacherTodayCard extends GetView<TeacherDashboardController> {
             // ── Right: Teachers present ──────────────────────────────────
             Container(
               width: 90,
-              padding:
-                  const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
               decoration: BoxDecoration(
                 color: scheme.surface.withValues(alpha: 0.75),
                 borderRadius: BorderRadius.circular(20),
@@ -572,8 +600,7 @@ class _TeacherTodayCard extends GetView<TeacherDashboardController> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.people_rounded,
-                      size: 40, color: scheme.primary),
+                  Icon(Icons.people_rounded, size: 40, color: scheme.primary),
                   const SizedBox(height: 8),
                   Obx(
                     () => Text(
@@ -586,8 +613,9 @@ class _TeacherTodayCard extends GetView<TeacherDashboardController> {
                   ),
                   Text(
                     'Teachers',
-                    style: theme.textTheme.labelSmall
-                        ?.copyWith(color: scheme.onSurfaceVariant),
+                    style: theme.textTheme.labelSmall?.copyWith(
+                      color: scheme.onSurfaceVariant,
+                    ),
                   ),
                   const SizedBox(height: 12),
                   Container(
@@ -596,8 +624,11 @@ class _TeacherTodayCard extends GetView<TeacherDashboardController> {
                       color: scheme.primary.withValues(alpha: 0.1),
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(Icons.check_circle_outline_rounded,
-                        size: 20, color: scheme.primary),
+                    child: Icon(
+                      Icons.check_circle_outline_rounded,
+                      size: 20,
+                      color: scheme.primary,
+                    ),
                   ),
                   const SizedBox(height: 4),
                   Text(
@@ -645,10 +676,16 @@ class _TeacherStatsGrid extends GetView<TeacherDashboardController> {
                 classOnly: true,
                 rows: [
                   _SR('Total', controller.classStudentsTotal.value),
-                  _SR('Present', controller.classStudentsPresent.value,
-                      valueColor: const Color(0xFF2E7D32)),
-                  _SR('Absent', controller.classStudentsAbsent.value,
-                      valueColor: const Color(0xFFC62828)),
+                  _SR(
+                    'Present',
+                    controller.classStudentsPresent.value,
+                    valueColor: const Color(0xFF2E7D32),
+                  ),
+                  _SR(
+                    'Absent',
+                    controller.classStudentsAbsent.value,
+                    valueColor: const Color(0xFFC62828),
+                  ),
                 ],
               ),
               right: _StatCard(
@@ -657,10 +694,16 @@ class _TeacherStatsGrid extends GetView<TeacherDashboardController> {
                 accent: const Color(0xFF1565C0),
                 rows: [
                   _SR('Total', controller.totalStaff.value),
-                  _SR('Present', controller.staffPresent.value,
-                      valueColor: const Color(0xFF2E7D32)),
-                  _SR('Absent', controller.staffAbsent.value,
-                      valueColor: const Color(0xFFC62828)),
+                  _SR(
+                    'Present',
+                    controller.staffPresent.value,
+                    valueColor: const Color(0xFF2E7D32),
+                  ),
+                  _SR(
+                    'Absent',
+                    controller.staffAbsent.value,
+                    valueColor: const Color(0xFFC62828),
+                  ),
                 ],
               ),
             ),
@@ -674,8 +717,11 @@ class _TeacherStatsGrid extends GetView<TeacherDashboardController> {
                 accent: const Color(0xFF546E7A),
                 classOnly: true,
                 rows: [
-                  _SR('Count', controller.emptyPeriods.value,
-                      emptyLabel: 'No empty periods'),
+                  _SR(
+                    'Count',
+                    controller.emptyPeriods.value,
+                    emptyLabel: 'No empty periods',
+                  ),
                 ],
               ),
               right: _StatCard(
@@ -683,8 +729,11 @@ class _TeacherStatsGrid extends GetView<TeacherDashboardController> {
                 icon: Icons.report_problem_rounded,
                 accent: const Color(0xFFBF360C),
                 rows: [
-                  _SR('Count', controller.complaintsCount.value,
-                      emptyLabel: 'No complaints'),
+                  _SR(
+                    'Count',
+                    controller.complaintsCount.value,
+                    emptyLabel: 'No complaints',
+                  ),
                 ],
               ),
             ),
@@ -769,21 +818,20 @@ class _StatCard extends StatelessWidget {
         children: [
           // ── Colored header strip ──────────────────────────────────────
           Container(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
                   accent,
-                  Color.lerp(accent, Colors.white,
-                          isDark ? 0.1 : 0.22) ??
+                  Color.lerp(accent, Colors.white, isDark ? 0.1 : 0.22) ??
                       accent,
                 ],
               ),
-              borderRadius:
-                  const BorderRadius.vertical(top: Radius.circular(20)),
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(20),
+              ),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -816,7 +864,9 @@ class _StatCard extends StatelessWidget {
                   const SizedBox(height: 6),
                   Container(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 7, vertical: 3),
+                      horizontal: 7,
+                      vertical: 3,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.22),
                       borderRadius: BorderRadius.circular(6),
@@ -849,35 +899,31 @@ class _StatCard extends StatelessWidget {
                   child: display == null
                       ? Center(
                           child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(vertical: 8),
+                            padding: const EdgeInsets.symmetric(vertical: 8),
                             child: Text(
                               r.emptyLabel!,
-                              style:
-                                  theme.textTheme.bodySmall?.copyWith(
-                                color: scheme.onSurfaceVariant
-                                    .withValues(alpha: 0.55),
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                color: scheme.onSurfaceVariant.withValues(
+                                  alpha: 0.55,
+                                ),
                                 fontStyle: FontStyle.italic,
                               ),
                             ),
                           ),
                         )
                       : Row(
-                          mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               r.label,
-                              style:
-                                  theme.textTheme.bodySmall?.copyWith(
+                              style: theme.textTheme.bodySmall?.copyWith(
                                 color: scheme.onSurfaceVariant,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
                             Text(
                               display,
-                              style:
-                                  theme.textTheme.bodySmall?.copyWith(
+                              style: theme.textTheme.bodySmall?.copyWith(
                                 color: r.valueColor ?? scheme.onSurface,
                                 fontWeight: FontWeight.w600,
                               ),

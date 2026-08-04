@@ -1,0 +1,400 @@
+Initialized native services in: /Users/priyanka/.gradle/native
+Initialized jansi services in: /Users/priyanka/.gradle/native
+Found daemon DaemonInfo{pid=3022, address=[8b285d7b-f442-43af-98d9-b9c70109cac9 port:50311, addresses:[/127.0.0.1]], state=Idle, lastBusy=1785511509765, context=DefaultDaemonContext[uid=88478ae7-36ef-429f-a015-a9e40af80b9a,javaHome=/Applications/Android Studio.app/Contents/jbr/Contents/Home,javaVersion=25,javaVendor=JetBrains s.r.o.,daemonRegistryDir=/Users/priyanka/.gradle/daemon,pid=3022,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-XX:MaxMetaspaceSize=4G,-XX:ReservedCodeCacheSize=512m,-XX:+HeapDumpOnOutOfMemoryError,-Xmx8G,-Dfile.encoding=UTF-8,-Duser.country=US,-Duser.language=en,-Duser.variant]} however its context does not match the desired criteria.
+JVM is incompatible.
+Wanted: DaemonRequestContext{jvmCriteria=/opt/homebrew/Cellar/openjdk@21/21.0.12/libexec/openjdk.jdk/Contents/Home (no JDK specified, using current Java home), daemonOpts=[-XX:MaxMetaspaceSize=4G, -XX:ReservedCodeCacheSize=512m, -XX:+HeapDumpOnOutOfMemoryError, -Xmx8G, -Dfile.encoding=UTF-8, -Duser.country=US, -Duser.language=en, -Duser.variant], applyInstrumentationAgent=true, nativeServicesMode=ENABLED, priority=NORMAL}
+Actual: DefaultDaemonContext[uid=88478ae7-36ef-429f-a015-a9e40af80b9a,javaHome=/Applications/Android Studio.app/Contents/jbr/Contents/Home,javaVersion=25,javaVendor=JetBrains s.r.o.,daemonRegistryDir=/Users/priyanka/.gradle/daemon,pid=3022,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-XX:MaxMetaspaceSize=4G,-XX:ReservedCodeCacheSize=512m,-XX:+HeapDumpOnOutOfMemoryError,-Xmx8G,-Dfile.encoding=UTF-8,-Duser.country=US,-Duser.language=en,-Duser.variant]
+
+  Looking for a different daemon...
+Removing 0 daemon stop events from registry
+Previous Daemon (2272) stopped at Fri Jul 31 20:54:57 IST 2026 stop command received
+Previous Daemon (2702) stopped at Fri Jul 31 20:54:57 IST 2026 stop command received
+Starting a Gradle Daemon, 1 incompatible and 2 stopped Daemons could not be reused, use --status for details
+Starting process 'Gradle build daemon'. Working directory: /Users/priyanka/.gradle/daemon/8.14 Command: /opt/homebrew/Cellar/openjdk@21/21.0.12/libexec/openjdk.jdk/Contents/Home/bin/java --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-opens=java.base/java.nio.charset=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED --add-opens=java.xml/javax.xml.namespace=ALL-UNNAMED -XX:MaxMetaspaceSize=4G -XX:ReservedCodeCacheSize=512m -XX:+HeapDumpOnOutOfMemoryError -Xmx8G -Dfile.encoding=UTF-8 -Duser.country=US -Duser.language=en -Duser.variant -cp /Users/priyanka/.gradle/wrapper/dists/gradle-8.14-all/c2qonpi39x1mddn7hk5gh9iqj/gradle-8.14/lib/gradle-daemon-main-8.14.jar -javaagent:/Users/priyanka/.gradle/wrapper/dists/gradle-8.14-all/c2qonpi39x1mddn7hk5gh9iqj/gradle-8.14/lib/agents/gradle-instrumentation-agent-8.14.jar org.gradle.launcher.daemon.bootstrap.GradleDaemon 8.14
+Successfully started process 'Gradle build daemon'
+An attempt to start the daemon took 0.38 secs.
+The client will now receive all logging from the daemon (pid: 3097). The daemon log file: /Users/priyanka/.gradle/daemon/8.14/daemon-3097.out.log
+Starting build in new daemon [memory: 8 GiB]
+Using 10 worker leases.
+Received JVM installation metadata from '/opt/homebrew/Cellar/openjdk@21/21.0.12/libexec/openjdk.jdk/Contents/Home': {JAVA_HOME=/opt/homebrew/Cellar/openjdk@21/21.0.12/libexec/openjdk.jdk/Contents/Home, JAVA_VERSION=21.0.12, JAVA_VENDOR=Homebrew, RUNTIME_NAME=OpenJDK Runtime Environment, RUNTIME_VERSION=21.0.12, VM_NAME=OpenJDK 64-Bit Server VM, VM_VERSION=21.0.12, VM_VENDOR=Homebrew, OS_ARCH=aarch64}
+Watching the file system is configured to be enabled if available
+Now considering [/Users/priyanka/Desktop/erp_management/android] as hierarchies to watch
+File system watching is active
+Starting Build
+Now considering [/opt/homebrew/share/flutter/packages/flutter_tools/gradle, /Users/priyanka/Desktop/erp_management/android] as hierarchies to watch
+
+> Configure project :gradle
+Evaluating project ':gradle' using build file '/opt/homebrew/share/flutter/packages/flutter_tools/gradle/build.gradle.kts'.
+Resolved plugin [id: 'org.gradle.java-gradle-plugin']
+Resolved plugin [id: 'org.gradle.groovy']
+Resolved plugin [id: 'org.gradle.kotlin.kotlin-dsl', version: '5.2.0']
+Resolved plugin [id: 'org.jetbrains.kotlin.jvm', version: '2.2.20']
+Build 40e21a21-3425-4da1-9584-bb3a58cc53ff is started
+Using Kotlin Gradle Plugin gradle813 variant
+kotlin scripting plugin: created the scripting discovery configuration: kotlinScriptDef
+kotlin scripting plugin: created the scripting discovery configuration: testKotlinScriptDef
+WARNING: Unsupported Kotlin plugin version.
+The `embedded-kotlin` and `kotlin-dsl` plugins rely on features of Kotlin `2.0.21` that might work differently than in the requested version `2.2.20`.
+file or directory '/opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/java', not found
+Resolved plugin [id: 'dev.flutter.flutter-plugin-loader', version: '1.0.0']
+Resolved plugin [id: 'com.android.application', version: '8.11.1', apply: false]
+Resolved plugin [id: 'com.google.gms.google-services', version: '4.3.15', apply: false]
+Resolved plugin [id: 'org.jetbrains.kotlin.android', version: '2.0.21', apply: false]
+Resolve mutations for :gradle:checkKotlinGradlePluginConfigurationErrors (Thread[#84,Execution worker,5,main]) started.
+:gradle:checkKotlinGradlePluginConfigurationErrors (Thread[#84,Execution worker,5,main]) started.
+
+> Task :gradle:checkKotlinGradlePluginConfigurationErrors SKIPPED
+Skipping task ':gradle:checkKotlinGradlePluginConfigurationErrors' as task onlyIf 'errorDiagnostics are present' is false.
+Resolve mutations for :gradle:compileKotlin (Thread[#84,Execution worker,5,main]) started.
+:gradle:compileKotlin (Thread[#84,Execution worker,5,main]) started.
+
+> Task :gradle:compileKotlin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-compiler-embeddable/2.2.20/kotlin-compiler-embeddable-2.2.20.jar to /Users/priyanka/.gradle/.tmp/gradle_download10508511474711023123bin
+Invalidating in-memory cache of /Users/priyanka/.gradle/caches/journal-1/file-access.bin
+Invalidating in-memory cache of /Users/priyanka/.gradle/caches/8.14/fileHashes/fileHashes.bin
+Invalidating in-memory cache of /Users/priyanka/.gradle/caches/8.14/fileHashes/resourceHashesCache.bin
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/wrapper/dists/gradle-8.14-all/c2qonpi39x1mddn7hk5gh9iqj/gradle-8.14/lib/groovy-3.0.24.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/wrapper/dists/gradle-8.14-all/c2qonpi39x1mddn7hk5gh9iqj/gradle-8.14/lib/groovy-groovydoc-3.0.24.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/wrapper/dists/gradle-8.14-all/c2qonpi39x1mddn7hk5gh9iqj/gradle-8.14/lib/groovy-astbuilder-3.0.24.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/wrapper/dists/gradle-8.14-all/c2qonpi39x1mddn7hk5gh9iqj/gradle-8.14/lib/groovy-dateutil-3.0.24.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/caches/8.14/generated-gradle-jars/gradle-api-8.14.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/wrapper/dists/gradle-8.14-all/c2qonpi39x1mddn7hk5gh9iqj/gradle-8.14/lib/groovy-console-3.0.24.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/wrapper/dists/gradle-8.14-all/c2qonpi39x1mddn7hk5gh9iqj/gradle-8.14/lib/groovy-ant-3.0.24.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/wrapper/dists/gradle-8.14-all/c2qonpi39x1mddn7hk5gh9iqj/gradle-8.14/lib/groovy-json-3.0.24.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/wrapper/dists/gradle-8.14-all/c2qonpi39x1mddn7hk5gh9iqj/gradle-8.14/lib/groovy-datetime-3.0.24.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/wrapper/dists/gradle-8.14-all/c2qonpi39x1mddn7hk5gh9iqj/gradle-8.14/lib/groovy-sql-3.0.24.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/wrapper/dists/gradle-8.14-all/c2qonpi39x1mddn7hk5gh9iqj/gradle-8.14/lib/groovy-nio-3.0.24.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/wrapper/dists/gradle-8.14-all/c2qonpi39x1mddn7hk5gh9iqj/gradle-8.14/lib/javaparser-core-3.17.0.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/wrapper/dists/gradle-8.14-all/c2qonpi39x1mddn7hk5gh9iqj/gradle-8.14/lib/groovy-templates-3.0.24.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/wrapper/dists/gradle-8.14-all/c2qonpi39x1mddn7hk5gh9iqj/gradle-8.14/lib/groovy-test-3.0.24.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/wrapper/dists/gradle-8.14-all/c2qonpi39x1mddn7hk5gh9iqj/gradle-8.14/lib/groovy-xml-3.0.24.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/wrapper/dists/gradle-8.14-all/c2qonpi39x1mddn7hk5gh9iqj/gradle-8.14/lib/kotlin-stdlib-2.0.21.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/wrapper/dists/gradle-8.14-all/c2qonpi39x1mddn7hk5gh9iqj/gradle-8.14/lib/gradle-installation-beacon-8.14.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/wrapper/dists/gradle-8.14-all/c2qonpi39x1mddn7hk5gh9iqj/gradle-8.14/lib/kotlin-reflect-2.0.21.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/wrapper/dists/gradle-8.14-all/c2qonpi39x1mddn7hk5gh9iqj/gradle-8.14/lib/gradle-kotlin-dsl-extensions-8.14.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/wrapper/dists/gradle-8.14-all/c2qonpi39x1mddn7hk5gh9iqj/gradle-8.14/lib/gradle-kotlin-dsl-8.14.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/wrapper/dists/gradle-8.14-all/c2qonpi39x1mddn7hk5gh9iqj/gradle-8.14/lib/gradle-kotlin-dsl-shared-runtime-8.14.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/wrapper/dists/gradle-8.14-all/c2qonpi39x1mddn7hk5gh9iqj/gradle-8.14/lib/gradle-kotlin-dsl-tooling-models-8.14.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/caches/modules-2/files-2.1/androidx.annotation/annotation-jvm/1.9.1/b17951747e38bf3986a24431b9ba0d039958aa5f/annotation-jvm-1.9.1.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-serialization-json-jvm/1.4.0/cfa3e57d044a20e5c9e4561a997df823e2f1c81a/kotlinx-serialization-json-jvm-1.4.0.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-jdk8/1.8.0/ed04f49e186a116753ad70d34f0ac2925d1d8020/kotlin-stdlib-jdk8-1.8.0.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-jdk7/1.8.0/3c91271347f678c239607abb676d4032a7898427/kotlin-stdlib-jdk7-1.8.0.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin-model/2.0.0/3dba7d4ff1b25d86d56074671a2024859e8c7541/kotlin-gradle-plugin-model-2.0.0.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin-api/2.0.0/2862373ec25875028a85c3bc3d48f94239ff30af/kotlin-gradle-plugin-api-2.0.0.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/caches/modules-2/files-2.1/com.android.tools.build/gradle/8.11.1/7861a99a64716fd75ce85a3c7e2fcb3a9e928857/gradle-8.11.1.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/caches/modules-2/files-2.1/com.android.tools.build/builder-model/8.11.1/6888ed42b8bcc73e3a378048263d2cad36707494/builder-model-8.11.1.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/caches/modules-2/files-2.1/com.android.tools.build/manifest-merger/31.11.1/2eb20f98b2e71c3a1a2ebe675910e6958a7e1b78/manifest-merger-31.11.1.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/caches/modules-2/files-2.1/com.android/zipflinger/8.11.1/3a3b1786c331db72b9610eb1f68f0ec1ec9a1f/zipflinger-8.11.1.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/caches/modules-2/files-2.1/com.android.tools.build/gradle-api/8.11.1/e0ce2faa3fe7331e1e6855e5aa699c650f6d56c3/gradle-api-8.11.1.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/caches/modules-2/files-2.1/com.android.tools.build/apkzlib/8.11.1/ea2327cd7a67c0fc9a4d26f035b922dff11c7219/apkzlib-8.11.1.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/caches/modules-2/files-2.1/com.android.tools.build/apksig/8.11.1/f005788487574c7d6ba23dea63bf8cb3a4f164a6/apksig-8.11.1.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/caches/modules-2/files-2.1/com.squareup/javawriter/2.5.0/81241ff7078ef14f42ea2a8995fa09c096256e6b/javawriter-2.5.0.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin-annotations/2.0.0/4d00ed44eb30a888234724ba8ff46e1ed5c1546d/kotlin-gradle-plugin-annotations-2.0.0.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm/9.7.1/f0ed132a49244b042cd0e15702ab9f2ce3cc8436/asm-9.7.1.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-native-utils/2.0.0/39f2424147119236d6357382a4596c5104206223/kotlin-native-utils-2.0.0.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-tooling-core/2.0.0/1ac0c3686d77f70bc5981872121d812dc8182935/kotlin-tooling-core-2.0.0.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-util-klib/2.0.0/46dc3eecb38a50482064a141d457e25f66c74751/kotlin-util-klib-2.0.0.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-util-io/2.0.0/b99cf9311bece174111296392b11c662b5fc1949/kotlin-util-io-2.0.0.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.0.0/5c20cbfbc72e5fbecec18e540de7e5fa59205d63/kotlin-gradle-plugin-2.0.0-gradle85.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/caches/modules-2/files-2.1/com.android.tools.build/builder/8.11.1/52ae05e99786bd491ad363825acbc2476c8b905/builder-8.11.1.jar because:
+  Build cache is disabled
+Caching disabled for BuildToolsApiClasspathEntrySnapshotTransform: /Users/priyanka/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-serialization-core-jvm/1.4.0/9b00d574374ae0201a505ab54c7744586866dc27/kotlinx-serialization-core-jvm-1.4.0.jar because:
+  Build cache is disabled
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-assignment-compiler-plugin-embeddable/2.2.20/kotlin-assignment-compiler-plugin-embeddable-2.2.20.pom]
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-sam-with-receiver-compiler-plugin-embeddable/2.2.20/kotlin-sam-with-receiver-compiler-plugin-embeddable-2.2.20.pom]
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-sam-with-receiver-compiler-plugin-embeddable/2.2.20/kotlin-sam-with-receiver-compiler-plugin-embeddable-2.2.20.pom to /Users/priyanka/.gradle/.tmp/gradle_download12642096875297446009bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-assignment-compiler-plugin-embeddable/2.2.20/kotlin-assignment-compiler-plugin-embeddable-2.2.20.pom to /Users/priyanka/.gradle/.tmp/gradle_download7038745945336338088bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-assignment-compiler-plugin-embeddable/2.2.20/kotlin-assignment-compiler-plugin-embeddable-2.2.20.jar to /Users/priyanka/.gradle/.tmp/gradle_download12047822749500322529bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-sam-with-receiver-compiler-plugin-embeddable/2.2.20/kotlin-sam-with-receiver-compiler-plugin-embeddable-2.2.20.jar to /Users/priyanka/.gradle/.tmp/gradle_download142263760411092394bin
+Caching disabled for task ':gradle:compileKotlin' because:
+  Build cache is disabled
+Task ':gradle:compileKotlin' is not up-to-date because:
+  No history is available.
+The input changes require a full rebuild for incremental task ':gradle:compileKotlin'.
+file or directory '/opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/java', not found
+Overriding '-Xjvm-default=all' to stable compiler plugin argument '-jvm-default=no-compatibility' in the presence of 'kotlin-dsl' plugin.
+file or directory '/opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/java', not found
+file or directory '/opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/java', not found
+file or directory '/opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/java', not found
+Kotlin source files: /opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/VersionUtils.kt, /opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/FlutterPluginConstants.kt, /opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/tasks/DeepLinkJsonFromManifestTaskHelper.kt, /opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/tasks/DeepLinkJsonFromManifestTask.kt, /opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/tasks/FlutterTaskHelper.kt, /opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/tasks/BaseFlutterTask.kt, /opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/tasks/CopyFlutterJniLibsTask.kt, /opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/tasks/BaseFlutterTaskHelper.kt, /opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/tasks/FlutterTask.kt, /opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/IntentFilterCheck.kt, /opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/plugins/PluginHandler.kt, /opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/FlutterExtension.kt, /opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/BaseApplicationNameHandler.kt, /opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/DependencyVersionChecker.kt, /opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/VersionFetcher.kt, /opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/AppLinkSettings.kt, /opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/AgpCommonExtensionWrapper.kt, /opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/NativePluginLoaderReflectionBridge.kt, /opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/FlutterPluginUtils.kt, /opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/FlutterAppPluginLoaderPlugin.kt, /opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/FlutterPlugin.kt, /opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/Deeplink.kt
+Java source files: 
+Script source files: 
+Script file extensions: 
+Using Kotlin/JVM incremental compilation
+[KOTLIN] Kotlin compilation 'jdkHome' argument: /opt/homebrew/Cellar/openjdk@21/21.0.12/libexec/openjdk.jdk/Contents/Home
+
+Resolve mutations for :gradle:pluginDescriptors (Thread[#90,Execution worker Thread 7,5,main]) started.
+:gradle:pluginDescriptors (Thread[#90,Execution worker Thread 7,5,main]) started.
+
+> Task :gradle:pluginDescriptors
+Caching disabled for task ':gradle:pluginDescriptors' because:
+  Build cache is disabled
+  Not worth caching
+Task ':gradle:pluginDescriptors' is not up-to-date because:
+  No history is available.
+Resolve mutations for :gradle:processResources (Thread[#90,Execution worker Thread 7,5,main]) started.
+:gradle:processResources (Thread[#90,Execution worker Thread 7,5,main]) started.
+
+> Task :gradle:processResources
+Caching disabled for task ':gradle:processResources' because:
+  Build cache is disabled
+  Not worth caching
+Task ':gradle:processResources' is not up-to-date because:
+  No history is available.
+file or directory '/opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/resources', not found
+
+> Task :gradle:compileKotlin
+i: starting the daemon as: /opt/homebrew/Cellar/openjdk@21/21.0.12/libexec/openjdk.jdk/Contents/Home/bin/java -cp /Users/priyanka/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/2.2.20/bb8331b7585e36ea311825b01a1c06860c055fd1/kotlin-compiler-embeddable-2.2.20.jar:/Users/priyanka/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.2.20/5380b19fa1924399b62ce3a1faffebb2b4f82272/kotlin-stdlib-2.2.20.jar:/Users/priyanka/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-runtime/2.2.20/4c679cbeac0bb583b75c3a080013da8eaf240807/kotlin-script-runtime-2.2.20.jar:/Users/priyanka/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.6.10/1cbe9c92c12a94eea200d23c2bbaedaf3daf5132/kotlin-reflect-1.6.10.jar:/Users/priyanka/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-daemon-embeddable/2.2.20/feff12d48d7f1eb628742b0a721395e16f8755bf/kotlin-daemon-embeddable-2.2.20.jar:/Users/priyanka/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-core-jvm/1.8.0/ac1dc37a30a93150b704022f8d895ee1bd3a36b3/kotlinx-coroutines-core-jvm-1.8.0.jar:/Users/priyanka/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar -Djava.awt.headless=true -Djava.rmi.server.hostname=127.0.0.1 -Xmx8G -XX:MaxMetaspaceSize=4G -XX:ReservedCodeCacheSize=512m -Dkotlin.environment.keepalive -ea -XX:+UseCodeCacheFlushing -XX:+UseParallelGC -Dkotlin.daemon.initiator.marker.file=/var/folders/w7/tsfq9rxj1xx5n4cbk8tn2ftc0000gn/T/kotlin-compiler-in-gradle-15615035019247350005.alive --add-exports java.base/sun.nio.ch=ALL-UNNAMED org.jetbrains.kotlin.daemon.KotlinCompileDaemon --daemon-runFilesPath /Users/priyanka/Library/Application Support/kotlin/daemon --daemon-autoshutdownIdleSeconds=7200 --daemon-compilerClasspath /Users/priyanka/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/2.2.20/bb8331b7585e36ea311825b01a1c06860c055fd1/kotlin-compiler-embeddable-2.2.20.jar:/Users/priyanka/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.2.20/5380b19fa1924399b62ce3a1faffebb2b4f82272/kotlin-stdlib-2.2.20.jar:/Users/priyanka/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-runtime/2.2.20/4c679cbeac0bb583b75c3a080013da8eaf240807/kotlin-script-runtime-2.2.20.jar:/Users/priyanka/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.6.10/1cbe9c92c12a94eea200d23c2bbaedaf3daf5132/kotlin-reflect-1.6.10.jar:/Users/priyanka/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-daemon-embeddable/2.2.20/feff12d48d7f1eb628742b0a721395e16f8755bf/kotlin-daemon-embeddable-2.2.20.jar:/Users/priyanka/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-core-jvm/1.8.0/ac1dc37a30a93150b704022f8d895ee1bd3a36b3/kotlinx-coroutines-core-jvm-1.8.0.jar:/Users/priyanka/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar
+i: #1 retrying connecting to the daemon 
+Options for KOTLIN DAEMON: IncrementalCompilationOptions(super=CompilationOptions(compilerMode=INCREMENTAL_COMPILER, targetPlatform=JVM, reportCategories=[0, 3], reportSeverity=2, requestedCompilationResults=[0], kotlinScriptExtensions=[]), sourceChanges=org.jetbrains.kotlin.buildtools.api.SourcesChanges$Unknown@27d0551b, classpathChanges=NotAvailableForNonIncrementalRun, workingDir=/opt/homebrew/share/flutter/packages/flutter_tools/gradle/build/kotlin/compileKotlin/cacheable, multiModuleICSettings=MultiModuleICSettings(buildHistoryFile=/opt/homebrew/share/flutter/packages/flutter_tools/gradle/build/kotlin/compileKotlin/local-state/build-history.bin, useModuleDetection=false), icFeatures=IncrementalCompilationFeatures(usePreciseJavaTracking=true, withAbiSnapshot=false, preciseCompilationResultsBackup=true, keepIncrementalCompilationCachesInMemory=true, enableUnsafeIncrementalCompilationForMultiplatform=false, enableMonotonousIncrementalCompileSetExpansion=true), outputFiles=[/opt/homebrew/share/flutter/packages/flutter_tools/gradle/build/classes/kotlin/main, /opt/homebrew/share/flutter/packages/flutter_tools/gradle/build/kotlin/compileKotlin/cacheable, /opt/homebrew/share/flutter/packages/flutter_tools/gradle/build/kotlin/compileKotlin/local-state])
+w: Language version 1.8 is deprecated and its support will be removed in a future version of Kotlin
+w: file:///opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/FlutterPlugin.kt:13:37 'ApkVariant' is deprecated. Deprecated in Java
+w: file:///opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/FlutterPlugin.kt:662:69 'ApkVariant' is deprecated. Deprecated in Java
+w: file:///opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/FlutterPluginUtils.kt:12:37 'BaseVariantOutput' is deprecated. Deprecated in Java
+w: file:///opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/plugins/PluginHandler.kt:168:70 Unchecked cast: NamedDomainObjectContainer<out BuildType> to NamedDomainObjectContainer<BuildType>
+w: file:///opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/plugins/PluginHandler.kt:169:75 Unchecked cast: NamedDomainObjectContainer<out BuildType> to NamedDomainObjectContainer<BuildType>
+Finished executing kotlin compiler using DAEMON strategy
+Resolve mutations for :gradle:compileJava (Thread[#84,Execution worker,5,main]) started.
+:gradle:compileJava (Thread[#84,Execution worker,5,main]) started.
+
+> Task :gradle:compileJava NO-SOURCE
+Skipping task ':gradle:compileJava' as it has no source files and no previous output files.
+Resolve mutations for :gradle:compileGroovy (Thread[#84,Execution worker,5,main]) started.
+:gradle:compileGroovy (Thread[#84,Execution worker,5,main]) started.
+
+> Task :gradle:compileGroovy NO-SOURCE
+Skipping task ':gradle:compileGroovy' as it has no source files and no previous output files.
+Resolve mutations for :gradle:classes (Thread[#84,Execution worker,5,main]) started.
+:gradle:classes (Thread[#84,Execution worker,5,main]) started.
+
+> Task :gradle:classes
+Skipping task ':gradle:classes' as it has no actions.
+Resolve mutations for :gradle:jar (Thread[#84,Execution worker,5,main]) started.
+:gradle:jar (Thread[#84,Execution worker,5,main]) started.
+
+> Task :gradle:jar
+Caching disabled for task ':gradle:jar' because:
+  Build cache is disabled
+  Not worth caching
+Task ':gradle:jar' is not up-to-date because:
+  No history is available.
+file or directory '/opt/homebrew/share/flutter/packages/flutter_tools/gradle/build/classes/java/main', not found
+file or directory '/opt/homebrew/share/flutter/packages/flutter_tools/gradle/build/classes/groovy/main', not found
+Downloading https://dl.google.com/dl/android/maven2/com/google/gms/google-services/4.3.15/google-services-4.3.15.pom to /Users/priyanka/.gradle/.tmp/gradle_download7480109388834179873bin
+Invalidating in-memory cache of /Users/priyanka/.gradle/caches/journal-1/file-access.bin
+Downloading https://dl.google.com/dl/android/maven2/com/google/gms/google-services/4.3.15/google-services-4.3.15.module to /Users/priyanka/.gradle/.tmp/gradle_download4304975743972985656bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin/2.0.21/kotlin-gradle-plugin-2.0.21.pom]
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin/2.0.21/kotlin-gradle-plugin-2.0.21.pom to /Users/priyanka/.gradle/.tmp/gradle_download17263455965167904075bin
+Resource missing. [HTTP HEAD: https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-gradle-plugins-bom/2.0.21/kotlin-gradle-plugins-bom-2.0.21.pom]
+Found locally available resource with matching checksum: [https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-gradle-plugins-bom/2.0.21/kotlin-gradle-plugins-bom-2.0.21.pom, /Users/priyanka/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugins-bom/2.0.21/5371cc54e8e549bf99b5d3c5cb9e8a8f0b09b8f2/kotlin-gradle-plugins-bom-2.0.21.pom]
+Found locally available resource with matching checksum: [https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-gradle-plugins-bom/2.0.21/kotlin-gradle-plugins-bom-2.0.21.module, /Users/priyanka/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugins-bom/2.0.21/4361c104359fac6e6dcf13fb22686ce1d7f06a1b/kotlin-gradle-plugins-bom-2.0.21.module]
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin/2.0.21/kotlin-gradle-plugin-2.0.21.module to /Users/priyanka/.gradle/.tmp/gradle_download10819153436182890479bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/lint/lint-model/31.11.1/lint-model-31.11.1.pom to /Users/priyanka/.gradle/.tmp/gradle_download1906045596539108761bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/analytics-library/shared/31.11.1/shared-31.11.1.pom to /Users/priyanka/.gradle/.tmp/gradle_download4335321098802152008bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/repository/31.11.1/repository-31.11.1.pom to /Users/priyanka/.gradle/.tmp/gradle_download12299803518070521708bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/aaptcompiler/8.11.1/aaptcompiler-8.11.1.pom to /Users/priyanka/.gradle/.tmp/gradle_download1258146389816072740bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/ddms/ddmlib/31.11.1/ddmlib-31.11.1.pom to /Users/priyanka/.gradle/.tmp/gradle_download4254172468788418493bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/sdk-common/31.11.1/sdk-common-31.11.1.pom to /Users/priyanka/.gradle/.tmp/gradle_download11164945866261482409bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/sdklib/31.11.1/sdklib-31.11.1.pom to /Users/priyanka/.gradle/.tmp/gradle_download11784056712179366356bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/lint/lint-typedef-remover/31.11.1/lint-typedef-remover-31.11.1.pom to /Users/priyanka/.gradle/.tmp/gradle_download3069649628551214223bin
+Downloading https://dl.google.com/dl/android/maven2/androidx/databinding/databinding-compiler-common/8.11.1/databinding-compiler-common-8.11.1.pom to /Users/priyanka/.gradle/.tmp/gradle_download4846575609999827657bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/aapt2-proto/8.11.1-12782657/aapt2-proto-8.11.1-12782657.pom to /Users/priyanka/.gradle/.tmp/gradle_download1853515622055181774bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/databinding/baseLibrary/8.11.1/baseLibrary-8.11.1.pom to /Users/priyanka/.gradle/.tmp/gradle_download13669473454259562333bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/gradle-settings-api/8.11.1/gradle-settings-api-8.11.1.pom to /Users/priyanka/.gradle/.tmp/gradle_download10055171953153481278bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/layoutlib/layoutlib-api/31.11.1/layoutlib-api-31.11.1.pom to /Users/priyanka/.gradle/.tmp/gradle_download4742234802265611289bin
+Downloading https://dl.google.com/dl/android/maven2/androidx/databinding/databinding-common/8.11.1/databinding-common-8.11.1.pom to /Users/priyanka/.gradle/.tmp/gradle_download15794939966331443261bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/builder-test-api/8.11.1/builder-test-api-8.11.1.pom to /Users/priyanka/.gradle/.tmp/gradle_download1466375465514181957bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-device-provider-ddmlib-proto/31.11.1/android-device-provider-ddmlib-proto-31.11.1.pom to /Users/priyanka/.gradle/.tmp/gradle_download10288836075865275721bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/gradle-settings-api/8.11.1/gradle-settings-api-8.11.1.module to /Users/priyanka/.gradle/.tmp/gradle_download7042775277010901896bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/aaptcompiler/8.11.1/aaptcompiler-8.11.1.module to /Users/priyanka/.gradle/.tmp/gradle_download4758952035513764281bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/builder-test-api/8.11.1/builder-test-api-8.11.1.module to /Users/priyanka/.gradle/.tmp/gradle_download17395354190912736792bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-device-provider-gradle-proto/31.11.1/android-device-provider-gradle-proto-31.11.1.pom to /Users/priyanka/.gradle/.tmp/gradle_download3012643538136850313bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-test-plugin-host-emulator-control-proto/31.11.1/android-test-plugin-host-emulator-control-proto-31.11.1.pom to /Users/priyanka/.gradle/.tmp/gradle_download7898565864106015494bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/aapt2-proto/8.11.1-12782657/aapt2-proto-8.11.1-12782657.module to /Users/priyanka/.gradle/.tmp/gradle_download10313240836297720427bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-test-plugin-host-logcat-proto/31.11.1/android-test-plugin-host-logcat-proto-31.11.1.pom to /Users/priyanka/.gradle/.tmp/gradle_download8552574665017013364bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-test-plugin-result-listener-gradle-proto/31.11.1/android-test-plugin-result-listener-gradle-proto-31.11.1.pom to /Users/priyanka/.gradle/.tmp/gradle_download945201203105020382bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-device-provider-profile-proto/31.11.1/android-device-provider-profile-proto-31.11.1.pom to /Users/priyanka/.gradle/.tmp/gradle_download14466098023841669631bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/apache/httpcomponents/httpmime/4.5.6/httpmime-4.5.6.pom]
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/analytics-library/crash/31.11.1/crash-31.11.1.pom to /Users/priyanka/.gradle/.tmp/gradle_download8081221823755601695bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-test-plugin-host-apk-installer-proto/31.11.1/android-test-plugin-host-apk-installer-proto-31.11.1.pom to /Users/priyanka/.gradle/.tmp/gradle_download12377535348694796248bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/commons-io/commons-io/2.16.1/commons-io-2.16.1.pom]
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/ow2/asm/asm-analysis/9.7.1/asm-analysis-9.7.1.pom]
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-test-plugin-host-additional-test-output-proto/31.11.1/android-test-plugin-host-additional-test-output-proto-31.11.1.pom to /Users/priyanka/.gradle/.tmp/gradle_download4482037825119886810bin
+Downloading https://repo.maven.apache.org/maven2/org/apache/httpcomponents/httpmime/4.5.6/httpmime-4.5.6.pom to /Users/priyanka/.gradle/.tmp/gradle_download16048360110987280142bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/ow2/asm/asm-commons/9.7.1/asm-commons-9.7.1.pom]
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/ow2/asm/asm-util/9.7.1/asm-util-9.7.1.pom]
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/transform-api/2.0.0-deprecated-use-gradle-api/transform-api-2.0.0-deprecated-use-gradle-api.pom to /Users/priyanka/.gradle/.tmp/gradle_download17201129596040467716bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/bouncycastle/bcpkix-jdk18on/1.79/bcpkix-jdk18on-1.79.pom]
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/glassfish/jaxb/jaxb-runtime/2.3.2/jaxb-runtime-2.3.2.pom]
+Downloading https://repo.maven.apache.org/maven2/org/ow2/asm/asm-commons/9.7.1/asm-commons-9.7.1.pom to /Users/priyanka/.gradle/.tmp/gradle_download13827296135651964183bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/net/sf/jopt-simple/jopt-simple/4.9/jopt-simple-4.9.pom]
+Downloading https://repo.maven.apache.org/maven2/commons-io/commons-io/2.16.1/commons-io-2.16.1.pom to /Users/priyanka/.gradle/.tmp/gradle_download15735850432457504047bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/apache/httpcomponents/httpcomponents-client/4.5.6/httpcomponents-client-4.5.6.pom]
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/bundletool/1.18.1/bundletool-1.18.1.pom to /Users/priyanka/.gradle/.tmp/gradle_download3625678531810834870bin
+Downloading https://repo.maven.apache.org/maven2/org/ow2/asm/asm-analysis/9.7.1/asm-analysis-9.7.1.pom to /Users/priyanka/.gradle/.tmp/gradle_download2935249063092679340bin
+Downloading https://repo.maven.apache.org/maven2/net/sf/jopt-simple/jopt-simple/4.9/jopt-simple-4.9.pom to /Users/priyanka/.gradle/.tmp/gradle_download15446766827190415104bin
+Downloading https://repo.maven.apache.org/maven2/org/ow2/asm/asm-util/9.7.1/asm-util-9.7.1.pom to /Users/priyanka/.gradle/.tmp/gradle_download7577060943807116964bin
+Downloading https://repo.maven.apache.org/maven2/org/apache/httpcomponents/httpcomponents-client/4.5.6/httpcomponents-client-4.5.6.pom to /Users/priyanka/.gradle/.tmp/gradle_download7804343191803304488bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/jetifier/jetifier-core/1.0.0-beta10/jetifier-core-1.0.0-beta10.pom to /Users/priyanka/.gradle/.tmp/gradle_download16642026038784608847bin
+Downloading https://repo.maven.apache.org/maven2/org/bouncycastle/bcpkix-jdk18on/1.79/bcpkix-jdk18on-1.79.pom to /Users/priyanka/.gradle/.tmp/gradle_download16648795162033768842bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/jetifier/jetifier-processor/1.0.0-beta10/jetifier-processor-1.0.0-beta10.pom to /Users/priyanka/.gradle/.tmp/gradle_download12962716517862263111bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/com/squareup/javapoet/1.10.0/javapoet-1.10.0.pom]
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/com/google/protobuf/protobuf-java/3.25.5/protobuf-java-3.25.5.pom]
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-test-plugin-host-coverage-proto/31.11.1/android-test-plugin-host-coverage-proto-31.11.1.pom to /Users/priyanka/.gradle/.tmp/gradle_download7236461658544612861bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/apache/httpcomponents/httpcomponents-parent/10/httpcomponents-parent-10.pom]
+Downloading https://repo.maven.apache.org/maven2/com/squareup/javapoet/1.10.0/javapoet-1.10.0.pom to /Users/priyanka/.gradle/.tmp/gradle_download15667476864253680214bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/com/google/protobuf/protobuf-java-util/3.25.5/protobuf-java-util-3.25.5.pom]
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/jetifier/jetifier-processor/1.0.0-beta10/jetifier-processor-1.0.0-beta10.module to /Users/priyanka/.gradle/.tmp/gradle_download6694785019069138970bin
+Downloading https://repo.maven.apache.org/maven2/org/apache/httpcomponents/httpcomponents-parent/10/httpcomponents-parent-10.pom to /Users/priyanka/.gradle/.tmp/gradle_download2997586549879901775bin
+Resource missing. [HTTP HEAD: https://dl.google.com/dl/android/maven2/com/google/code/gson/gson/2.11.0/gson-2.11.0.pom]
+Downloading https://repo.maven.apache.org/maven2/com/google/protobuf/protobuf-java-util/3.25.5/protobuf-java-util-3.25.5.pom to /Users/priyanka/.gradle/.tmp/gradle_download8799406500011698325bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/io/grpc/grpc-core/1.69.1/grpc-core-1.69.1.pom]
+Downloading https://repo.maven.apache.org/maven2/com/google/protobuf/protobuf-java/3.25.5/protobuf-java-3.25.5.pom to /Users/priyanka/.gradle/.tmp/gradle_download15240236248012588600bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/jetifier/jetifier-core/1.0.0-beta10/jetifier-core-1.0.0-beta10.module to /Users/priyanka/.gradle/.tmp/gradle_download18241288615628008779bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/io/grpc/grpc-netty/1.69.1/grpc-netty-1.69.1.pom]
+Found locally available resource with matching checksum: [https://repo.maven.apache.org/maven2/com/google/code/gson/gson/2.11.0/gson-2.11.0.pom, /Users/priyanka/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.11.0/55796dd7cc329027df79e96c4e6631e3c02c93c5/gson-2.11.0.pom]
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-core/1.69.1/grpc-core-1.69.1.pom to /Users/priyanka/.gradle/.tmp/gradle_download7845673406489270916bin
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-netty/1.69.1/grpc-netty-1.69.1.pom to /Users/priyanka/.gradle/.tmp/gradle_download12881802253746686586bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/com/google/protobuf/protobuf-parent/3.25.5/protobuf-parent-3.25.5.pom]
+Resource missing. [HTTP HEAD: https://dl.google.com/dl/android/maven2/com/google/code/gson/gson-parent/2.11.0/gson-parent-2.11.0.pom]
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/apache/apache/18/apache-18.pom]
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/apache/commons/commons-parent/69/commons-parent-69.pom]
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/io/grpc/grpc-protobuf/1.69.1/grpc-protobuf-1.69.1.pom]
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/io/grpc/grpc-stub/1.69.1/grpc-stub-1.69.1.pom]
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/io/grpc/grpc-inprocess/1.69.1/grpc-inprocess-1.69.1.pom]
+Found locally available resource with matching checksum: [https://repo.maven.apache.org/maven2/com/google/code/gson/gson-parent/2.11.0/gson-parent-2.11.0.pom, /Users/priyanka/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson-parent/2.11.0/b32d3bc5c89c852efe4c176df6c3fdeccbe150ef/gson-parent-2.11.0.pom]
+Downloading https://repo.maven.apache.org/maven2/com/google/protobuf/protobuf-parent/3.25.5/protobuf-parent-3.25.5.pom to /Users/priyanka/.gradle/.tmp/gradle_download13333801071323164218bin
+Downloading https://repo.maven.apache.org/maven2/org/apache/commons/commons-parent/69/commons-parent-69.pom to /Users/priyanka/.gradle/.tmp/gradle_download7409960713218763778bin
+Downloading https://repo.maven.apache.org/maven2/org/glassfish/jaxb/jaxb-runtime/2.3.2/jaxb-runtime-2.3.2.pom to /Users/priyanka/.gradle/.tmp/gradle_download7768833510898971639bin
+Downloading https://repo.maven.apache.org/maven2/org/apache/apache/18/apache-18.pom to /Users/priyanka/.gradle/.tmp/gradle_download13036760083128333143bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/com/google/protobuf/protobuf-bom/3.25.5/protobuf-bom-3.25.5.pom]
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-protobuf/1.69.1/grpc-protobuf-1.69.1.pom to /Users/priyanka/.gradle/.tmp/gradle_download17380327647819663922bin
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-stub/1.69.1/grpc-stub-1.69.1.pom to /Users/priyanka/.gradle/.tmp/gradle_download3164643428277027402bin
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-inprocess/1.69.1/grpc-inprocess-1.69.1.pom to /Users/priyanka/.gradle/.tmp/gradle_download12518891431488570019bin
+Downloading https://dl.google.com/dl/android/maven2/com/google/testing/platform/core-proto/0.0.9-alpha03/core-proto-0.0.9-alpha03.pom to /Users/priyanka/.gradle/.tmp/gradle_download11963696985291724395bin
+Downloading https://repo.maven.apache.org/maven2/com/google/protobuf/protobuf-bom/3.25.5/protobuf-bom-3.25.5.pom to /Users/priyanka/.gradle/.tmp/gradle_download2962179844956151702bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/com/sun/xml/bind/mvn/jaxb-runtime-parent/2.3.2/jaxb-runtime-parent-2.3.2.pom]
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/tensorflow/tensorflow-lite-metadata/0.2.0/tensorflow-lite-metadata-0.2.0.pom]
+Downloading https://repo.maven.apache.org/maven2/com/sun/xml/bind/mvn/jaxb-runtime-parent/2.3.2/jaxb-runtime-parent-2.3.2.pom to /Users/priyanka/.gradle/.tmp/gradle_download16033513271705453473bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/apache/apache/31/apache-31.pom]
+Downloading https://repo.maven.apache.org/maven2/org/tensorflow/tensorflow-lite-metadata/0.2.0/tensorflow-lite-metadata-0.2.0.pom to /Users/priyanka/.gradle/.tmp/gradle_download7934764476873732138bin
+Downloading https://repo.maven.apache.org/maven2/org/apache/apache/31/apache-31.pom to /Users/priyanka/.gradle/.tmp/gradle_download12759939137264851152bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/com/sun/xml/bind/mvn/jaxb-parent/2.3.2/jaxb-parent-2.3.2.pom]
+Downloading https://repo.maven.apache.org/maven2/com/sun/xml/bind/mvn/jaxb-parent/2.3.2/jaxb-parent-2.3.2.pom to /Users/priyanka/.gradle/.tmp/gradle_download18121797027898441747bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/junit/junit-bom/5.10.2/junit-bom-5.10.2.pom]
+Downloading https://repo.maven.apache.org/maven2/org/junit/junit-bom/5.10.2/junit-bom-5.10.2.pom to /Users/priyanka/.gradle/.tmp/gradle_download7117114166294753335bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/com/sun/xml/bind/jaxb-bom-ext/2.3.2/jaxb-bom-ext-2.3.2.pom]
+Downloading https://repo.maven.apache.org/maven2/com/sun/xml/bind/jaxb-bom-ext/2.3.2/jaxb-bom-ext-2.3.2.pom to /Users/priyanka/.gradle/.tmp/gradle_download3984865355842851042bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/com/google/crypto/tink/tink/1.7.0/tink-1.7.0.pom]
+Downloading https://repo.maven.apache.org/maven2/org/junit/junit-bom/5.10.2/junit-bom-5.10.2.module to /Users/priyanka/.gradle/.tmp/gradle_download3388167964738503098bin
+Downloading https://repo.maven.apache.org/maven2/com/google/crypto/tink/tink/1.7.0/tink-1.7.0.pom to /Users/priyanka/.gradle/.tmp/gradle_download12072157426332076244bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/glassfish/jaxb/jaxb-bom/2.3.2/jaxb-bom-2.3.2.pom]
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/com/google/flatbuffers/flatbuffers-java/1.12.0/flatbuffers-java-1.12.0.pom]
+Downloading https://repo.maven.apache.org/maven2/org/glassfish/jaxb/jaxb-bom/2.3.2/jaxb-bom-2.3.2.pom to /Users/priyanka/.gradle/.tmp/gradle_download11834635911073762493bin
+Downloading https://repo.maven.apache.org/maven2/com/google/flatbuffers/flatbuffers-java/1.12.0/flatbuffers-java-1.12.0.pom to /Users/priyanka/.gradle/.tmp/gradle_download3673746958839676133bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/eclipse/ee4j/project/1.0.5/project-1.0.5.pom]
+Downloading https://repo.maven.apache.org/maven2/org/eclipse/ee4j/project/1.0.5/project-1.0.5.pom to /Users/priyanka/.gradle/.tmp/gradle_download6300384445849274573bin
+Downloading https://dl.google.com/dl/android/maven2/com/google/android/gms/strict-version-matcher-plugin/1.2.4/strict-version-matcher-plugin-1.2.4.pom to /Users/priyanka/.gradle/.tmp/gradle_download12064597450907794456bin
+Downloading https://dl.google.com/dl/android/maven2/com/google/android/gms/strict-version-matcher-plugin/1.2.4/strict-version-matcher-plugin-1.2.4.module to /Users/priyanka/.gradle/.tmp/gradle_download4966013932820763188bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/com/google/guava/guava/27.0.1-jre/guava-27.0.1-jre.pom]
+Downloading https://repo.maven.apache.org/maven2/com/google/guava/guava/27.0.1-jre/guava-27.0.1-jre.pom to /Users/priyanka/.gradle/.tmp/gradle_download17633342126195861079bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/com/google/guava/guava-parent/27.0.1-jre/guava-parent-27.0.1-jre.pom]
+Downloading https://repo.maven.apache.org/maven2/com/google/guava/guava-parent/27.0.1-jre/guava-parent-27.0.1-jre.pom to /Users/priyanka/.gradle/.tmp/gradle_download5887777278224239007bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/sonatype/oss/oss-parent/9/oss-parent-9.pom]
+Downloading https://repo.maven.apache.org/maven2/org/sonatype/oss/oss-parent/9/oss-parent-9.pom to /Users/priyanka/.gradle/.tmp/gradle_download8742236875998233906bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-util-klib/2.0.21/kotlin-util-klib-2.0.21.pom]
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin-model/2.0.21/kotlin-gradle-plugin-model-2.0.21.pom]
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-build-tools-api/2.0.21/kotlin-build-tools-api-2.0.21.pom]
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-klib-commonizer-api/2.0.21/kotlin-klib-commonizer-api-2.0.21.pom]
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-build-statistics/2.0.21/kotlin-build-statistics-2.0.21.pom]
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-build-tools-api/2.0.21/kotlin-build-tools-api-2.0.21.pom to /Users/priyanka/.gradle/.tmp/gradle_download7531312158501305022bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-compiler-embeddable/2.0.21/kotlin-compiler-embeddable-2.0.21.pom]
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-util-klib/2.0.21/kotlin-util-klib-2.0.21.pom to /Users/priyanka/.gradle/.tmp/gradle_download12003540948843856144bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-klib-commonizer-api/2.0.21/kotlin-klib-commonizer-api-2.0.21.pom to /Users/priyanka/.gradle/.tmp/gradle_download3409864590525831800bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin-idea/2.0.21/kotlin-gradle-plugin-idea-2.0.21.pom]
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-compiler-embeddable/2.0.21/kotlin-compiler-embeddable-2.0.21.pom to /Users/priyanka/.gradle/.tmp/gradle_download3699161708165548050bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin-idea/2.0.21/kotlin-gradle-plugin-idea-2.0.21.pom to /Users/priyanka/.gradle/.tmp/gradle_download3783616211975821569bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin-idea/2.0.21/kotlin-gradle-plugin-idea-2.0.21.module to /Users/priyanka/.gradle/.tmp/gradle_download15154853931722609245bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-compiler-runner/2.0.21/kotlin-compiler-runner-2.0.21.pom]
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-compiler-runner/2.0.21/kotlin-compiler-runner-2.0.21.pom to /Users/priyanka/.gradle/.tmp/gradle_download950898529445224949bin
+Resource missing. [HTTP HEAD: https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin-api/2.0.21/kotlin-gradle-plugin-api-2.0.21.pom]
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-build-statistics/2.0.21/kotlin-build-statistics-2.0.21.pom to /Users/priyanka/.gradle/.tmp/gradle_download3187938657497784974bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin-idea-proto/2.0.21/kotlin-gradle-plugin-idea-proto-2.0.21.pom]
+Found locally available resource with matching checksum: [https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin-api/2.0.21/kotlin-gradle-plugin-api-2.0.21.pom, /Users/priyanka/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin-api/2.0.21/c78bf04fd20d619cb93baa2f92e84b5008c98c8c/kotlin-gradle-plugin-api-2.0.21.pom]
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin-idea-proto/2.0.21/kotlin-gradle-plugin-idea-proto-2.0.21.pom to /Users/priyanka/.gradle/.tmp/gradle_download11799965601059803485bin
+Found locally available resource with matching checksum: [https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin-api/2.0.21/kotlin-gradle-plugin-api-2.0.21.module, /Users/priyanka/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin-api/2.0.21/525333c9bc19bfc94ea5cafbfcdd75f55cb3ca2d/kotlin-gradle-plugin-api-2.0.21.module]
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin-model/2.0.21/kotlin-gradle-plugin-model-2.0.21.pom to /Users/priyanka/.gradle/.tmp/gradle_download577087349937442990bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin-model/2.0.21/kotlin-gradle-plugin-model-2.0.21.module to /Users/priyanka/.gradle/.tmp/gradle_download1495939162993165594bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-stdlib-common/1.7.10/kotlin-stdlib-common-1.7.10.pom]
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-stdlib-jdk8/1.7.10/kotlin-stdlib-jdk8-1.7.10.pom]
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-common/1.7.10/kotlin-stdlib-common-1.7.10.pom to /Users/priyanka/.gradle/.tmp/gradle_download8809381457621058966bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-jdk8/1.7.10/kotlin-stdlib-jdk8-1.7.10.pom to /Users/priyanka/.gradle/.tmp/gradle_download12337766721088300077bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/com/google/guava/guava/33.3.1-jre/guava-33.3.1-jre.pom]
+Downloading https://repo.maven.apache.org/maven2/com/google/guava/guava/33.3.1-jre/guava-33.3.1-jre.pom to /Users/priyanka/.gradle/.tmp/gradle_download13516623907913017872bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/com/google/guava/guava-parent/33.3.1-jre/guava-parent-33.3.1-jre.pom]
+Downloading https://repo.maven.apache.org/maven2/com/google/guava/guava-parent/33.3.1-jre/guava-parent-33.3.1-jre.pom to /Users/priyanka/.gradle/.tmp/gradle_download10650673580758906840bin
+Downloading https://repo.maven.apache.org/maven2/com/google/guava/guava/33.3.1-jre/guava-33.3.1-jre.module to /Users/priyanka/.gradle/.tmp/gradle_download442380966991522192bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-stdlib-jdk8/2.1.20/kotlin-stdlib-jdk8-2.1.20.pom]
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-jdk8/2.1.20/kotlin-stdlib-jdk8-2.1.20.pom to /Users/priyanka/.gradle/.tmp/gradle_download16350075683629600693bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/javax/inject/javax.inject/1/javax.inject-1.pom]
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/common/31.11.1/common-31.11.1.pom to /Users/priyanka/.gradle/.tmp/gradle_download15717485065192319822bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/apache/commons/commons-compress/1.21/commons-compress-1.21.pom]
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/net/sf/kxml/kxml2/2.3.0/kxml2-2.3.0.pom]
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/bouncycastle/bcprov-jdk18on/1.79/bcprov-jdk18on-1.79.pom]
+Downloading https://repo.maven.apache.org/maven2/javax/inject/javax.inject/1/javax.inject-1.pom to /Users/priyanka/.gradle/.tmp/gradle_download13427644890922015220bin
+Downloading https://repo.maven.apache.org/maven2/org/apache/commons/commons-compress/1.21/commons-compress-1.21.pom to /Users/priyanka/.gradle/.tmp/gradle_download6921206419858225175bin
+Downloading https://repo.maven.apache.org/maven2/net/sf/kxml/kxml2/2.3.0/kxml2-2.3.0.pom to /Users/priyanka/.gradle/.tmp/gradle_download6786881924162338490bin
+Downloading https://repo.maven.apache.org/maven2/org/bouncycastle/bcprov-jdk18on/1.79/bcprov-jdk18on-1.79.pom to /Users/priyanka/.gradle/.tmp/gradle_download1344260711623575091bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/apache/commons/commons-parent/52/commons-parent-52.pom]
+Downloading https://repo.maven.apache.org/maven2/org/apache/commons/commons-parent/52/commons-parent-52.pom to /Users/priyanka/.gradle/.tmp/gradle_download336516454869547160bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/apache/apache/23/apache-23.pom]
+Downloading https://repo.maven.apache.org/maven2/org/apache/apache/23/apache-23.pom to /Users/priyanka/.gradle/.tmp/gradle_download3166095538275701543bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/dvlib/31.11.1/dvlib-31.11.1.pom to /Users/priyanka/.gradle/.tmp/gradle_download16722639785175110431bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/apache/httpcomponents/httpcore/4.4.16/httpcore-4.4.16.pom]
+Downloading https://repo.maven.apache.org/maven2/org/apache/httpcomponents/httpcore/4.4.16/httpcore-4.4.16.pom to /Users/priyanka/.gradle/.tmp/gradle_download11094414999419878504bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/apache/httpcomponents/httpcomponents-core/4.4.16/httpcomponents-core-4.4.16.pom]

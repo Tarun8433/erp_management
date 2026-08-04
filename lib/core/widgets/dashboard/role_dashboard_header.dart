@@ -1,4 +1,6 @@
+import 'package:erp_management/routes/app_routes.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 /// Shared dashboard header used by every role (teacher, principal, parent,
@@ -81,19 +83,25 @@ class RoleDashboardHeader extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Container(
-                    width: 42,
-                    height: 42,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white.withValues(alpha: 0.25),
-                      border: Border.all(
-                        color: Colors.white.withValues(alpha: 0.6),
-                        width: 2,
+                  GestureDetector(
+                    onTap: () => Get.toNamed(AppRoutes.principalProfile),
+                    child: Container(
+                      width: 42,
+                      height: 42,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white.withValues(alpha: 0.25),
+                        border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.6),
+                          width: 2,
+                        ),
+                      ),
+                      child: const Icon(
+                        Icons.person_rounded,
+                        color: Colors.white,
+                        size: 22,
                       ),
                     ),
-                    child: const Icon(Icons.person_rounded,
-                        color: Colors.white, size: 22),
                   ),
                 ],
               ),
@@ -138,8 +146,9 @@ class RoleDashboardHeader extends StatelessWidget {
                   const Spacer(),
                   Text(
                     dateStr,
-                    style: theme.textTheme.bodySmall
-                        ?.copyWith(color: Colors.white70),
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: Colors.white70,
+                    ),
                   ),
                   if (onBell != null) ...[
                     const SizedBox(width: 8),
@@ -200,10 +209,10 @@ class _HeaderCircleButton extends StatelessWidget {
                   child: Text(
                     '$badge',
                     style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: Colors.white,
-                          fontSize: 9,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      color: Colors.white,
+                      fontSize: 9,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),

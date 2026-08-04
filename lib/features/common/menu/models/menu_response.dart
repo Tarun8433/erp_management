@@ -7,10 +7,14 @@ class MenuResponse {
 
   factory MenuResponse.fromJson(Map<String, dynamic> json) {
     return MenuResponse(
-      status: json['status'] is bool ? json['status'] : (json['status'] == 'success' || json['status'] == 'true'),
+      status: json['status'] is bool
+          ? json['status']
+          : (json['status'] == 'success' || json['status'] == 'true'),
       message: json['message'],
       data: json['data'] != null
-          ? (json['data'] as List).map((e) => MenuComponent.fromJson(e)).toList()
+          ? (json['data'] as List)
+                .map((e) => MenuComponent.fromJson(e))
+                .toList()
           : null,
     );
   }
@@ -39,8 +43,8 @@ class MenuComponent {
       icon: json['icon'],
       subMenu: json['subMenu'] != null
           ? (json['subMenu'] as List)
-              .map((e) => MenuComponent.fromJson(e))
-              .toList()
+                .map((e) => MenuComponent.fromJson(e))
+                .toList()
           : null,
     );
   }
